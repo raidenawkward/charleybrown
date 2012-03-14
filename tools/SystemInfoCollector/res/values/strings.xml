@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Info Collector</string>
+    <string name="button_save">Save</string>
+    <string name="button_retest">Retest</string>
+    <string name="dialog_inputTitle">Path to save:</string>
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_save_path">/sdcard/deviceinfo</string>
+    <string name="save_succeed">Save Succeed</string>
+    <string name="save_failed">Save Failed</string>
+    <string name="about_content">Applet for getting system info</string>
+    <string name="button_about">About</string>
+    <string name="about_contact">Contact: raiden.ht@gmail.com</string>
+    <string name="dialog_aboutTitle">About</string>
+    <string name="button_exit">Exit</string>
+</resources>
