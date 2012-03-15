@@ -1,5 +1,0 @@
-xml_parser -> dir_scanner -> dish -> database -> item_view | group_view (with current_index)
-
-IN -> item_group -> item_view -> item (count +-) -> order -> result -> shoppingcar -> item (count +-) -> ...
-
-result -> result_list
