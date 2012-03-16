@@ -16,7 +16,7 @@ public class CBMenuItem {
 	private CBDish mDish = null;
 	private int mCheckedCount = 0;
 
-	CBMenuItem() {
+	public CBMenuItem() {
 	}
 
 	/**

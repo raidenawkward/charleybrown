@@ -16,7 +16,7 @@ public class CBCustomer {
 	private String mName = "";
 	private int mNumOfPeople = 0;
 
-	CBCustomer() {
+	public CBCustomer() {
 	}
 
 	public String getId() {
