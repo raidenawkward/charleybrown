@@ -51,6 +51,14 @@ public class CBDish {
 		return (mTags.getIntersection(tags) != 0);
 	}
 
+	void addTag(String tag) {
+		mTags.add(tag);
+	}
+
+	void addTagSet(CBTagsSet set) {
+		mTags.combine(set);
+	}
+
 	public String getId() {
 		return mId;
 	}

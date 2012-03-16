@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @author raiden
  *
- * @Description: tags set list
+ * @Description tags set list
  */
 public class CBTagsSet {
 	private List<String> mTagsList;
@@ -71,7 +71,7 @@ public class CBTagsSet {
 	}
 
 	/**
-	 * @Description: combine with set
+	 * @Description combine with set
 	 * @param @param set - set to combine
 	 * @return int - number of tags in common
 	 */
@@ -116,7 +116,7 @@ public class CBTagsSet {
 	}
 
 	/**
-	 * @Description: get count of intersection tags with set
+	 * @Description get count of intersection tags with set
 	 * @param @param set
 	 * @return int
 	 */
