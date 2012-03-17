@@ -6,6 +6,7 @@
  */
 package com.android.cb.support;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -146,7 +147,22 @@ public class CBOrdersSet implements CBIFSetHandler<CBOrder> {
 	 * @return void
 	 */
 	public void sort(int type, int direction) {
-
+		switch(type) {
+			case CBORDER_SORT_BY_ID: {
+				IDComparator comparator = new IDComparator(direction);
+				Collections.sort(mSet, comparator);
+			}
+				break;
+			case CBORDER_SORT_BY_TIME: {
+				TimeComparator comparator = new TimeComparator(direction);
+				Collections.sort(mSet, comparator);
+			}
+				break;
+			case CBORDER_SORT_NO_SORT:
+			default:
+				/** do nothing */
+					break;
+		}
 	}
 
 	protected class IDComparator extends CBComparator implements Comparator<CBOrder> {
@@ -160,7 +176,22 @@ public class CBOrdersSet implements CBIFSetHandler<CBOrder> {
 		}
 
 		public int compare(CBOrder arg0, CBOrder arg1) {
-			return 0;
+			return arg0.getId().compare(arg1.getId());
+		}
+	}
+
+	protected class TimeComparator extends CBComparator implements Comparator<CBOrder> {
+
+		public TimeComparator() {
+			super();
+		}
+
+		public TimeComparator(int direction) {
+			super(direction);
+		}
+
+		public int compare(CBOrder arg0, CBOrder arg1) {
+			return arg0.getSubmitedTime().compareTo(arg1.getSubmitedTime());
 		}
 	}
 }
