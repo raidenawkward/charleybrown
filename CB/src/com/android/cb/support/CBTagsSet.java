@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @Description tags set list
  */
-public class CBTagsSet {
+public class CBTagsSet implements CBIFSetHandler<String> {
 	private List<String> mTagsList;
 
 	public CBTagsSet() {
@@ -90,7 +90,7 @@ public class CBTagsSet {
 		return res;
 	}
 
-	boolean remove(String tag) {
+	public boolean remove(String tag) {
 		if (tag == null)
 			return false;
 
@@ -105,7 +105,7 @@ public class CBTagsSet {
 		return false;
 	}
 
-	boolean remove(int index) {
+	public boolean remove(int index) {
 		if (index < 0 || index >= mTagsList.size())
 			return false;
 
@@ -141,5 +141,45 @@ public class CBTagsSet {
 
 	public void setTagsList(List<String> tagsList) {
 		this.mTagsList = tagsList;
+	}
+
+	public String get(int index) {
+		if (index < 0 || index >= mTagsList.size())
+			return null;
+
+		return mTagsList.get(index);
+	}
+
+	public String get(String item) {
+		if (item == null)
+			return null;
+
+		for (int i = 0; i < mTagsList.size(); ++i) {
+			String s = mTagsList.get(i);
+			if (s.equals(item))
+				return s;
+		}
+
+		return null;
+	}
+
+	public boolean update(String item) {
+		return false;
+	}
+
+	public boolean update(int index, String item) {
+		return false;
+	}
+
+	public int getIndexOf(String item) {
+		if (item == null)
+			return -1;
+
+		for (int i = 0; i < mTagsList.size(); ++i) {
+			if (mTagsList.get(i).equals(item))
+				return i;
+		}
+
+		return -1;
 	}
 }

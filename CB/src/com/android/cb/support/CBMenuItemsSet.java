@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @Description menu item set
  */
-public class CBMenuItemsSet {
+public class CBMenuItemsSet implements CBIFSetHandler<CBMenuItem> {
 	private List<CBMenuItem> mMenuItemList;
 
 	public CBMenuItemsSet() {
@@ -53,7 +53,7 @@ public class CBMenuItemsSet {
 	 * @param @param item
 	 * @return boolean will return false if item exists in mMenuItemList
 	 */
-	boolean add(CBMenuItem item) {
+	public boolean add(CBMenuItem item) {
 		if (item == null)
 			return false;
 
@@ -169,5 +169,25 @@ public class CBMenuItemsSet {
 
 	public void setMenuItemsList(List<CBMenuItem> itemList) {
 		this.mMenuItemList = itemList;
+	}
+
+	public CBMenuItem get(int index) {
+		if (index < 0 || index > mMenuItemList.size())
+			return null;
+
+		return mMenuItemList.get(index);
+	}
+
+	public CBMenuItem get(CBMenuItem item) {
+		if (item == null)
+			return null;
+
+		for (int i = 0; i < mMenuItemList.size(); ++i) {
+			CBMenuItem it = mMenuItemList.get(i);
+			if (it.equals(item))
+				return it;
+		}
+
+		return null;
 	}
 }
