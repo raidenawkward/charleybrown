@@ -15,7 +15,7 @@ import java.util.Date;
  */
 public class CBOrder {
 
-	private String mId = "";
+	private CBId mId = new CBId();
 	private String mLocation = "";
 	private CBMenuItemsSet mMenuItemList;
 	private CBCustomer mCustomer;
@@ -40,7 +40,7 @@ public class CBOrder {
 		if (order == null)
 			return;
 
-		mId = order.getId();
+		mId = new CBId(order.getId());
 		mLocation = order.getLocation();
 		mMenuItemList = new CBMenuItemsSet(order.getMenuItemList());
 		mCustomer = order.getCustomer();
@@ -55,7 +55,7 @@ public class CBOrder {
 	}
 
 	public boolean equals(CBOrder order) {
-		return (mId == order.getId());
+		return (mId.equals(order.getId()));
 	}
 
 	public boolean addItem(CBMenuItem item) {
@@ -109,11 +109,11 @@ public class CBOrder {
 		mSubmitedTime = new Date();
 	}
 
-	public String getId() {
+	public CBId getId() {
 		return mId;
 	}
 
-	public void setId(String id) {
+	public void setId(CBId id) {
 		this.mId = id;
 	}
 

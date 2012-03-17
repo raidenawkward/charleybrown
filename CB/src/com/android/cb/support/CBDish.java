@@ -14,7 +14,7 @@ import java.util.List;
  * @Description: basic dish define
  */
 public class CBDish {
-	private String mId = "";
+	private CBId mId = new CBId();
 	private String mName = "";
 	private float mPrice = 0.0f;
 	private CBTagsSet mTags = new CBTagsSet();
@@ -25,14 +25,13 @@ public class CBDish {
 	private String mPicture = "";
 
 	public CBDish() {
-		
 	}
 
 	public CBDish(CBDish dish) {
 		if (dish == null)
 			return;
 
-		mId = dish.getId();
+		mId = new CBId(dish.getId());
 		mName = dish.getName();
 		mPrice = dish.getPrice();
 		mTags.setTagsList(dish.getTags());
@@ -44,7 +43,7 @@ public class CBDish {
 	}
 
 	boolean equals(CBDish dish) {
-		return mId == dish.getId();
+		return mId.equals(dish.getId());
 	}
 
 	boolean isTagContaioned(String tag) {
@@ -63,12 +62,12 @@ public class CBDish {
 		mTags.combine(set);
 	}
 
-	public String getId() {
+	public CBId getId() {
 		return mId;
 	}
 
-	public void setId(String id) {
-		this.mId = id;
+	public void setId(CBId id) {
+		this.mId.setId(id);
 	}
 
 	public String getName() {

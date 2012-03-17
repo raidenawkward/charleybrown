@@ -20,9 +20,6 @@ public class CBOrdersSet implements CBIFSetHandler<CBOrder> {
 	public final int CBORDER_SORT_BY_ID = 1;
 	public final int CBORDER_SORT_BY_TIME = 2;
 
-	public final int CBORDER_SORT_ASCENDING = 101;
-	public final int CBORDER_SORT_DESCENDING = 102;
-
 	private List<CBOrder> mSet;
 
 	public CBOrdersSet() {
@@ -145,15 +142,23 @@ public class CBOrdersSet implements CBIFSetHandler<CBOrder> {
 	/**
 	 * @Description sort the list
 	 * @param @param type values in (CBORDER_SORT_NO_SORT, CBORDER_SORT_BY_ID, CBORDER_SORT_BY_TIME)
-	 * @param @param direction values in (CBORDER_SORT_ASCENDING,CBORDER_SORT_DESCENDING)
+	 * @param @param direction values in abstract class CBComparator
 	 * @return void
 	 */
 	public void sort(int type, int direction) {
 
 	}
 
-	protected class NameComparator implements Comparator<CBOrder> {
-		int mDirect;
+	protected class IDComparator extends CBComparator implements Comparator<CBOrder> {
+
+		public IDComparator() {
+			super();
+		}
+
+		public IDComparator(int direction) {
+			super(direction);
+		}
+
 		public int compare(CBOrder arg0, CBOrder arg1) {
 			return 0;
 		}
