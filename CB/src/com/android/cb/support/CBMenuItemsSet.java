@@ -20,7 +20,32 @@ public class CBMenuItemsSet {
 	}
 
 	public CBMenuItemsSet(CBMenuItemsSet set) {
-		mMenuItemList = set.getMenuList();
+		mMenuItemList = set.getMenuItemsList();
+	}
+
+	public CBMenuItem getItem(int index) {
+		if (index <= 0 || index >= mMenuItemList.size())
+			return null;
+
+		return mMenuItemList.get(index);
+	}
+
+	/**
+	 * @Description select real item in set by fake item
+	 * @param @param item
+	 * @return CBMenuItem if not found, returns null
+	 */
+	public CBMenuItem getItem(CBMenuItem item) {
+		if (item == null)
+			return null;
+
+		for (int i = 0; i < mMenuItemList.size(); ++i) {
+			CBMenuItem it = mMenuItemList.get(i);
+			if (it.getDish().equals(item.getDish()))
+				return it;
+		}
+
+		return null;
 	}
 
 	/**
@@ -77,7 +102,7 @@ public class CBMenuItemsSet {
 
 		int res = 0;
 		for (int i = 0; i < set.count(); ++i) {
-			CBMenuItem item = set.getMenuList().get(i);
+			CBMenuItem item = set.getMenuItemsList().get(i);
 			if (!add(item)) {
 				++res;
 			}
@@ -137,11 +162,11 @@ public class CBMenuItemsSet {
 		return mMenuItemList.size();
 	}
 
-	public List<CBMenuItem> getMenuList() {
+	public List<CBMenuItem> getMenuItemsList() {
 		return mMenuItemList;
 	}
 
-	public void setMenuList(List<CBMenuItem> itemList) {
+	public void setMenuItemsList(List<CBMenuItem> itemList) {
 		this.mMenuItemList = itemList;
 	}
 }

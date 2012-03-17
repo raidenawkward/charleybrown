@@ -7,7 +7,6 @@
 package com.android.cb.support;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author raiden
@@ -18,7 +17,7 @@ public class CBOrder {
 
 	private String mId = "";
 	private String mLocation = "";
-	private List<CBMenuItem> mMenuItemList;
+	private CBMenuItemsSet mMenuItemList;
 	private CBCustomer mCustomer;
 	private CBTagsSet mDisabledTags;
 	private float mDiscount = 1.0f;
@@ -43,7 +42,7 @@ public class CBOrder {
 
 		mId = order.getId();
 		mLocation = order.getLocation();
-		mMenuItemList = order.getMenuItemList();
+		mMenuItemList = new CBMenuItemsSet(order.getMenuItemList());
 		mCustomer = order.getCustomer();
 		mDisabledTags = order.getDisabledTags();
 		mDiscount = order.getDiscount();
@@ -56,14 +55,54 @@ public class CBOrder {
 	}
 
 	public boolean addItem(CBMenuItem item) {
-		if (item == null)
+		return mMenuItemList.add(item);
+	}
+
+	public boolean isItemChecked(CBMenuItem item) {
+		return (getItemCheckedCount(item) != 0);
+	}
+
+	public int getItemCheckedCount(CBMenuItem item) {
+		CBMenuItem it = mMenuItemList.getItem(item);
+		if (it == null)
+			return 0;
+
+		return it.getCheckedCount();
+	}
+
+	public boolean isItemDisabled(CBMenuItem item) {
+		CBMenuItem it = mMenuItemList.getItem(item);
+		if (it == null)
 			return false;
-//
-//		if (mMenuItemList.contains(item))
-//			return false;
-//
-//		return mMenuItemList.add(item);
-		return true;
+
+		return (mDisabledTags.getIntersection(item.getDish().getTagsSet()) != 0);
+	}
+
+	public int getMenuItemIndex(CBMenuItem item) {
+		return mMenuItemList.getIndexOf(item);
+	}
+
+	public boolean removeMenuItem(CBMenuItem item) {
+		return mMenuItemList.remove(item);
+	}
+
+	public boolean removeMenuItem(int index) {
+		return mMenuItemList.remove(index);
+	}
+
+	public float getRealSummation() {
+		float sum = 0.0f;
+
+		for (int i = 0; i < mMenuItemList.count(); ++i) {
+			CBMenuItem item = mMenuItemList.getMenuItemsList().get(i);
+			sum += item.getDish().getPrice() * item.getCheckedCount();
+		}
+
+		return sum;
+	}
+
+	public void touch() {
+		mSubmitedTime = new Date();
 	}
 
 	public String getId() {
@@ -82,11 +121,11 @@ public class CBOrder {
 		this.mLocation = location;
 	}
 
-	public List<CBMenuItem> getMenuItemList() {
+	public CBMenuItemsSet getMenuItemList() {
 		return mMenuItemList;
 	}
 
-	public void setMenuItemList(List<CBMenuItem> menuItemList) {
+	public void setMenuItemList(CBMenuItemsSet menuItemList) {
 		this.mMenuItemList = menuItemList;
 	}
 

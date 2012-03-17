@@ -43,6 +43,10 @@ public class CBDish {
 		mPicture = dish.getPicture();
 	}
 
+	boolean equals(CBDish dish) {
+		return mId == dish.getId();
+	}
+
 	boolean isTagContaioned(String tag) {
 		return mTags.contains(tag);
 	}
