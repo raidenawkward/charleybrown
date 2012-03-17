@@ -55,6 +55,17 @@ public class CBOrder {
 		mStatus = order.getStatus();
 	}
 
+	public boolean addItem(CBMenuItem item) {
+		if (item == null)
+			return false;
+//
+//		if (mMenuItemList.contains(item))
+//			return false;
+//
+//		return mMenuItemList.add(item);
+		return true;
+	}
+
 	public String getId() {
 		return mId;
 	}

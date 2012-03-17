@@ -82,9 +82,7 @@ public class CBTagsSet {
 		int res = 0;
 		for (int i = 0; i < set.count(); ++i) {
 			String s = set.getTagsList().get(i);
-			if (!contains(s)) {
-				add(s);
-			} else {
+			if (!add(s)) {
 				++res;
 			}
 		}
@@ -108,7 +106,7 @@ public class CBTagsSet {
 	}
 
 	boolean remove(int index) {
-		if (index < 0 || index > mTagsList.size())
+		if (index < 0 || index >= mTagsList.size())
 			return false;
 
 		mTagsList.remove(index);
