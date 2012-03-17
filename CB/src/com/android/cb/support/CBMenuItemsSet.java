@@ -74,7 +74,7 @@ public class CBMenuItemsSet {
 			return false;
 
 		for (int i = 0; i < mMenuItemList.size(); ++i) {
-			if (mMenuItemList.get(i).getDish().getId() == item.getDish().getId()) {
+			if (mMenuItemList.get(i).getDish().equals(item.getDish())) {
 				return update(i,item);
 			}
 		}
@@ -83,7 +83,8 @@ public class CBMenuItemsSet {
 	}
 
 	public boolean update(int index,  CBMenuItem item) {
-		if (index < 0 || index >= mMenuItemList.size())
+		if (index < 0 || index >= mMenuItemList.size()
+				|| item == null)
 			return false;
 
 		mMenuItemList.set(index, item);
@@ -119,7 +120,7 @@ public class CBMenuItemsSet {
 	 */
 	public int getIndexOf(CBMenuItem item) {
 		for (int i = 0; i < mMenuItemList.size(); ++i) {
-			if (mMenuItemList.get(i).getDish().getId() == item.getDish().getId())
+			if (mMenuItemList.get(i).getDish().equals(item.getDish()))
 				return i;
 		}
 		return -1;
@@ -151,7 +152,7 @@ public class CBMenuItemsSet {
 
 		for (int i = 0; i < mMenuItemList.size(); ++i) {
 			CBMenuItem it = mMenuItemList.get(i);
-			if (it.getDish().getId() == item.getDish().getId())
+			if (it.getDish().equals(item.getDish()))
 				return true;
 		}
 

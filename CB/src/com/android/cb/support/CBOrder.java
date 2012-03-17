@@ -54,6 +54,10 @@ public class CBOrder {
 		mStatus = order.getStatus();
 	}
 
+	public boolean equals(CBOrder order) {
+		return (mId == order.getId());
+	}
+
 	public boolean addItem(CBMenuItem item) {
 		return mMenuItemList.add(item);
 	}
