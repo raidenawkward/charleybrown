@@ -12,19 +12,19 @@ package com.android.cb.support;
  * @Description customer info
  */
 public class CBCustomer {
-	private String mId = "";
+	private CBId mId = new CBId();
 	private String mName = "";
 	private int mNumOfPeople = 0;
 
 	public CBCustomer() {
 	}
 
-	public String getId() {
+	public CBId getId() {
 		return mId;
 	}
 
-	public void setId(String id) {
-		this.mId = id;
+	public void setId(CBId id) {
+		this.mId.setId(id);
 	}
 
 	public String getName() {
