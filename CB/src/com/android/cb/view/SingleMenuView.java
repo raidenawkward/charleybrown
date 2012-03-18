@@ -111,13 +111,6 @@ public class SingleMenuView extends SurfaceView implements SurfaceHolder.Callbac
 			mPaint.setColor(Color.BLUE);
 		}
 
-		private void clearCanvas() {
-			Canvas canvas = mSurfaceHolder.lockCanvas(null);
-			canvas.drawColor(Color.BLACK);
-			mSurfaceHolder.unlockCanvasAndPost(canvas);
-
-		}
-
 		public void run() {
 			while(true) {
 				synchronized (mSurfaceHolder) {
