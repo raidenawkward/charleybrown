@@ -6,9 +6,9 @@
  */
 package com.android.cb.support;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 /**
  * @author raiden
@@ -21,7 +21,7 @@ public class CBOrdersSet implements CBIFSetHandler<CBOrder> {
 	public final int CBORDER_SORT_BY_ID = 1;
 	public final int CBORDER_SORT_BY_TIME = 2;
 
-	private List<CBOrder> mSet;
+	private ArrayList<CBOrder> mSet = new ArrayList<CBOrder>();
 
 	public CBOrdersSet() {
 	}
@@ -132,11 +132,11 @@ public class CBOrdersSet implements CBIFSetHandler<CBOrder> {
 		return mSet.get(index);
 	}
 
-	public List<CBOrder> getSet() {
+	public ArrayList<CBOrder> getSet() {
 		return mSet;
 	}
 
-	public void setSet(List<CBOrder> set) {
+	public void setSet(ArrayList<CBOrder> set) {
 		this.mSet = set;
 	}
 

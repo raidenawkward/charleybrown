@@ -6,7 +6,7 @@
  */
 package com.android.cb.support;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * @author raiden
@@ -14,7 +14,7 @@ import java.util.List;
  * @Description tags set list
  */
 public class CBTagsSet implements CBIFSetHandler<String> {
-	private List<String> mTagsList;
+	private ArrayList<String> mTagsList = new ArrayList<String>();
 
 	public CBTagsSet() {
 		
@@ -123,7 +123,7 @@ public class CBTagsSet implements CBIFSetHandler<String> {
 			return 0;
 
 		int res = 0;
-		List<String> targetList = set.getTagsList();
+		ArrayList<String> targetList = set.getTagsList();
 		for (int i = 0; i < mTagsList.size(); ++i) {
 			String src = mTagsList.get(i);
 			for (int j = 0; j < targetList.size(); ++i) {
@@ -135,11 +135,11 @@ public class CBTagsSet implements CBIFSetHandler<String> {
 		return res;
 	}
 
-	public List<String> getTagsList() {
+	public ArrayList<String> getTagsList() {
 		return mTagsList;
 	}
 
-	public void setTagsList(List<String> tagsList) {
+	public void setTagsList(ArrayList<String> tagsList) {
 		this.mTagsList = tagsList;
 	}
 
