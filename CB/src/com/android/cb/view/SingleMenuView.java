@@ -7,10 +7,6 @@
 package com.android.cb.view;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
@@ -26,11 +22,11 @@ import android.widget.Toast;
  * @Description single menu view
  */
 public class SingleMenuView extends SurfaceView implements
-	SurfaceHolder.Callback,OnGestureListener, android.view.View.OnTouchListener {
+	SurfaceHolder.Callback, OnGestureListener, android.view.View.OnTouchListener, Runnable {
 
 	private SurfaceHolder mSurfaceHolder;
-	private TestMovingRunnable mTestMovingRunnable;
-	private Thread mTestDrawingTrhead;
+//	private TestMovingRunnable mTestMovingRunnable;
+//	private Thread mTestDrawingTrhead;
 	private GestureDetector mGuestureDetctor;
 
 	private void initSurfaceHolder() {
@@ -60,105 +56,112 @@ public class SingleMenuView extends SurfaceView implements
 	}
 
 	public void surfaceCreated(SurfaceHolder arg0) {
-		mTestMovingRunnable = new TestMovingRunnable();
-		mTestDrawingTrhead = new Thread(mTestMovingRunnable);
-		mTestDrawingTrhead.start();
+//		mTestMovingRunnable = new TestMovingRunnable();
+//		mTestDrawingTrhead = new Thread(mTestMovingRunnable);
+//		mTestDrawingTrhead.start();
 	}
 
 	public void surfaceDestroyed(SurfaceHolder arg0) {
-		while (true) {
-			try {
-				mTestDrawingTrhead.join();
-				break ;
-			}
-			catch(Exception ex){
-
-			}
-		}
+//		while (true) {
+//			try {
+//				mTestDrawingTrhead.join();
+//				break ;
+//			}
+//			catch(Exception ex){
+//
+//			}
+//		}
 	}
 
-	class TestMovingRunnable implements Runnable {
-		private int mX = 40;
-		private int mY = 60;
-		private int mW = 80;
-		private int mH = 80;
-
-		private int mSignX = 1;
-		private int mSignY = 1;
-		private final int MOVESTEP = 2;
-
-		private RectF mRect;
-		private Paint mPaint;
-		public TestMovingRunnable() {
-			mRect = new RectF(mX,mY,mW,mH);
-			mPaint = new Paint();
-			mPaint.setColor(Color.BLUE);
-		}
-
-		public void run() {
-			while(true) {
-				synchronized (mSurfaceHolder) {
-					try {
-						Canvas canvas = mSurfaceHolder.lockCanvas();
-						canvas.drawColor(Color.BLACK);
-
-						mX += MOVESTEP * mSignX;
-						mY += MOVESTEP * mSignY;
-						if (mX < 0 || mX + mW > SingleMenuView.this.getWidth())
-							mSignX *= -1;
-						if (mY < 0 || mY + mH > SingleMenuView.this.getHeight())
-							mSignY *= -1;
-
-						mRect.set(mX, mY, mX + mW, mY + mH);
-						mPaint.setColor(Color.BLUE);
-						canvas.drawRect(mRect, mPaint);
-						onDraw(canvas);
-						mSurfaceHolder.unlockCanvasAndPost(canvas);
-						Thread.sleep(1);
-
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				} // sync
-			} // while
-		}
-
-	}
+//	class TestMovingRunnable implements Runnable {
+//		private int mX = 40;
+//		private int mY = 60;
+//		private int mW = 80;
+//		private int mH = 80;
+//
+//		private int mSignX = 1;
+//		private int mSignY = 1;
+//		private final int MOVESTEP = 2;
+//
+//		private RectF mRect;
+//		private Paint mPaint;
+//		public TestMovingRunnable() {
+//			mRect = new RectF(mX,mY,mW,mH);
+//			mPaint = new Paint();
+//			mPaint.setColor(Color.BLUE);
+//		}
+//
+//		public void run() {
+//			while(true) {
+//				synchronized (mSurfaceHolder) {
+//					try {
+//						Canvas canvas = mSurfaceHolder.lockCanvas();
+//						canvas.drawColor(Color.BLACK);
+//
+//						mX += MOVESTEP * mSignX;
+//						mY += MOVESTEP * mSignY;
+//						if (mX < 0 || mX + mW > SingleMenuView.this.getWidth())
+//							mSignX *= -1;
+//						if (mY < 0 || mY + mH > SingleMenuView.this.getHeight())
+//							mSignY *= -1;
+//
+//						mRect.set(mX, mY, mX + mW, mY + mH);
+//						mPaint.setColor(Color.BLUE);
+//						canvas.drawRect(mRect, mPaint);
+//						onDraw(canvas);
+//						mSurfaceHolder.unlockCanvasAndPost(canvas);
+//						Thread.sleep(1);
+//
+//					} catch (InterruptedException e) {
+//						e.printStackTrace();
+//					}
+//				} // sync
+//			} // while
+//		}
+//
+//	}
 
 	public boolean onDown(MotionEvent e) {
-		Toast.makeText(this.getContext(), new String("down"), 0).show();
-		return true;
+		return true; // 'true' means a lot ...
 	}
 
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY) {
-		// TODO Auto-generated method stub
+		Toast.makeText(this.getContext(), new String("fling"), 0).show();
 		return false;
 	}
 
 	public void onLongPress(MotionEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
 			float distanceY) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public void onShowPress(MotionEvent e) {
-		// TODO Auto-generated method stub
 
 	}
 
 	public boolean onSingleTapUp(MotionEvent e) {
-		// TODO Auto-generated method stub
+		Toast.makeText(this.getContext(), new String("singleTapUp"), 0).show();
 		return false;
 	}
 
 	public boolean onTouch(View v, MotionEvent event) {
+		Toast.makeText(this.getContext(), new String("touched"), 0).show();
+		return false;
+	}
+
+	public void run() {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
 		return this.mGuestureDetctor.onTouchEvent(event);
 	}
+
 
 }
