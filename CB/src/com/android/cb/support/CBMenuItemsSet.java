@@ -6,7 +6,7 @@
  */
 package com.android.cb.support;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * @author raiden
@@ -14,7 +14,7 @@ import java.util.List;
  * @Description menu item set
  */
 public class CBMenuItemsSet implements CBIFSetHandler<CBMenuItem> {
-	private List<CBMenuItem> mMenuItemList;
+	private ArrayList<CBMenuItem> mMenuItemList = new ArrayList<CBMenuItem>();
 
 	public CBMenuItemsSet() {
 	}
@@ -163,11 +163,11 @@ public class CBMenuItemsSet implements CBIFSetHandler<CBMenuItem> {
 		return mMenuItemList.size();
 	}
 
-	public List<CBMenuItem> getMenuItemsList() {
+	public ArrayList<CBMenuItem> getMenuItemsList() {
 		return mMenuItemList;
 	}
 
-	public void setMenuItemsList(List<CBMenuItem> itemList) {
+	public void setMenuItemsList(ArrayList<CBMenuItem> itemList) {
 		this.mMenuItemList = itemList;
 	}
 

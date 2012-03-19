@@ -6,7 +6,7 @@
  */
 package com.android.cb.support;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * @author raiden
@@ -86,14 +86,14 @@ public class CBDish {
 		this.mPrice = price;
 	}
 
-	public List<String> getTags() {
+	public ArrayList<String> getTags() {
 		return mTags.getTagsList();
 	}
 
 	public CBTagsSet getTagsSet() {
 		return mTags;
 	}
-	public void setTags(List<String> tagsList) {
+	public void setTags(ArrayList<String> tagsList) {
 		this.mTags.setTagsList(tagsList);
 	}
 
