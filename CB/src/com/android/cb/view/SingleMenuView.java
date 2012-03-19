@@ -35,7 +35,12 @@ import android.widget.Toast;
  * @Description single menu view
  */
 public class SingleMenuView extends SurfaceView implements
-	SurfaceHolder.Callback, OnGestureListener, android.view.View.OnTouchListener, Runnable {
+	SurfaceHolder.Callback, OnGestureListener, android.view.View.OnTouchListener {
+
+	private final int SCROLLING_UNKNOWN = 0;
+	private final int SCROLLING_LEFT = 1;
+	private final int SCROLLING_RIGHT = 2;
+	private int mScrollDirection = SCROLLING_UNKNOWN;
 
 	private SurfaceHolder mSurfaceHolder;
 //	private TestMovingRunnable mTestMovingRunnable;
@@ -43,6 +48,8 @@ public class SingleMenuView extends SurfaceView implements
 	private GestureDetector mGuestureDetctor;
 	private ArrayList<Bitmap> mPictures;
 	private float mSplitLineX = 0;
+
+	private boolean mHasScrolled = false;
 
 	private void initView() {
 		mSplitLineX = 0;
@@ -99,7 +106,7 @@ public class SingleMenuView extends SurfaceView implements
 		mPictures.add(scaleBitmapToFixView(map2));
 
 		mSplitLineX = 0;
-		draw2SpitedBitmap(mSplitLineX,mPictures.get(0),mPictures.get(1));
+		draw2SpitedBitmaps(mSplitLineX,mPictures.get(0),mPictures.get(1));
 	}
 
 	public void surfaceDestroyed(SurfaceHolder arg0) {
@@ -113,54 +120,6 @@ public class SingleMenuView extends SurfaceView implements
 //			}
 //		}
 	}
-
-//	class TestMovingRunnable implements Runnable {
-//		private int mX = 40;
-//		private int mY = 60;
-//		private int mW = 80;
-//		private int mH = 80;
-//
-//		private int mSignX = 1;
-//		private int mSignY = 1;
-//		private final int MOVESTEP = 2;
-//
-//		private RectF mRect;
-//		private Paint mPaint;
-//		public TestMovingRunnable() {
-//			mRect = new RectF(mX,mY,mW,mH);
-//			mPaint = new Paint();
-//			mPaint.setColor(Color.BLUE);
-//		}
-//
-//		public void run() {
-//			while(true) {
-//				synchronized (mSurfaceHolder) {
-//					try {
-//						Canvas canvas = mSurfaceHolder.lockCanvas();
-//						canvas.drawColor(Color.BLACK);
-//
-//						mX += MOVESTEP * mSignX;
-//						mY += MOVESTEP * mSignY;
-//						if (mX < 0 || mX + mW > SingleMenuView.this.getWidth())
-//							mSignX *= -1;
-//						if (mY < 0 || mY + mH > SingleMenuView.this.getHeight())
-//							mSignY *= -1;
-//
-//						mRect.set(mX, mY, mX + mW, mY + mH);
-//						mPaint.setColor(Color.BLUE);
-//						canvas.drawRect(mRect, mPaint);
-//						onDraw(canvas);
-//						mSurfaceHolder.unlockCanvasAndPost(canvas);
-//						Thread.sleep(1);
-//
-//					} catch (InterruptedException e) {
-//						e.printStackTrace();
-//					}
-//				} // sync
-//			} // while
-//		}
-//
-//	}
 
 	public boolean onDown(MotionEvent e) {
 		return true; // 'true' means a lot ...
@@ -177,12 +136,25 @@ public class SingleMenuView extends SurfaceView implements
 
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
 			float distanceY) {
-		mSplitLineX = e2.getX();
-		draw2SpitedBitmap(mSplitLineX,mPictures.get(0),mPictures.get(1));
+		if (e1.getX() > e2.getX()) {
+			mScrollDirection = SCROLLING_RIGHT;
+		} else if (e1.getX() < e2.getX()){
+			mScrollDirection = SCROLLING_LEFT;
+		} else {
+			mScrollDirection = SCROLLING_UNKNOWN;
+		}
+
+		if (mScrollDirection != SCROLLING_UNKNOWN) {
+			mSplitLineX = e2.getX();
+			mHasScrolled = draw2SpitedBitmaps(mSplitLineX,mPictures.get(0),mPictures.get(1));
+			return mHasScrolled;
+		}
+
 		return false;
 	}
 
 	public void onShowPress(MotionEvent e) {
+		Toast.makeText(this.getContext(), new String("show press"), 0).show();
 	}
 
 	public boolean onSingleTapUp(MotionEvent e) {
@@ -194,21 +166,33 @@ public class SingleMenuView extends SurfaceView implements
 		return false;
 	}
 
-	public void run() {
-		// TODO Auto-generated method stub
-	}
-
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
+		switch (event.getAction()) {
+		case MotionEvent.ACTION_UP:
+			if (mHasScrolled) {
+				finishScroll();
+				Toast.makeText(this.getContext(), new String("up after scrolled"), 0).show();
+			}
+			break;
+		}
+
 		return this.mGuestureDetctor.onTouchEvent(event);
 	}
 
-	protected void draw2SpitedBitmap(float offset, Bitmap pl, Bitmap pr) {
+	/**
+	 * @Description draw 2 bitmaps with position offset separator
+	 * @param @param offset x separator position
+	 * @param @param pl bitmap in left
+	 * @param @param pr bitmap in right
+	 * @return boolean if the pictures have been scrolled
+	 */
+	protected boolean draw2SpitedBitmaps(float offset, Bitmap pl, Bitmap pr) {
 		synchronized (mSurfaceHolder) {
 			if (pl == null || pr == null)
-				return;
+				return false;
 			if (offset < 0 || offset > this.getWidth())
-				return;
+				return false;
 
 			Canvas canvas = mSurfaceHolder.lockCanvas();
 			canvas.drawColor(Color.BLACK);
@@ -230,7 +214,48 @@ public class SingleMenuView extends SurfaceView implements
 			onDraw(canvas);
 
 			mSurfaceHolder.unlockCanvasAndPost(canvas);
+			return true;
 		}
+	}
+
+	protected void finishScroll() {
+		finishAnimation(mScrollDirection);
+		mHasScrolled = false;
+		mSplitLineX = 0;
+		mScrollDirection = SCROLLING_UNKNOWN;
+	}
+
+	protected void finishAnimation(int direction) {
+		int speed = 32;
+		float accelerate = 32.0f;
+		int time = 1;
+		float s = 0;
+		float start = mSplitLineX;
+
+		switch (direction) {
+		case SCROLLING_LEFT:
+			while (mSplitLineX < this.getWidth()) {
+				s = (speed + time * accelerate / 2) * time;
+				mSplitLineX += s;
+				draw2SpitedBitmaps(start + s, mPictures.get(0), mPictures.get(1));
+				time++;
+			}
+			draw2SpitedBitmaps(this.getWidth(), mPictures.get(0), mPictures.get(1));
+			break;
+		case SCROLLING_RIGHT:
+			while (mSplitLineX > 0) {
+				s = (speed + time * accelerate / 2) * time;
+				mSplitLineX -= s;
+				draw2SpitedBitmaps(start - s, mPictures.get(0), mPictures.get(1));
+				time++;
+			}
+			draw2SpitedBitmaps(0, mPictures.get(0), mPictures.get(1));
+			break;
+		default:
+				break;
+		}
+
+		mSplitLineX = 0;
 	}
 
 }
