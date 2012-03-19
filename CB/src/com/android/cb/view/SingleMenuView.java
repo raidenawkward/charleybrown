@@ -20,6 +20,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
@@ -33,18 +34,6 @@ import android.widget.Toast;
  *
  * @Description single menu view
  */
-/**
- * @author huangtao
- *
- */
-/**
- * @author huangtao
- *
- */
-/**
- * @author huangtao
- *
- */
 public class SingleMenuView extends SurfaceView implements
 	SurfaceHolder.Callback, OnGestureListener, android.view.View.OnTouchListener, Runnable {
 
@@ -55,56 +44,60 @@ public class SingleMenuView extends SurfaceView implements
 	private ArrayList<Bitmap> mPictures;
 	private float mSplitLineX = 0;
 
-	private void initSurfaceHolder() {
+	private void initView() {
 		mSplitLineX = 0;
 		mSurfaceHolder = getHolder();
 		mSurfaceHolder.addCallback(this);
 
 		mGuestureDetctor = new GestureDetector(this);
-
-
-		Bitmap map1 = BitmapFactory.decodeResource(getResources(), R.drawable.img0001);
-		Bitmap map2 = BitmapFactory.decodeResource(getResources(), R.drawable.img0001);
-		mPictures = new ArrayList<Bitmap>();
-
-		mPictures.add(scaleBitmapToFixView(map1));
-		mPictures.add(scaleBitmapToFixView(map2));
 	}
 
 	private Bitmap scaleBitmapToFixView(Bitmap bitmap) {
 		if (bitmap == null)
 			return null;
 
-		float scaleW = getWidth() / bitmap.getWidth();
-		float scaleH = getHeight() / bitmap.getHeight();
+		float scaleW = (float)getWidth() / (float)bitmap.getWidth();
+		float scaleH = (float)getHeight() / (float)bitmap.getHeight();
 
 		Matrix matrix = new Matrix();
+		Log.d("***" , "sw: " + scaleW + ", sh: " + scaleH + ", iw: " + (float)getWidth() + ", ih: " + (float)getHeight());
+
 		matrix.postScale(scaleW, scaleH);
 
 		return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
 	}
+
 	public SingleMenuView(Context context) {
 		super(context);
-		initSurfaceHolder();
+		initView();
 	}
 
 	public SingleMenuView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		initSurfaceHolder();
+		initView();
 	}
 
 	public SingleMenuView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		initSurfaceHolder();
+		initView();
 	}
 
 	public void surfaceChanged(SurfaceHolder arg0, int arg1, int arg2, int arg3) {
+
 	}
 
 	public void surfaceCreated(SurfaceHolder arg0) {
 //		mTestMovingRunnable = new TestMovingRunnable();
 //		mTestDrawingTrhead = new Thread(mTestMovingRunnable);
 //		mTestDrawingTrhead.start();
+
+		Bitmap map1 = BitmapFactory.decodeResource(getResources(), R.drawable.img0001);
+		Bitmap map2 = BitmapFactory.decodeResource(getResources(), R.drawable.img0030);
+		mPictures = new ArrayList<Bitmap>();
+
+		mPictures.add(scaleBitmapToFixView(map1));
+		mPictures.add(scaleBitmapToFixView(map2));
+
 		mSplitLineX = 0;
 		draw2SpitedBitmap(mSplitLineX,mPictures.get(0),mPictures.get(1));
 	}
@@ -175,7 +168,6 @@ public class SingleMenuView extends SurfaceView implements
 
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY) {
-		Toast.makeText(this.getContext(), new String("fling"), 0).show();
 		return false;
 	}
 
@@ -199,7 +191,6 @@ public class SingleMenuView extends SurfaceView implements
 	}
 
 	public boolean onTouch(View v, MotionEvent event) {
-		Toast.makeText(this.getContext(), new String("touched"), 0).show();
 		return false;
 	}
 
@@ -219,7 +210,6 @@ public class SingleMenuView extends SurfaceView implements
 			if (offset < 0 || offset > this.getWidth())
 				return;
 
-			Toast.makeText(this.getContext(), new String("p: " + pl.getWidth() + "x" + pl.getHeight() + " s: " + this.getWidth() + "x" + this.getHeight()), 0).show();
 			Canvas canvas = mSurfaceHolder.lockCanvas();
 			canvas.drawColor(Color.BLACK);
 
