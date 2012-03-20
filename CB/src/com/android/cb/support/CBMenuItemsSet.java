@@ -172,7 +172,7 @@ public class CBMenuItemsSet implements CBIFSetHandler<CBMenuItem> {
 	}
 
 	public CBMenuItem get(int index) {
-		if (index < 0 || index > mMenuItemList.size())
+		if (index < 0 || index >= mMenuItemList.size())
 			return null;
 
 		return mMenuItemList.get(index);

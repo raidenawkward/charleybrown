@@ -6,8 +6,6 @@
  */
 package com.android.cb.support;
 
-import java.util.LinkedList;
-
 /**
  * @author raiden
  *
@@ -18,8 +16,6 @@ public abstract class CBCache<T> {
 	public final int CBCACHE_STATUS_READY = 1;
 	public final int CBCACHE_STATUS_LOADING = 2;
 
-	protected LinkedList<T> mList = new LinkedList<T>();
-	protected int mCurrent = 0;
 	protected int mStatus = CBCACHE_STATUS_UNKNOWN;
 
 
@@ -27,14 +23,7 @@ public abstract class CBCache<T> {
 		return mStatus;
 	}
 
-	public int getCachedSize() {
-		return mList.size();
-	}
-
-	public int getCurrentIndex() {
-		return mCurrent;
-	}
-
+	public abstract int getCachedSize();
 	public abstract T getCurrent();
 	public abstract T getNext();
 	public abstract T getPrev();
