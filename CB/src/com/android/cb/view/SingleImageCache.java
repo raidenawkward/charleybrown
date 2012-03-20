@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.util.Log;
 import android.view.View;
 
 import com.android.cb.support.CBCache;
@@ -51,7 +52,7 @@ public class SingleImageCache extends CBCache<Bitmap> {
 	}
 
 	private void pointToMiddleCachedItem() {
-		mCurrent = getMaxCacheSize() % 2 == 0? getMaxCacheSize() / 2 : getMaxCacheSize() / 2 + 1;
+		mCurrent = getMaxCacheSize() % 2 == 0? getMaxCacheSize() / 2 - 1: getMaxCacheSize() / 2;
 	}
 
 	public void setSourceSet(CBMenuItemsSet set) {
@@ -87,11 +88,11 @@ public class SingleImageCache extends CBCache<Bitmap> {
 	}
 
 	private void cacheAllFromCurrentIndex(int index) {
-		for (int i = mCurrent + 1, j = 0; i < mList.size(); ++i, ++j) {
+		for (int i = mCurrent + 1, j = 1; i < mList.size(); ++i, ++j) {
 			cacheItem(i, index + j);
 		}
 
-		for (int i = mCurrent - 1, j = 0; i >= 0; --i, ++j) {
+		for (int i = mCurrent - 1, j = 1; i >= 0; --i, ++j) {
 			cacheItem(i, index - j);
 		}
 	}
@@ -103,6 +104,8 @@ public class SingleImageCache extends CBCache<Bitmap> {
 			return false;
 		if (cachePos < 0 || cachePos >= mList.size())
 			return false;
+
+		Log.d("####", "cached: " + cachePos + ", mTargetPos: " + targetPos);
 
 		CachingThread thread = mCachingThreadList.get(cachePos);
 		if (thread != null)
@@ -147,6 +150,10 @@ public class SingleImageCache extends CBCache<Bitmap> {
 			}
 
 			refreshStatus();
+			if (bitmap == null) {
+				Log.d("####", "null bitmap");
+			}
+			Log.d("####", "cached: really done");
 			super.run();
 		}
 
@@ -190,7 +197,8 @@ public class SingleImageCache extends CBCache<Bitmap> {
 
 	@Override
 	public Bitmap getNext() {
-		if (mCurrent + 1 >= 0)
+		Log.d("##", "getNext: mCurrent: " + mCurrent + ", mTargetCurrent: " + mTargetCurrent);
+		if (mCurrent + 1 >= mList.size())
 			return null;
 		if (mTargetCurrent + 1 >= mSourceSet.count())
 			return null;
@@ -204,22 +212,27 @@ public class SingleImageCache extends CBCache<Bitmap> {
 			}
 		}
 
+		Log.d("##", "next done");
 		return mList.get(mCurrent + 1);
 	}
 
 	@Override
 	public Bitmap getPrev() {
+		Log.d("##", "getPrev: mCurrent: " + mCurrent + ", mTargetCurrent: " + mTargetCurrent);
 		if (mCurrent - 1 < 0)
 			return null;
 		if (mTargetCurrent - 1 < 0)
 			return null;
 
 		CachingThread cachingThread = mCachingThreadList.get(mCurrent - 1);
-		if (!cachingThread.isReady()) {
-			try {
-				cachingThread.join();
-			} catch (InterruptedException e) {
-				e.printStackTrace();
+
+		if (cachingThread != null) {
+			if (!cachingThread.isReady()) {
+				try {
+					cachingThread.join();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 
@@ -256,9 +269,9 @@ public class SingleImageCache extends CBCache<Bitmap> {
 
 		mList.add(null);
 		mList.remove(0);
-		pointToMiddleCachedItem();
-
 		cacheItem(mList.size() - 1, ++mTargetCurrent);
+
+		pointToMiddleCachedItem();
 
 		return true;
 	}
@@ -270,10 +283,10 @@ public class SingleImageCache extends CBCache<Bitmap> {
 
 		mList.add(0,null);
 		mList.remove(mList.size() - 1);
-		pointToMiddleCachedItem();
 
 		cacheItem(mList.size() - 1, --mTargetCurrent);
 
+		pointToMiddleCachedItem();
 		return true;
 	}
 

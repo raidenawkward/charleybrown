@@ -6,16 +6,15 @@
  */
 package com.android.cb.view;
 
-import java.util.ArrayList;
-
-import com.android.cb.R;
+import com.android.cb.support.CBDish;
 import com.android.cb.support.CBIFCommonMenuHandler;
 import com.android.cb.support.CBIFSingleMenuHandler;
+import com.android.cb.support.CBId;
+import com.android.cb.support.CBMenuItem;
 import com.android.cb.support.CBMenuItemsSet;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -50,7 +49,6 @@ public class SingleMenuView extends SurfaceView implements
 	private float mSplitLineX = 0;
 
 	/** for data source */
-	private ArrayList<Bitmap> mPictures;
 	private CBMenuItemsSet mMenuItemSet = null;
 	private SingleImageCache mImageCache = null;
 
@@ -76,8 +74,6 @@ public class SingleMenuView extends SurfaceView implements
 		mSurfaceHolder.addCallback(this);
 
 		mGuestureDetctor = new GestureDetector(this);
-
-		mImageCache = new SingleImageCache(this);
 	}
 
 	public void surfaceChanged(SurfaceHolder arg0, int arg1, int arg2, int arg3) {
@@ -85,17 +81,46 @@ public class SingleMenuView extends SurfaceView implements
 	}
 
 	public void surfaceCreated(SurfaceHolder arg0) {
-		Bitmap map1 = BitmapFactory.decodeResource(getResources(), R.drawable.img0001);
-		Bitmap map2 = BitmapFactory.decodeResource(getResources(), R.drawable.img0030);
-		mPictures = new ArrayList<Bitmap>();
 
-		mPictures.add(SingleImageCache.scaleBitmapToFixView(map1, getWidth(), getHeight()));
-		mPictures.add(SingleImageCache.scaleBitmapToFixView(map2, getWidth(), getHeight()));
+		mImageCache = new SingleImageCache(this);
+
+		// for testing
+		CBId id1 = new CBId();
+		id1.setId("1");
+		CBId id2 = new CBId();
+		id2.setId("2");
+		CBId id3 = new CBId();
+		id3.setId("3");
+
+		CBDish dish1 = new CBDish();
+		dish1.setPicture("/sdcard/image/img1.jpg");
+		dish1.setId(id1);
+		CBDish dish2 = new CBDish();
+		dish2.setId(id2);
+		dish2.setPicture("/sdcard/image/img2.jpg");
+		CBDish dish3 = new CBDish();
+		dish3.setId(id3);
+		dish3.setPicture("/sdcard/image/img3.jpg");
+
+		CBMenuItem item1 = new CBMenuItem();
+		item1.setDish(dish1);
+		CBMenuItem item2 = new CBMenuItem();
+		item2.setDish(dish2);
+		CBMenuItem item3 = new CBMenuItem();
+		item3.setDish(dish3);
+
+		CBMenuItemsSet set = new CBMenuItemsSet();
+		set.add(item1);
+		set.add(item2);
+		set.add(item3);
+
+		this.setMenuItemsSet(set);
 
 		mImageCache.moveTo(0);
 
 		mSplitLineX = 0;
-		draw2SpitedBitmaps(mSplitLineX,mPictures.get(0),mPictures.get(1));
+
+		draw2SpitedBitmaps(mSplitLineX,mImageCache.getCurrent(),mImageCache.getCurrent());
 	}
 
 	public void surfaceDestroyed(SurfaceHolder arg0) {
@@ -126,7 +151,17 @@ public class SingleMenuView extends SurfaceView implements
 
 		if (mScrollDirection != SCROLLING_UNKNOWN) {
 			mSplitLineX = e2.getX();
-			mHasScrolled = draw2SpitedBitmaps(mSplitLineX,mPictures.get(0),mPictures.get(1));
+
+			switch(mScrollDirection) {
+			case SCROLLING_RIGHT:
+//				Toast.makeText(this.getContext(), new String("right"), 0).show();
+				mHasScrolled = draw2SpitedBitmaps(mSplitLineX, mImageCache.getCurrent(), mImageCache.getNext());
+				break;
+			case SCROLLING_LEFT:
+//				Toast.makeText(this.getContext(), new String("left"), 0).show();
+				mHasScrolled = draw2SpitedBitmaps(mSplitLineX, mImageCache.getPrev(), mImageCache.getCurrent());
+				break;
+			}
 			return mHasScrolled;
 		}
 
@@ -134,7 +169,7 @@ public class SingleMenuView extends SurfaceView implements
 	}
 
 	public void onShowPress(MotionEvent e) {
-		Toast.makeText(this.getContext(), new String("show press"), 0).show();
+//		Toast.makeText(this.getContext(), new String("show press"), 0).show();
 	}
 
 	public boolean onSingleTapUp(MotionEvent e) {
@@ -152,7 +187,7 @@ public class SingleMenuView extends SurfaceView implements
 		case MotionEvent.ACTION_UP:
 			if (mHasScrolled) {
 				finishScroll();
-				Toast.makeText(this.getContext(), new String("up after scrolled"), 0).show();
+//				Toast.makeText(this.getContext(), new String("up after scrolled"), 0).show();
 			}
 			break;
 		}
@@ -205,10 +240,12 @@ public class SingleMenuView extends SurfaceView implements
 
 		switch (mScrollDirection) {
 		case SCROLLING_LEFT:
-			gotoNextItem();
+			gotoPrevItem();
+//			gotoNextItem();
 			break;
 		case SCROLLING_RIGHT:
-			gotoPrevItem();
+			gotoNextItem();
+//			gotoPrevItem();
 			break;
 		}
 		mScrollDirection = SCROLLING_UNKNOWN;
@@ -226,19 +263,19 @@ public class SingleMenuView extends SurfaceView implements
 			while (mSplitLineX < this.getWidth()) {
 				s = (speed + time * accelerate / 2) * time;
 				mSplitLineX += s;
-				draw2SpitedBitmaps(start + s, mPictures.get(0), mPictures.get(1));
+				draw2SpitedBitmaps(start + s, mImageCache.getPrev(), mImageCache.getCurrent());
 				time++;
 			}
-			draw2SpitedBitmaps(this.getWidth(), mPictures.get(0), mPictures.get(1));
+			draw2SpitedBitmaps(this.getWidth(), mImageCache.getPrev(), mImageCache.getCurrent());
 			break;
 		case SCROLLING_RIGHT:
 			while (mSplitLineX > 0) {
 				s = (speed + time * accelerate / 2) * time;
 				mSplitLineX -= s;
-				draw2SpitedBitmaps(start - s, mPictures.get(0), mPictures.get(1));
+				draw2SpitedBitmaps(start - s,  mImageCache.getCurrent(), mImageCache.getNext());
 				time++;
 			}
-			draw2SpitedBitmaps(0, mPictures.get(0), mPictures.get(1));
+			draw2SpitedBitmaps(0, mImageCache.getCurrent(), mImageCache.getNext());
 			break;
 		default:
 				break;
