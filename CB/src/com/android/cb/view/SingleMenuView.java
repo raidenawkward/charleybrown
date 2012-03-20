@@ -15,12 +15,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
@@ -59,21 +57,6 @@ public class SingleMenuView extends SurfaceView implements
 		mGuestureDetctor = new GestureDetector(this);
 	}
 
-	private Bitmap scaleBitmapToFixView(Bitmap bitmap) {
-		if (bitmap == null)
-			return null;
-
-		float scaleW = (float)getWidth() / (float)bitmap.getWidth();
-		float scaleH = (float)getHeight() / (float)bitmap.getHeight();
-
-		Matrix matrix = new Matrix();
-		Log.d("***" , "sw: " + scaleW + ", sh: " + scaleH + ", iw: " + (float)getWidth() + ", ih: " + (float)getHeight());
-
-		matrix.postScale(scaleW, scaleH);
-
-		return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-	}
-
 	public SingleMenuView(Context context) {
 		super(context);
 		initView();
@@ -102,8 +85,8 @@ public class SingleMenuView extends SurfaceView implements
 		Bitmap map2 = BitmapFactory.decodeResource(getResources(), R.drawable.img0030);
 		mPictures = new ArrayList<Bitmap>();
 
-		mPictures.add(scaleBitmapToFixView(map1));
-		mPictures.add(scaleBitmapToFixView(map2));
+		mPictures.add(SingleImageCache.scaleBitmapToFixView(map1, getWidth(), getHeight()));
+		mPictures.add(SingleImageCache.scaleBitmapToFixView(map2, getWidth(), getHeight()));
 
 		mSplitLineX = 0;
 		draw2SpitedBitmaps(mSplitLineX,mPictures.get(0),mPictures.get(1));

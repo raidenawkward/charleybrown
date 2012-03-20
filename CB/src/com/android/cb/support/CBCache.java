@@ -18,9 +18,8 @@ public abstract class CBCache<T> {
 	public final int CBCACHE_STATUS_READY = 1;
 	public final int CBCACHE_STATUS_LOADING = 2;
 
-	protected ArrayList<T> mList;
+	protected ArrayList<T> mList = new ArrayList<T>();
 	protected int mCurrent = 0;
-	protected int mMaxCacheSize = 0;
 	protected int mStatus = CBCACHE_STATUS_UNKNOWN;
 
 
@@ -32,14 +31,6 @@ public abstract class CBCache<T> {
 		return mList.size();
 	}
 
-	public int getMaxCacheSize() {
-		return mMaxCacheSize;
-	}
-
-	public void setMaxCacheSize(int size) {
-		mMaxCacheSize = size;
-	}
-
 	public int getCurrentIndex() {
 		return mCurrent;
 	}
@@ -47,6 +38,8 @@ public abstract class CBCache<T> {
 	public abstract T getCurrent();
 	public abstract T getNext();
 	public abstract T getPrev();
+	public abstract void clear();
+	public abstract int getMaxCacheSize();
 	public abstract int getTotalCachedItemCount();
 	public abstract boolean moveTo(int index);
 	public abstract boolean moveToNext();
