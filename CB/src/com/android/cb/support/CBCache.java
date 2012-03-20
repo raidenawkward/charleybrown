@@ -6,7 +6,7 @@
  */
 package com.android.cb.support;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 /**
  * @author raiden
@@ -18,7 +18,7 @@ public abstract class CBCache<T> {
 	public final int CBCACHE_STATUS_READY = 1;
 	public final int CBCACHE_STATUS_LOADING = 2;
 
-	protected ArrayList<T> mList = new ArrayList<T>();
+	protected LinkedList<T> mList = new LinkedList<T>();
 	protected int mCurrent = 0;
 	protected int mStatus = CBCACHE_STATUS_UNKNOWN;
 
