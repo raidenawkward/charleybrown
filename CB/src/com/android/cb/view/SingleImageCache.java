@@ -46,6 +46,10 @@ public class SingleImageCache extends CBCache<Bitmap> {
 		mBitmapHeight = mView.getHeight();
 	}
 
+	public int getCurrentIndexInSet() {
+		return mTargetCurrent;
+	}
+
 	private void pointToMiddleCachedItem() {
 		mCurrent = getMaxCacheSize() % 2 == 0? getMaxCacheSize() / 2 : getMaxCacheSize() / 2 + 1;
 	}
@@ -142,6 +146,7 @@ public class SingleImageCache extends CBCache<Bitmap> {
 				}
 			}
 
+			refreshStatus();
 			super.run();
 		}
 
@@ -159,6 +164,23 @@ public class SingleImageCache extends CBCache<Bitmap> {
 			return mCachingPos;
 		}
 
+	}
+
+	private void refreshStatus() {
+		for (int i = 0; i < mCachingThreadList.size(); ++i) {
+			CachingThread thread = mCachingThreadList.get(i);
+			if (thread != null) {
+				if (!thread.isReady()) {
+					mStatus = CBCACHE_STATUS_LOADING;
+					return;
+				}
+			} else {
+				mStatus = CBCACHE_STATUS_UNKNOWN;
+				return;
+			}
+		}
+
+		mStatus = CBCACHE_STATUS_READY;
 	}
 
 	@Override

@@ -12,7 +12,7 @@ package com.android.cb.support;
  * @Description ctrls for signle menu ui
  */
 public interface CBIFSingleMenuHandler extends CBIFCommonMenuHandler {
-	public boolean showNextItem();
-	public boolean showPrevItem();
+	public boolean gotoNextItem();
+	public boolean gotoPrevItem();
 	public void currentItemTouched();
 }

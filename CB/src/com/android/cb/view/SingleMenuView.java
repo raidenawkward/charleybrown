@@ -9,6 +9,9 @@ package com.android.cb.view;
 import java.util.ArrayList;
 
 import com.android.cb.R;
+import com.android.cb.support.CBIFCommonMenuHandler;
+import com.android.cb.support.CBIFSingleMenuHandler;
+import com.android.cb.support.CBMenuItemsSet;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -33,29 +36,24 @@ import android.widget.Toast;
  * @Description single menu view
  */
 public class SingleMenuView extends SurfaceView implements
-	SurfaceHolder.Callback, OnGestureListener, android.view.View.OnTouchListener {
+	SurfaceHolder.Callback, OnGestureListener, android.view.View.OnTouchListener,
+	CBIFCommonMenuHandler, CBIFSingleMenuHandler {
 
+	/** for ui */
 	private final int SCROLLING_UNKNOWN = 0;
 	private final int SCROLLING_LEFT = 1;
 	private final int SCROLLING_RIGHT = 2;
 	private int mScrollDirection = SCROLLING_UNKNOWN;
-
+	private boolean mHasScrolled = false;
 	private SurfaceHolder mSurfaceHolder;
-//	private TestMovingRunnable mTestMovingRunnable;
-//	private Thread mTestDrawingTrhead;
 	private GestureDetector mGuestureDetctor;
-	private ArrayList<Bitmap> mPictures;
 	private float mSplitLineX = 0;
 
-	private boolean mHasScrolled = false;
+	/** for data source */
+	private ArrayList<Bitmap> mPictures;
+	private CBMenuItemsSet mMenuItemSet = null;
+	private SingleImageCache mImageCache = null;
 
-	private void initView() {
-		mSplitLineX = 0;
-		mSurfaceHolder = getHolder();
-		mSurfaceHolder.addCallback(this);
-
-		mGuestureDetctor = new GestureDetector(this);
-	}
 
 	public SingleMenuView(Context context) {
 		super(context);
@@ -72,15 +70,21 @@ public class SingleMenuView extends SurfaceView implements
 		initView();
 	}
 
+	private void initView() {
+		mSplitLineX = 0;
+		mSurfaceHolder = getHolder();
+		mSurfaceHolder.addCallback(this);
+
+		mGuestureDetctor = new GestureDetector(this);
+
+		mImageCache = new SingleImageCache(this);
+	}
+
 	public void surfaceChanged(SurfaceHolder arg0, int arg1, int arg2, int arg3) {
 
 	}
 
 	public void surfaceCreated(SurfaceHolder arg0) {
-//		mTestMovingRunnable = new TestMovingRunnable();
-//		mTestDrawingTrhead = new Thread(mTestMovingRunnable);
-//		mTestDrawingTrhead.start();
-
 		Bitmap map1 = BitmapFactory.decodeResource(getResources(), R.drawable.img0001);
 		Bitmap map2 = BitmapFactory.decodeResource(getResources(), R.drawable.img0030);
 		mPictures = new ArrayList<Bitmap>();
@@ -88,20 +92,13 @@ public class SingleMenuView extends SurfaceView implements
 		mPictures.add(SingleImageCache.scaleBitmapToFixView(map1, getWidth(), getHeight()));
 		mPictures.add(SingleImageCache.scaleBitmapToFixView(map2, getWidth(), getHeight()));
 
+		mImageCache.moveTo(0);
+
 		mSplitLineX = 0;
 		draw2SpitedBitmaps(mSplitLineX,mPictures.get(0),mPictures.get(1));
 	}
 
 	public void surfaceDestroyed(SurfaceHolder arg0) {
-//		while (true) {
-//			try {
-//				mTestDrawingTrhead.join();
-//				break ;
-//			}
-//			catch(Exception ex){
-//
-//			}
-//		}
 	}
 
 	public boolean onDown(MotionEvent e) {
@@ -205,6 +202,15 @@ public class SingleMenuView extends SurfaceView implements
 		finishAnimation(mScrollDirection);
 		mHasScrolled = false;
 		mSplitLineX = 0;
+
+		switch (mScrollDirection) {
+		case SCROLLING_LEFT:
+			gotoNextItem();
+			break;
+		case SCROLLING_RIGHT:
+			gotoPrevItem();
+			break;
+		}
 		mScrollDirection = SCROLLING_UNKNOWN;
 	}
 
@@ -239,6 +245,46 @@ public class SingleMenuView extends SurfaceView implements
 		}
 
 		mSplitLineX = 0;
+	}
+
+	public CBMenuItemsSet getMenuItemsSet() {
+		return mMenuItemSet;
+	}
+
+	public void setMenuItemsSet(CBMenuItemsSet set) {
+		mMenuItemSet = set;
+		loadMenuItems();
+	}
+
+	public boolean gotoNextItem() {
+		if (!mImageCache.moveToNext())
+			return false;
+
+		return true;
+	}
+
+	public boolean gotoPrevItem() {
+		if (!mImageCache.moveToPrev())
+			return false;
+
+		return true;
+	}
+
+	public void currentItemTouched() {
+		// TODO Auto-generated method stub
+	}
+
+	public int loadMenuItems() {
+		if (mMenuItemSet == null)
+			return 0;
+
+		mImageCache.setSourceSet(mMenuItemSet);
+
+		return mMenuItemSet.count();
+	}
+
+	public void refresh() {
+		// TODO Auto-generated method stub
 	}
 
 }
