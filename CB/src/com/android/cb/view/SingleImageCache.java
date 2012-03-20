@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.util.Log;
 import android.view.View;
 
 import com.android.cb.support.CBCache;
@@ -75,6 +76,11 @@ public class SingleImageCache extends CBCache<Bitmap> {
 	}
 
 	private CachedItem getCachedItem(int globalIndex) {
+		Log.d("##", "getting " + globalIndex + "/" + mSourceSet.count());
+
+		if (globalIndex < 0 || globalIndex >= mSourceSet.count())
+			return null;
+
 		for (int i = 0; i < mCachedItems.size(); ++i) {
 			CachedItem item = mCachedItems.get(i);
 			if (item == null)
@@ -86,6 +92,7 @@ public class SingleImageCache extends CBCache<Bitmap> {
 			}
 		}
 
+		Log.d("##", "not found in cache");
 		return loadItem(globalIndex);
 	}
 
@@ -136,7 +143,10 @@ public class SingleImageCache extends CBCache<Bitmap> {
 		CachedItem cItem = new CachedItem();
 		cItem.globalIndex = globalIndex;
 		cItem.bitmap = bitmap;
-		mCachedItems.set(eIndex, cItem);
+		CachedItem oldOne = mCachedItems.set(eIndex, cItem);
+		if (oldOne != null) {
+			oldOne.bitmap.recycle();
+		}
 
 		return cItem;
 	}
@@ -204,6 +214,8 @@ public class SingleImageCache extends CBCache<Bitmap> {
 		if (path == null)
 			return null;
 
+//		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+//		bitmapOptions.inSampleSize = 4;
 		Bitmap bitmap = scaleBitmapToFixView(BitmapFactory.decodeFile(path), mBitmapWidth, mBitmapHeight);
 		return bitmap;
 	}
@@ -294,20 +306,22 @@ public class SingleImageCache extends CBCache<Bitmap> {
 		CBMenuItem item = mSourceSet.get(index);
 		if (item == null)
 			return false;
+//
+//		int eIndex = getCachedItemToEliminate();
+//
+//		Bitmap bitmap = loadBitmap(item.getDish().getPicture());
+//		if (bitmap == null)
+//			return false;
+//		CachedItem cItem = new CachedItem();
+//		cItem.globalIndex = index;
+//		cItem.bitmap = bitmap;
+//		mCachedItems.set(eIndex, cItem);
+		if (loadItem(index) != null) {
+			cacheAllFromCurrentIndex(index);
+			return true;
+		}
 
-		int eIndex = getCachedItemToEliminate();
-
-		Bitmap bitmap = loadBitmap(item.getDish().getPicture());
-		if (bitmap == null)
-			return false;
-		CachedItem cItem = new CachedItem();
-		cItem.globalIndex = index;
-		cItem.bitmap = bitmap;
-		mCachedItems.set(eIndex, cItem);
-
-		cacheAllFromCurrentIndex(index);
-
-		return true;
+		return false;
 	}
 
 	@Override
@@ -342,6 +356,10 @@ public class SingleImageCache extends CBCache<Bitmap> {
 		stopAllCachingThreads();
 
 		for (int i = 0; i < mCachedItems.size(); ++i) {
+			CachedItem item = mCachedItems.get(i);
+			if (item != null) {
+				item.bitmap.recycle();
+			}
 			mCachedItems.set(i, null);
 		}
 	}

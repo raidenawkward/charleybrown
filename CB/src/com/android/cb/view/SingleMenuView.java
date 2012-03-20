@@ -21,6 +21,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
@@ -85,41 +86,28 @@ public class SingleMenuView extends SurfaceView implements
 		mImageCache = new SingleImageCache(this);
 
 		// for testing
-		CBId id1 = new CBId();
-		id1.setId("1");
-		CBId id2 = new CBId();
-		id2.setId("2");
-		CBId id3 = new CBId();
-		id3.setId("3");
-
-		CBDish dish1 = new CBDish();
-		dish1.setPicture("/sdcard/image/img1.jpg");
-		dish1.setId(id1);
-		CBDish dish2 = new CBDish();
-		dish2.setId(id2);
-		dish2.setPicture("/sdcard/image/img2.jpg");
-		CBDish dish3 = new CBDish();
-		dish3.setId(id3);
-		dish3.setPicture("/sdcard/image/img3.jpg");
-
-		CBMenuItem item1 = new CBMenuItem();
-		item1.setDish(dish1);
-		CBMenuItem item2 = new CBMenuItem();
-		item2.setDish(dish2);
-		CBMenuItem item3 = new CBMenuItem();
-		item3.setDish(dish3);
 
 		CBMenuItemsSet set = new CBMenuItemsSet();
-		set.add(item1);
-		set.add(item2);
-		set.add(item3);
+		for (int i = 1; i < 11; ++i) {
+			CBId id = new CBId();
+			id.setId(String.valueOf(i));
+
+			CBDish dish = new CBDish();
+			String image = "/sdcard/image/img" + String.valueOf(i) + ".jpg";
+			Log.d("## ", "loading: " +image);
+			dish.setPicture(image);
+			dish.setId(id);
+
+			CBMenuItem item = new CBMenuItem();
+			item.setDish(dish);
+			set.add(item);
+		}
 
 		this.setMenuItemsSet(set);
 
+
 		mImageCache.moveTo(0);
-
 		mSplitLineX = 0;
-
 		draw2SpitedBitmaps(mSplitLineX,mImageCache.getCurrent(),mImageCache.getCurrent());
 	}
 
@@ -173,7 +161,7 @@ public class SingleMenuView extends SurfaceView implements
 	}
 
 	public boolean onSingleTapUp(MotionEvent e) {
-		Toast.makeText(this.getContext(), new String("singleTapUp"), 0).show();
+		Toast.makeText(this.getContext(), new String("tapping: " + mImageCache.getCurrentIndexInSet()), 0).show();
 		return false;
 	}
 
@@ -241,11 +229,9 @@ public class SingleMenuView extends SurfaceView implements
 		switch (mScrollDirection) {
 		case SCROLLING_LEFT:
 			gotoPrevItem();
-//			gotoNextItem();
 			break;
 		case SCROLLING_RIGHT:
 			gotoNextItem();
-//			gotoPrevItem();
 			break;
 		}
 		mScrollDirection = SCROLLING_UNKNOWN;
