@@ -31,12 +31,11 @@ public class SingleImageCache extends CBCache<Bitmap> {
 
 	private float mBitmapWidth = 0;
 	private float mBitmapHeight = 0;
-	private int mTargetCurrent = 0;
+	private int mCurrentTargetInSet = 0;
 
 	private class CachedItem {
 		public int globalIndex = -1;
 		public Bitmap bitmap = null;
-		public int priority = MAX_CACHED_SIZE;
 	}
 
 	private ArrayList<CachedItem> mCachedItems = new ArrayList<CachedItem>();
@@ -55,24 +54,33 @@ public class SingleImageCache extends CBCache<Bitmap> {
 	}
 
 	public int getCurrentIndexInSet() {
-		return mTargetCurrent;
+		return mCurrentTargetInSet;
 	}
 
 	public void setSourceSet(CBMenuItemsSet set) {
 		mSourceSet = set;
 	}
 
+	private static int getAbs(int i) {
+		if (i < 0)
+			return i * (-1);
+		return i;
+	}
+
 	private int getCachedItemToEliminate() {
-		int smallestIndex = 0;
-		int smallestValue = MAX_CACHED_SIZE;
+		int biggestIndex = 0;
+		int biggestDistance = -1;
 		for (int i = 0; i < mCachedItems.size(); ++i) {
 			if (mCachedItems.get(i) == null)
 				return i;
-			if (mCachedItems.get(i).priority < smallestValue)
-				smallestIndex = i;
+			int distance = getAbs(mCachedItems.get(i).globalIndex - mCurrentTargetInSet);
+			if (distance >= biggestDistance) {
+				biggestIndex = i;
+				biggestDistance = distance;
+			}
 		}
 
-		return smallestIndex;
+		return biggestIndex;
 	}
 
 	private CachedItem getCachedItem(int globalIndex) {
@@ -86,8 +94,6 @@ public class SingleImageCache extends CBCache<Bitmap> {
 			if (item == null)
 				continue;
 			if (item.globalIndex == globalIndex) {
-				if (item.priority > 0)
-					--item.priority;
 				return item;
 			}
 		}
@@ -269,7 +275,7 @@ public class SingleImageCache extends CBCache<Bitmap> {
 
 	@Override
 	public Bitmap getCurrent() {
-		CachedItem item = getCachedItem(mTargetCurrent);
+		CachedItem item = getCachedItem(mCurrentTargetInSet);
 		if (item == null)
 			return null;
 
@@ -278,7 +284,7 @@ public class SingleImageCache extends CBCache<Bitmap> {
 
 	@Override
 	public Bitmap getNext() {
-		CachedItem item = getCachedItem(mTargetCurrent + 1);
+		CachedItem item = getCachedItem(mCurrentTargetInSet + 1);
 		if (item == null)
 			return null;
 
@@ -287,7 +293,7 @@ public class SingleImageCache extends CBCache<Bitmap> {
 
 	@Override
 	public Bitmap getPrev() {
-		CachedItem item = getCachedItem(mTargetCurrent - 1);
+		CachedItem item = getCachedItem(mCurrentTargetInSet - 1);
 		if (item == null)
 			return null;
 
@@ -326,22 +332,22 @@ public class SingleImageCache extends CBCache<Bitmap> {
 
 	@Override
 	public boolean moveToNext() {
-		if (mTargetCurrent + 1 >= mSourceSet.count())
+		if (mCurrentTargetInSet + 1 >= mSourceSet.count())
 			return false;
 
-		++mTargetCurrent;
-		cacheItem(mTargetCurrent + 1);
+		++mCurrentTargetInSet;
+		cacheItem(mCurrentTargetInSet + 1);
 
 		return true;
 	}
 
 	@Override
 	public boolean moveToPrev() {
-		if (mTargetCurrent - 1 < 0)
+		if (mCurrentTargetInSet - 1 < 0)
 			return false;
 
-		--mTargetCurrent;
-		cacheItem(mTargetCurrent - 1);
+		--mCurrentTargetInSet;
+		cacheItem(mCurrentTargetInSet - 1);
 
 		return true;
 	}
