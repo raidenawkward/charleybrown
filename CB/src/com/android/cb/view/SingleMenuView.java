@@ -21,6 +21,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
@@ -38,15 +39,20 @@ public class SingleMenuView extends SurfaceView implements
 	SurfaceHolder.Callback, OnGestureListener, android.view.View.OnTouchListener,
 	CBIFCommonMenuHandler, CBIFSingleMenuHandler {
 
-	/** for ui */
-	private final int SCROLLING_UNKNOWN = 0;
-	private final int SCROLLING_LEFT = 1;
-	private final int SCROLLING_RIGHT = 2;
-	private int mScrollDirection = SCROLLING_UNKNOWN;
+	/** for paging directions */
+	private final int PAGING_UNKNOWN = 0;
+	private final int PAGING_PREV = 1;
+	private final int PAGING_NEXT = 2;
+	private int mPagingDirection = PAGING_UNKNOWN;
+
+	/** for gestures */
 	private boolean mHasScrolled = false;
 	private SurfaceHolder mSurfaceHolder;
 	private GestureDetector mGuestureDetctor;
+
+	/** for paging animations */
 	private float mSplitLineX = 0;
+	private final float PAGING_ACCELERATE = 32.0f;
 
 	/** for data source */
 	private CBMenuItemsSet mMenuItemSet = null;
@@ -85,45 +91,36 @@ public class SingleMenuView extends SurfaceView implements
 		mImageCache = new SingleImageCache(this);
 
 		// for testing
-		CBId id1 = new CBId();
-		id1.setId("1");
-		CBId id2 = new CBId();
-		id2.setId("2");
-		CBId id3 = new CBId();
-		id3.setId("3");
-
-		CBDish dish1 = new CBDish();
-		dish1.setPicture("/sdcard/image/img1.jpg");
-		dish1.setId(id1);
-		CBDish dish2 = new CBDish();
-		dish2.setId(id2);
-		dish2.setPicture("/sdcard/image/img2.jpg");
-		CBDish dish3 = new CBDish();
-		dish3.setId(id3);
-		dish3.setPicture("/sdcard/image/img3.jpg");
-
-		CBMenuItem item1 = new CBMenuItem();
-		item1.setDish(dish1);
-		CBMenuItem item2 = new CBMenuItem();
-		item2.setDish(dish2);
-		CBMenuItem item3 = new CBMenuItem();
-		item3.setDish(dish3);
 
 		CBMenuItemsSet set = new CBMenuItemsSet();
-		set.add(item1);
-		set.add(item2);
-		set.add(item3);
+		for (int i = 1; i < 11; ++i) {
+			CBId id = new CBId();
+			id.setId(String.valueOf(i));
+
+			CBDish dish = new CBDish();
+			String image = "/sdcard/image/img" + String.valueOf(i) + ".jpg";
+			Log.d("## ", "loading: " +image);
+			dish.setPicture(image);
+			dish.setId(id);
+
+			CBMenuItem item = new CBMenuItem();
+			item.setDish(dish);
+			set.add(item);
+		}
 
 		this.setMenuItemsSet(set);
 
-		mImageCache.moveTo(0);
+
+		if (!mImageCache.moveTo(3)) {
+			Toast.makeText(this.getContext(), new String("error when moving"), 0).show();
+		}
 
 		mSplitLineX = 0;
-
 		draw2SpitedBitmaps(mSplitLineX,mImageCache.getCurrent(),mImageCache.getCurrent());
 	}
 
 	public void surfaceDestroyed(SurfaceHolder arg0) {
+
 	}
 
 	public boolean onDown(MotionEvent e) {
@@ -142,28 +139,42 @@ public class SingleMenuView extends SurfaceView implements
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
 			float distanceY) {
 		if (e1.getX() > e2.getX()) {
-			mScrollDirection = SCROLLING_RIGHT;
+			if (mPagingDirection == PAGING_UNKNOWN) {
+				mPagingDirection = PAGING_NEXT;
+			}
 		} else if (e1.getX() < e2.getX()){
-			mScrollDirection = SCROLLING_LEFT;
+			if (mPagingDirection == PAGING_UNKNOWN) {
+				mPagingDirection = PAGING_PREV;
+			}
 		} else {
-			mScrollDirection = SCROLLING_UNKNOWN;
+			mPagingDirection = PAGING_UNKNOWN;
 		}
 
-		if (mScrollDirection != SCROLLING_UNKNOWN) {
+		if (mPagingDirection != PAGING_UNKNOWN) {
 			mSplitLineX = e2.getX();
+			Bitmap pl = null;
+			Bitmap pr = null;
 
-			switch(mScrollDirection) {
-			case SCROLLING_RIGHT:
-//				Toast.makeText(this.getContext(), new String("right"), 0).show();
-				mHasScrolled = draw2SpitedBitmaps(mSplitLineX, mImageCache.getCurrent(), mImageCache.getNext());
+			switch(mPagingDirection) {
+			case PAGING_NEXT:
+				pl = mImageCache.getCurrent();
+				pr = mImageCache.getNext();
 				break;
-			case SCROLLING_LEFT:
-//				Toast.makeText(this.getContext(), new String("left"), 0).show();
-				mHasScrolled = draw2SpitedBitmaps(mSplitLineX, mImageCache.getPrev(), mImageCache.getCurrent());
+			case PAGING_PREV:
+				pl = mImageCache.getPrev();
+				pr = mImageCache.getCurrent();
 				break;
 			}
-			return mHasScrolled;
+
+			if (pl != null && pr != null) {
+				mHasScrolled = draw2SpitedBitmaps(mSplitLineX, pl, pr);
+				return mHasScrolled;
+			}
 		}
+
+		mSplitLineX = 0;
+		mHasScrolled = false;
+		mPagingDirection = PAGING_UNKNOWN;
 
 		return false;
 	}
@@ -173,7 +184,7 @@ public class SingleMenuView extends SurfaceView implements
 	}
 
 	public boolean onSingleTapUp(MotionEvent e) {
-		Toast.makeText(this.getContext(), new String("singleTapUp"), 0).show();
+		currentItemTouched();
 		return false;
 	}
 
@@ -187,7 +198,6 @@ public class SingleMenuView extends SurfaceView implements
 		case MotionEvent.ACTION_UP:
 			if (mHasScrolled) {
 				finishScroll();
-//				Toast.makeText(this.getContext(), new String("up after scrolled"), 0).show();
 			}
 			break;
 		}
@@ -234,54 +244,75 @@ public class SingleMenuView extends SurfaceView implements
 	}
 
 	protected void finishScroll() {
-		finishAnimation(mScrollDirection);
+		doPagingAnimation(mSplitLineX, mPagingDirection, PAGING_ACCELERATE);
+
 		mHasScrolled = false;
 		mSplitLineX = 0;
 
-		switch (mScrollDirection) {
-		case SCROLLING_LEFT:
-			gotoPrevItem();
-//			gotoNextItem();
+		switch (mPagingDirection) {
+		case PAGING_PREV:
+			mImageCache.moveToPrev();
 			break;
-		case SCROLLING_RIGHT:
-			gotoNextItem();
-//			gotoPrevItem();
+		case PAGING_NEXT:
+			mImageCache.moveToNext();
 			break;
 		}
-		mScrollDirection = SCROLLING_UNKNOWN;
+
+		mPagingDirection = PAGING_UNKNOWN;
 	}
 
-	protected void finishAnimation(int direction) {
+	/**
+	 * @Description animation page on given direction from splited position
+	 * @param splitX page split position
+	 * @param pagingDirection could be PAGING_PREV, PAGING_PREV, PAGING_UNKNOWN
+	 * @param accelerate pages move acceleration
+	 * @return boolean return false if null bitmap gotten from image cache
+	 */
+	protected boolean doPagingAnimation(float splitX, int pagingDirection, float accelerate) {
 		int speed = 32;
-		float accelerate = 32.0f;
 		int time = 1;
-		float s = 0;
-		float start = mSplitLineX;
+		float distance = 0;
+		float start = splitX;
+		float splitLineX = splitX;
 
-		switch (direction) {
-		case SCROLLING_LEFT:
-			while (mSplitLineX < this.getWidth()) {
-				s = (speed + time * accelerate / 2) * time;
-				mSplitLineX += s;
-				draw2SpitedBitmaps(start + s, mImageCache.getPrev(), mImageCache.getCurrent());
+		Bitmap pl = null;
+		Bitmap pr = null;
+
+		switch (pagingDirection) {
+		case PAGING_PREV:
+			pl = mImageCache.getPrev();
+			pr = mImageCache.getCurrent();
+			if (pl == null || pr == null)
+				return false;
+
+			while (splitLineX < this.getWidth()) {
+				distance = (speed + time * accelerate / 2) * time;
+				splitLineX += distance;
+				draw2SpitedBitmaps(start + distance, pl, pr);
 				time++;
 			}
-			draw2SpitedBitmaps(this.getWidth(), mImageCache.getPrev(), mImageCache.getCurrent());
+			draw2SpitedBitmaps(this.getWidth(), pl, pr);
 			break;
-		case SCROLLING_RIGHT:
-			while (mSplitLineX > 0) {
-				s = (speed + time * accelerate / 2) * time;
-				mSplitLineX -= s;
-				draw2SpitedBitmaps(start - s,  mImageCache.getCurrent(), mImageCache.getNext());
+		case PAGING_NEXT:
+			pl = mImageCache.getCurrent();
+			pr = mImageCache.getNext();
+			if (pl == null || pr == null)
+				return false;
+
+			while (splitLineX > 0) {
+				distance = (speed + time * accelerate / 2) * time;
+				splitLineX -= distance;
+				draw2SpitedBitmaps(start - distance,  pl, pr);
 				time++;
 			}
-			draw2SpitedBitmaps(0, mImageCache.getCurrent(), mImageCache.getNext());
+			draw2SpitedBitmaps(0, pl, pr);
 			break;
+		case PAGING_UNKNOWN:
 		default:
-				break;
+				return false;
 		}
 
-		mSplitLineX = 0;
+		return true;
 	}
 
 	public CBMenuItemsSet getMenuItemsSet() {
@@ -294,21 +325,22 @@ public class SingleMenuView extends SurfaceView implements
 	}
 
 	public boolean gotoNextItem() {
-		if (!mImageCache.moveToNext())
-			return false;
+		boolean res = doPagingAnimation(getWidth() / 2, PAGING_NEXT, PAGING_ACCELERATE);
+		if (res)
+			mImageCache.moveToNext();
 
-		return true;
+		return res;
 	}
 
 	public boolean gotoPrevItem() {
-		if (!mImageCache.moveToPrev())
-			return false;
-
-		return true;
+		boolean res = doPagingAnimation(getWidth() / 2, PAGING_PREV, PAGING_ACCELERATE);
+		if (res)
+			mImageCache.moveToPrev();
+		return res;
 	}
 
 	public void currentItemTouched() {
-		// TODO Auto-generated method stub
+		Toast.makeText(this.getContext(), new String("current: " + mImageCache.getCurrentIndexInSet()), 0).show();
 	}
 
 	public int loadMenuItems() {
