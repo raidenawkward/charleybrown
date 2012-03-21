@@ -51,10 +51,12 @@ public class SingleMenuView extends SurfaceView implements
 	private final int PAGING_NEXT = 2;
 	private int mPagingDirection = PAGING_UNKNOWN;
 
+	/** for gestures */
 	private boolean mHasScrolled = false;
 	private SurfaceHolder mSurfaceHolder;
 	private GestureDetector mGuestureDetctor;
 
+	/** for paging animations */
 	private float mSplitLineX = 0;
 
 	/** for data source */
@@ -114,12 +116,16 @@ public class SingleMenuView extends SurfaceView implements
 		this.setMenuItemsSet(set);
 
 
-		mImageCache.moveTo(0);
+		if (!mImageCache.moveTo(3)) {
+			Toast.makeText(this.getContext(), new String("error when moving"), 0).show();
+		}
+
 		mSplitLineX = 0;
 		draw2SpitedBitmaps(mSplitLineX,mImageCache.getCurrent(),mImageCache.getCurrent());
 	}
 
 	public void surfaceDestroyed(SurfaceHolder arg0) {
+
 	}
 
 	public boolean onDown(MotionEvent e) {
@@ -149,6 +155,7 @@ public class SingleMenuView extends SurfaceView implements
 			}
 		} else {
 			mScrollDirection = SCROLLING_UNKNOWN;
+			mPagingDirection = PAGING_UNKNOWN;
 		}
 
 		if (mPagingDirection != PAGING_UNKNOWN) {
@@ -167,32 +174,16 @@ public class SingleMenuView extends SurfaceView implements
 				break;
 			}
 
-			if (pl == null) {
-				Log.d("@@", "pl is null");
-			}
-			if (pr == null) {
-				Log.d("@@", "pr is null");
-			}
-
 			if (pl != null && pr != null) {
 				mHasScrolled = draw2SpitedBitmaps(mSplitLineX, pl, pr);
 				return mHasScrolled;
 			}
 		}
 
-//		if (mScrollDirection != SCROLLING_UNKNOWN) {
-//			mSplitLineX = e2.getX();
-//
-//			switch(mScrollDirection) {
-//			case SCROLLING_RIGHT:
-//				mHasScrolled = draw2SpitedBitmaps(mSplitLineX, mImageCache.getCurrent(), mImageCache.getNext());
-//				break;
-//			case SCROLLING_LEFT:
-//				mHasScrolled = draw2SpitedBitmaps(mSplitLineX, mImageCache.getPrev(), mImageCache.getCurrent());
-//				break;
-//			}
-//			return mHasScrolled;
-//		}
+		mSplitLineX = 0;
+		mHasScrolled = false;
+		mPagingDirection = PAGING_UNKNOWN;
+		mScrollDirection = SCROLLING_UNKNOWN;
 
 		return false;
 	}
@@ -202,7 +193,7 @@ public class SingleMenuView extends SurfaceView implements
 	}
 
 	public boolean onSingleTapUp(MotionEvent e) {
-		Toast.makeText(this.getContext(), new String("tapping: " + mImageCache.getCurrentIndexInSet()), 0).show();
+		currentItemTouched();
 		return false;
 	}
 
@@ -216,7 +207,6 @@ public class SingleMenuView extends SurfaceView implements
 		case MotionEvent.ACTION_UP:
 			if (mHasScrolled) {
 				finishScroll();
-//				Toast.makeText(this.getContext(), new String("up after scrolled"), 0).show();
 			}
 			break;
 		}
@@ -263,45 +253,46 @@ public class SingleMenuView extends SurfaceView implements
 	}
 
 	protected void finishScroll() {
-		Log.d("##", "finishScroll, current: " + mImageCache.getCurrentIndexInSet());
-		finishAnimation(mScrollDirection);
+		doFinishingAnimation(mScrollDirection);
+
 		mHasScrolled = false;
 		mSplitLineX = 0;
 
-		switch (mScrollDirection) {
-		case SCROLLING_LEFT:
+		switch (mPagingDirection) {
+		case PAGING_PREV:
 			gotoPrevItem();
 			break;
-		case SCROLLING_RIGHT:
+		case PAGING_NEXT:
 			gotoNextItem();
 			break;
 		}
+
 		mScrollDirection = SCROLLING_UNKNOWN;
 		mPagingDirection = PAGING_UNKNOWN;
 	}
 
-	protected void finishAnimation(int direction) {
+	protected void doFinishingAnimation(int direction) {
 		int speed = 32;
 		float accelerate = 32.0f;
 		int time = 1;
-		float s = 0;
+		float distance = 0;
 		float start = mSplitLineX;
 
 		switch (direction) {
 		case SCROLLING_LEFT:
 			while (mSplitLineX < this.getWidth()) {
-				s = (speed + time * accelerate / 2) * time;
-				mSplitLineX += s;
-				draw2SpitedBitmaps(start + s, mImageCache.getPrev(), mImageCache.getCurrent());
+				distance = (speed + time * accelerate / 2) * time;
+				mSplitLineX += distance;
+				draw2SpitedBitmaps(start + distance, mImageCache.getPrev(), mImageCache.getCurrent());
 				time++;
 			}
 			draw2SpitedBitmaps(this.getWidth(), mImageCache.getPrev(), mImageCache.getCurrent());
 			break;
 		case SCROLLING_RIGHT:
 			while (mSplitLineX > 0) {
-				s = (speed + time * accelerate / 2) * time;
-				mSplitLineX -= s;
-				draw2SpitedBitmaps(start - s,  mImageCache.getCurrent(), mImageCache.getNext());
+				distance = (speed + time * accelerate / 2) * time;
+				mSplitLineX -= distance;
+				draw2SpitedBitmaps(start - distance,  mImageCache.getCurrent(), mImageCache.getNext());
 				time++;
 			}
 			draw2SpitedBitmaps(0, mImageCache.getCurrent(), mImageCache.getNext());
@@ -337,7 +328,7 @@ public class SingleMenuView extends SurfaceView implements
 	}
 
 	public void currentItemTouched() {
-		// TODO Auto-generated method stub
+		Toast.makeText(this.getContext(), new String("current: " + mImageCache.getCurrentIndexInSet()), 0).show();
 	}
 
 	public int loadMenuItems() {

@@ -219,8 +219,6 @@ public class SingleImageCache extends CBCache<Bitmap> {
 		if (path == null)
 			return null;
 
-//		BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-//		bitmapOptions.inSampleSize = 4;
 		Bitmap bitmap = scaleBitmapToFixView(BitmapFactory.decodeFile(path), mBitmapWidth, mBitmapHeight);
 		return bitmap;
 	}
@@ -314,18 +312,10 @@ public class SingleImageCache extends CBCache<Bitmap> {
 		CBMenuItem item = mSourceSet.get(index);
 		if (item == null)
 			return false;
-//
-//		int eIndex = getCachedItemToEliminate();
-//
-//		Bitmap bitmap = loadBitmap(item.getDish().getPicture());
-//		if (bitmap == null)
-//			return false;
-//		CachedItem cItem = new CachedItem();
-//		cItem.globalIndex = index;
-//		cItem.bitmap = bitmap;
-//		mCachedItems.set(eIndex, cItem);
+
 		if (loadItem(index) != null) {
 			cacheAllFromCurrentIndex(index);
+			mCurrentTargetInSet = index;
 			return true;
 		}
 
