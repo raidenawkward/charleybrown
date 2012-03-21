@@ -151,19 +151,48 @@ public class SingleMenuView extends SurfaceView implements
 			mScrollDirection = SCROLLING_UNKNOWN;
 		}
 
-		if (mScrollDirection != SCROLLING_UNKNOWN) {
+		if (mPagingDirection != PAGING_UNKNOWN) {
 			mSplitLineX = e2.getX();
+			Bitmap pl = null;
+			Bitmap pr = null;
 
-			switch(mScrollDirection) {
-			case SCROLLING_RIGHT:
-				mHasScrolled = draw2SpitedBitmaps(mSplitLineX, mImageCache.getCurrent(), mImageCache.getNext());
+			switch(mPagingDirection) {
+			case PAGING_NEXT:
+				pl = mImageCache.getCurrent();
+				pr = mImageCache.getNext();
 				break;
-			case SCROLLING_LEFT:
-				mHasScrolled = draw2SpitedBitmaps(mSplitLineX, mImageCache.getPrev(), mImageCache.getCurrent());
+			case PAGING_PREV:
+				pl = mImageCache.getPrev();
+				pr = mImageCache.getCurrent();
 				break;
 			}
-			return mHasScrolled;
+
+			if (pl == null) {
+				Log.d("@@", "pl is null");
+			}
+			if (pr == null) {
+				Log.d("@@", "pr is null");
+			}
+
+			if (pl != null && pr != null) {
+				mHasScrolled = draw2SpitedBitmaps(mSplitLineX, pl, pr);
+				return mHasScrolled;
+			}
 		}
+
+//		if (mScrollDirection != SCROLLING_UNKNOWN) {
+//			mSplitLineX = e2.getX();
+//
+//			switch(mScrollDirection) {
+//			case SCROLLING_RIGHT:
+//				mHasScrolled = draw2SpitedBitmaps(mSplitLineX, mImageCache.getCurrent(), mImageCache.getNext());
+//				break;
+//			case SCROLLING_LEFT:
+//				mHasScrolled = draw2SpitedBitmaps(mSplitLineX, mImageCache.getPrev(), mImageCache.getCurrent());
+//				break;
+//			}
+//			return mHasScrolled;
+//		}
 
 		return false;
 	}
