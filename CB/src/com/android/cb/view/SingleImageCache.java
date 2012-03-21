@@ -143,10 +143,10 @@ public class SingleImageCache extends CBCache<Bitmap> {
 		CachedItem cItem = new CachedItem();
 		cItem.globalIndex = globalIndex;
 		cItem.bitmap = bitmap;
-		CachedItem oldOne = mCachedItems.set(eIndex, cItem);
-		if (oldOne != null) {
-			oldOne.bitmap.recycle();
-		}
+		mCachedItems.set(eIndex, cItem);
+//		if (oldOne != null) {
+//			oldOne.bitmap.recycle();
+//		}
 
 		return cItem;
 	}
@@ -356,10 +356,10 @@ public class SingleImageCache extends CBCache<Bitmap> {
 		stopAllCachingThreads();
 
 		for (int i = 0; i < mCachedItems.size(); ++i) {
-			CachedItem item = mCachedItems.get(i);
-			if (item != null) {
-				item.bitmap.recycle();
-			}
+//			CachedItem item = mCachedItems.get(i);
+//			if (item != null) {
+//				item.bitmap.recycle();
+//			}
 			mCachedItems.set(i, null);
 		}
 	}
