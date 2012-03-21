@@ -39,14 +39,22 @@ public class SingleMenuView extends SurfaceView implements
 	SurfaceHolder.Callback, OnGestureListener, android.view.View.OnTouchListener,
 	CBIFCommonMenuHandler, CBIFSingleMenuHandler {
 
-	/** for ui */
+	/** for current scrolling directions */
 	private final int SCROLLING_UNKNOWN = 0;
 	private final int SCROLLING_LEFT = 1;
 	private final int SCROLLING_RIGHT = 2;
 	private int mScrollDirection = SCROLLING_UNKNOWN;
+
+	/** for paging directions */
+	private final int PAGING_UNKNOWN = 0;
+	private final int PAGING_PREV = 1;
+	private final int PAGING_NEXT = 2;
+	private int mPagingDirection = PAGING_UNKNOWN;
+
 	private boolean mHasScrolled = false;
 	private SurfaceHolder mSurfaceHolder;
 	private GestureDetector mGuestureDetctor;
+
 	private float mSplitLineX = 0;
 
 	/** for data source */
@@ -131,8 +139,14 @@ public class SingleMenuView extends SurfaceView implements
 			float distanceY) {
 		if (e1.getX() > e2.getX()) {
 			mScrollDirection = SCROLLING_RIGHT;
+			if (mPagingDirection == PAGING_UNKNOWN) {
+				mPagingDirection = PAGING_NEXT;
+			}
 		} else if (e1.getX() < e2.getX()){
 			mScrollDirection = SCROLLING_LEFT;
+			if (mPagingDirection == PAGING_UNKNOWN) {
+				mPagingDirection = PAGING_PREV;
+			}
 		} else {
 			mScrollDirection = SCROLLING_UNKNOWN;
 		}
@@ -142,11 +156,9 @@ public class SingleMenuView extends SurfaceView implements
 
 			switch(mScrollDirection) {
 			case SCROLLING_RIGHT:
-//				Toast.makeText(this.getContext(), new String("right"), 0).show();
 				mHasScrolled = draw2SpitedBitmaps(mSplitLineX, mImageCache.getCurrent(), mImageCache.getNext());
 				break;
 			case SCROLLING_LEFT:
-//				Toast.makeText(this.getContext(), new String("left"), 0).show();
 				mHasScrolled = draw2SpitedBitmaps(mSplitLineX, mImageCache.getPrev(), mImageCache.getCurrent());
 				break;
 			}
@@ -222,6 +234,7 @@ public class SingleMenuView extends SurfaceView implements
 	}
 
 	protected void finishScroll() {
+		Log.d("##", "finishScroll, current: " + mImageCache.getCurrentIndexInSet());
 		finishAnimation(mScrollDirection);
 		mHasScrolled = false;
 		mSplitLineX = 0;
@@ -235,6 +248,7 @@ public class SingleMenuView extends SurfaceView implements
 			break;
 		}
 		mScrollDirection = SCROLLING_UNKNOWN;
+		mPagingDirection = PAGING_UNKNOWN;
 	}
 
 	protected void finishAnimation(int direction) {

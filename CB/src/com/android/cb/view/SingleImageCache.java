@@ -84,7 +84,6 @@ public class SingleImageCache extends CBCache<Bitmap> {
 	}
 
 	private CachedItem getCachedItem(int globalIndex) {
-		Log.d("##", "getting " + globalIndex + "/" + mSourceSet.count());
 
 		if (globalIndex < 0 || globalIndex >= mSourceSet.count())
 			return null;
@@ -275,6 +274,7 @@ public class SingleImageCache extends CBCache<Bitmap> {
 
 	@Override
 	public Bitmap getCurrent() {
+		Log.d("current", "getting " + mCurrentTargetInSet + "/" + mSourceSet.count());
 		CachedItem item = getCachedItem(mCurrentTargetInSet);
 		if (item == null)
 			return null;
@@ -284,6 +284,7 @@ public class SingleImageCache extends CBCache<Bitmap> {
 
 	@Override
 	public Bitmap getNext() {
+		Log.d("next", "getting " + (mCurrentTargetInSet + 1) + "/" + mSourceSet.count());
 		CachedItem item = getCachedItem(mCurrentTargetInSet + 1);
 		if (item == null)
 			return null;
@@ -293,6 +294,7 @@ public class SingleImageCache extends CBCache<Bitmap> {
 
 	@Override
 	public Bitmap getPrev() {
+		Log.d("prev", "getting " + (mCurrentTargetInSet - 1) + "/" + mSourceSet.count());
 		CachedItem item = getCachedItem(mCurrentTargetInSet - 1);
 		if (item == null)
 			return null;
@@ -332,6 +334,7 @@ public class SingleImageCache extends CBCache<Bitmap> {
 
 	@Override
 	public boolean moveToNext() {
+		Log.d("pos moved","moveToNext");
 		if (mCurrentTargetInSet + 1 >= mSourceSet.count())
 			return false;
 
@@ -343,6 +346,7 @@ public class SingleImageCache extends CBCache<Bitmap> {
 
 	@Override
 	public boolean moveToPrev() {
+		Log.d("pos moved","moveToPrev");
 		if (mCurrentTargetInSet - 1 < 0)
 			return false;
 
