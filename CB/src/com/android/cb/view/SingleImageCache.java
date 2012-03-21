@@ -52,6 +52,16 @@ public class SingleImageCache extends CBCache<Bitmap> {
 		mBitmapHeight = mView.getHeight();
 	}
 
+	/**
+	 * @Description this method must be called after geometry of view changed, to changed
+	 * cached images scale accordingly
+	 */
+	public void updateViewInfo() {
+		mBitmapWidth = mView.getWidth();
+		mBitmapHeight = mView.getHeight();
+		cacheAllFromCurrentIndex(mMenuEngine.currentIndex());
+	}
+
 	public int getCurrentIndexInSet() {
 		if (mMenuEngine == null)
 			return -1;

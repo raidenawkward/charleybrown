@@ -79,13 +79,15 @@ public class SingleMenuView extends SurfaceView implements
 		mSplitLineX = 0;
 		mSurfaceHolder = getHolder();
 		mSurfaceHolder.addCallback(this);
-
 		mGuestureDetctor = new GestureDetector(this);
+
+		mImageCache = new SingleImageCache(this);
+
+		// for testing
+		testingPrepare();
 	}
 
-	private void testPrepare() {
-		// for testing
-
+	private void testingPrepare() {
 		CBMenuItemsSet set = new CBMenuItemsSet();
 		for (int i = 1; i < 11; ++i) {
 			CBId id = new CBId();
@@ -105,28 +107,20 @@ public class SingleMenuView extends SurfaceView implements
 		mMenuEngine = new CBMenuEngine();
 		mMenuEngine.setMenuSet(set);
 		this.setMenuEngine(mMenuEngine);
-
-		if (!mImageCache.moveTo(9)) {
-			Toast.makeText(this.getContext(), new String("error when moving"), 0).show();
-		}
 	}
 
 	public void surfaceChanged(SurfaceHolder arg0, int arg1, int arg2, int arg3) {
-
+		mImageCache.updateViewInfo();
 	}
 
 	public void surfaceCreated(SurfaceHolder arg0) {
-
-		mImageCache = new SingleImageCache(this);
-
-		testPrepare();
-
+		mImageCache.updateViewInfo();
 		mSplitLineX = 0;
 		draw2SpitedBitmaps(mSplitLineX,mImageCache.getCurrent(),mImageCache.getCurrent());
 	}
 
 	public void surfaceDestroyed(SurfaceHolder arg0) {
-
+		mImageCache.clear();
 	}
 
 	public boolean onDown(MotionEvent e) {
