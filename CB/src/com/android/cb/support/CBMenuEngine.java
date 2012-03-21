@@ -11,12 +11,13 @@ package com.android.cb.support;
  *
  * @Description logical menu UI item group
  */
-public class CBMenuGroup {
+public class CBMenuEngine {
 	private CBMenuItemsSet mMenuItemsSet = new CBMenuItemsSet();
 	private int mCurrentIndex = 0;
 	private int mSelectedCount = 0;
 
-	public CBMenuGroup() {
+	public CBMenuEngine() {
+
 	}
 
 	public CBMenuItemsSet getMenuSet() {
@@ -39,30 +40,47 @@ public class CBMenuGroup {
 		return mSelectedCount;
 	}
 
-	public CBMenuItem next() {
+	public boolean gotoNext() {
 		if (mCurrentIndex == mMenuItemsSet.count() - 1) {
-			return null;
+			return false;
 		}
 
-		return mMenuItemsSet.get(++mCurrentIndex);
+		++mCurrentIndex;
+		return true;
+	}
+
+	public CBMenuItem next() {
+		return mMenuItemsSet.get(mCurrentIndex + 1);
+	}
+
+	public boolean gotoPrev() {
+		if (mCurrentIndex == 0) {
+			return false;
+		}
+
+		--mCurrentIndex;
+		return true;
 	}
 
 	public CBMenuItem prev() {
-		if (mCurrentIndex == 0) {
-			return null;
-		}
+		return mMenuItemsSet.get(mCurrentIndex - 1);
+	}
 
-		return mMenuItemsSet.get(--mCurrentIndex);
+	public void gotoFirst() {
+		mCurrentIndex = 0;
+	}
+
+	public void gotoLast() {
+		int index = mMenuItemsSet.count() - 1;
+		mCurrentIndex = index >= 0? index : 0;
 	}
 
 	public CBMenuItem first() {
-		mCurrentIndex = 0;
-		return mMenuItemsSet.get(mCurrentIndex);
+		return mMenuItemsSet.get(0);
 	}
 
 	public CBMenuItem last() {
-		mCurrentIndex = mMenuItemsSet.count() - 1;
-		return mMenuItemsSet.get(mCurrentIndex);
+		return mMenuItemsSet.get(mMenuItemsSet.count() - 1);
 	}
 
 	public CBMenuItem current() {
@@ -73,20 +91,20 @@ public class CBMenuGroup {
 		return mMenuItemsSet.get(index);
 	}
 
-	public CBMenuItem goTo(int index) {
+	public boolean goTo(int index) {
 		if (mMenuItemsSet.get(index) != null) {
 			mCurrentIndex = index;
-			return mMenuItemsSet.get(index);
+			return true;
 		}
 
-		return null;
+		return false;
 	}
 
 	public int count() {
 		return mMenuItemsSet.count();
 	}
 
-	public int index() {
+	public int currentIndex() {
 		return mCurrentIndex;
 	}
 

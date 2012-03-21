@@ -15,8 +15,8 @@ import android.util.Log;
 import android.view.View;
 
 import com.android.cb.support.CBCache;
+import com.android.cb.support.CBMenuEngine;
 import com.android.cb.support.CBMenuItem;
-import com.android.cb.support.CBMenuItemsSet;
 
 /**
  * @author raiden
@@ -27,11 +27,10 @@ public class SingleImageCache extends CBCache<Bitmap> {
 	private final int MAX_CACHED_SIZE = 5;
 
 	private View mView = null;
-	private CBMenuItemsSet mSourceSet = null;
+	private CBMenuEngine mMenuEngine = null;
 
 	private float mBitmapWidth = 0;
 	private float mBitmapHeight = 0;
-	private int mCurrentTargetInSet = 0;
 
 	private class CachedItem {
 		public int globalIndex = -1;
@@ -54,11 +53,13 @@ public class SingleImageCache extends CBCache<Bitmap> {
 	}
 
 	public int getCurrentIndexInSet() {
-		return mCurrentTargetInSet;
+		if (mMenuEngine == null)
+			return -1;
+		return mMenuEngine.currentIndex();
 	}
 
-	public void setSourceSet(CBMenuItemsSet set) {
-		mSourceSet = set;
+	public void setMenuEngine(CBMenuEngine engine) {
+		mMenuEngine = engine;
 	}
 
 	private static int getAbs(int i) {
@@ -73,7 +74,7 @@ public class SingleImageCache extends CBCache<Bitmap> {
 		for (int i = 0; i < mCachedItems.size(); ++i) {
 			if (mCachedItems.get(i) == null)
 				return i;
-			int distance = getAbs(mCachedItems.get(i).globalIndex - mCurrentTargetInSet);
+			int distance = getAbs(mCachedItems.get(i).globalIndex - mMenuEngine.currentIndex());
 			if (distance >= biggestDistance) {
 				biggestIndex = i;
 				biggestDistance = distance;
@@ -85,7 +86,7 @@ public class SingleImageCache extends CBCache<Bitmap> {
 
 	private CachedItem getCachedItem(int globalIndex) {
 
-		if (globalIndex < 0 || globalIndex >= mSourceSet.count())
+		if (globalIndex < 0 || globalIndex >= mMenuEngine.count())
 			return null;
 
 		for (int i = 0; i < mCachedItems.size(); ++i) {
@@ -113,13 +114,13 @@ public class SingleImageCache extends CBCache<Bitmap> {
 	}
 
 	private void cacheItem(int globalIndex) {
-		if (mSourceSet == null)
+		if (mMenuEngine == null)
 			return;
 
 		if (isIndexedItemInCache(globalIndex))
 			return;
 
-		CBMenuItem item = mSourceSet.get(globalIndex);
+		CBMenuItem item = mMenuEngine.get(globalIndex);
 		if (item == null)
 			return;
 
@@ -136,7 +137,7 @@ public class SingleImageCache extends CBCache<Bitmap> {
 	}
 
 	private CachedItem loadItem(int globalIndex) {
-		CBMenuItem item = mSourceSet.get(globalIndex);
+		CBMenuItem item = mMenuEngine.get(globalIndex);
 		if (item == null)
 			return null;
 
@@ -232,7 +233,7 @@ public class SingleImageCache extends CBCache<Bitmap> {
 	private void cacheAllFromCurrentIndex(int globalIndex) {
 		cacheItem(globalIndex);
 		for (int i = 0; i < this.mCachedItems.size() / 2; ++i) {
-			if (globalIndex + i < mSourceSet.count()) {
+			if (globalIndex + i < mMenuEngine.count()) {
 				cacheItem(globalIndex + i);
 			}
 
@@ -272,8 +273,8 @@ public class SingleImageCache extends CBCache<Bitmap> {
 
 	@Override
 	public Bitmap getCurrent() {
-		Log.d("current", "getting " + mCurrentTargetInSet + "/" + mSourceSet.count());
-		CachedItem item = getCachedItem(mCurrentTargetInSet);
+		Log.d("current", "getting " + mMenuEngine.currentIndex() + "/" + mMenuEngine.count());
+		CachedItem item = getCachedItem(mMenuEngine.currentIndex());
 		if (item == null)
 			return null;
 
@@ -282,8 +283,8 @@ public class SingleImageCache extends CBCache<Bitmap> {
 
 	@Override
 	public Bitmap getNext() {
-		Log.d("next", "getting " + (mCurrentTargetInSet + 1) + "/" + mSourceSet.count());
-		CachedItem item = getCachedItem(mCurrentTargetInSet + 1);
+		Log.d("next", "getting " + (mMenuEngine.currentIndex() + 1) + "/" + mMenuEngine.count());
+		CachedItem item = getCachedItem(mMenuEngine.currentIndex() + 1);
 		if (item == null)
 			return null;
 
@@ -292,8 +293,8 @@ public class SingleImageCache extends CBCache<Bitmap> {
 
 	@Override
 	public Bitmap getPrev() {
-		Log.d("prev", "getting " + (mCurrentTargetInSet - 1) + "/" + mSourceSet.count());
-		CachedItem item = getCachedItem(mCurrentTargetInSet - 1);
+		Log.d("prev", "getting " + (mMenuEngine.currentIndex() - 1) + "/" + mMenuEngine.count());
+		CachedItem item = getCachedItem(mMenuEngine.currentIndex() - 1);
 		if (item == null)
 			return null;
 
@@ -302,21 +303,20 @@ public class SingleImageCache extends CBCache<Bitmap> {
 
 	@Override
 	public int getTotalCachedItemCount() {
-		if (mSourceSet == null)
+		if (mMenuEngine == null)
 			return 0;
-		return mSourceSet.count();
+		return mMenuEngine.count();
 	}
 
 	@Override
 	public boolean moveTo(int index) {
-		CBMenuItem item = mSourceSet.get(index);
+		CBMenuItem item = mMenuEngine.get(index);
 		if (item == null)
 			return false;
 
 		if (loadItem(index) != null) {
 			cacheAllFromCurrentIndex(index);
-			mCurrentTargetInSet = index;
-			return true;
+			return mMenuEngine.goTo(index);
 		}
 
 		return false;
@@ -325,11 +325,11 @@ public class SingleImageCache extends CBCache<Bitmap> {
 	@Override
 	public boolean moveToNext() {
 		Log.d("pos moved","moveToNext");
-		if (mCurrentTargetInSet + 1 >= mSourceSet.count())
+		if (mMenuEngine.currentIndex() + 1 >= mMenuEngine.count())
 			return false;
 
-		++mCurrentTargetInSet;
-		cacheItem(mCurrentTargetInSet + 1);
+		mMenuEngine.gotoNext();
+		cacheItem(mMenuEngine.getCurrentIndex() + 1);
 
 		return true;
 	}
@@ -337,11 +337,11 @@ public class SingleImageCache extends CBCache<Bitmap> {
 	@Override
 	public boolean moveToPrev() {
 		Log.d("pos moved","moveToPrev");
-		if (mCurrentTargetInSet - 1 < 0)
+		if (mMenuEngine.getCurrentIndex() - 1 < 0)
 			return false;
 
-		--mCurrentTargetInSet;
-		cacheItem(mCurrentTargetInSet - 1);
+		mMenuEngine.gotoPrev();
+		cacheItem(mMenuEngine.getCurrentIndex() - 1);
 
 		return true;
 	}

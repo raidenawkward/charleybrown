@@ -10,6 +10,7 @@ import com.android.cb.support.CBDish;
 import com.android.cb.support.CBIFCommonMenuHandler;
 import com.android.cb.support.CBIFSingleMenuHandler;
 import com.android.cb.support.CBId;
+import com.android.cb.support.CBMenuEngine;
 import com.android.cb.support.CBMenuItem;
 import com.android.cb.support.CBMenuItemsSet;
 
@@ -55,7 +56,7 @@ public class SingleMenuView extends SurfaceView implements
 	private final float PAGING_ACCELERATE = 32.0f;
 
 	/** for data source */
-	private CBMenuItemsSet mMenuItemSet = null;
+	private CBMenuEngine mMenuEngine = null;
 	private SingleImageCache mImageCache = null;
 
 
@@ -82,14 +83,7 @@ public class SingleMenuView extends SurfaceView implements
 		mGuestureDetctor = new GestureDetector(this);
 	}
 
-	public void surfaceChanged(SurfaceHolder arg0, int arg1, int arg2, int arg3) {
-
-	}
-
-	public void surfaceCreated(SurfaceHolder arg0) {
-
-		mImageCache = new SingleImageCache(this);
-
+	private void testPrepare() {
 		// for testing
 
 		CBMenuItemsSet set = new CBMenuItemsSet();
@@ -108,12 +102,24 @@ public class SingleMenuView extends SurfaceView implements
 			set.add(item);
 		}
 
-		this.setMenuItemsSet(set);
+		mMenuEngine = new CBMenuEngine();
+		mMenuEngine.setMenuSet(set);
+		this.setMenuEngine(mMenuEngine);
 
-
-		if (!mImageCache.moveTo(3)) {
+		if (!mImageCache.moveTo(9)) {
 			Toast.makeText(this.getContext(), new String("error when moving"), 0).show();
 		}
+	}
+
+	public void surfaceChanged(SurfaceHolder arg0, int arg1, int arg2, int arg3) {
+
+	}
+
+	public void surfaceCreated(SurfaceHolder arg0) {
+
+		mImageCache = new SingleImageCache(this);
+
+		testPrepare();
 
 		mSplitLineX = 0;
 		draw2SpitedBitmaps(mSplitLineX,mImageCache.getCurrent(),mImageCache.getCurrent());
@@ -315,12 +321,12 @@ public class SingleMenuView extends SurfaceView implements
 		return true;
 	}
 
-	public CBMenuItemsSet getMenuItemsSet() {
-		return mMenuItemSet;
+	public CBMenuEngine getMenuEngine() {
+		return mMenuEngine;
 	}
 
-	public void setMenuItemsSet(CBMenuItemsSet set) {
-		mMenuItemSet = set;
+	public void setMenuEngine(CBMenuEngine engine) {
+		mMenuEngine = engine;
 		loadMenuItems();
 	}
 
@@ -344,12 +350,12 @@ public class SingleMenuView extends SurfaceView implements
 	}
 
 	public int loadMenuItems() {
-		if (mMenuItemSet == null)
+		if (mMenuEngine == null)
 			return 0;
 
-		mImageCache.setSourceSet(mMenuItemSet);
+		mImageCache.setMenuEngine(mMenuEngine);
 
-		return mMenuItemSet.count();
+		return mMenuEngine.count();
 	}
 
 	public void refresh() {
