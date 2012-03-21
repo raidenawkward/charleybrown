@@ -52,6 +52,7 @@ public class SingleMenuView extends SurfaceView implements
 
 	/** for paging animations */
 	private float mSplitLineX = 0;
+	private final float PAGING_ACCELERATE = 32.0f;
 
 	/** for data source */
 	private CBMenuItemsSet mMenuItemSet = null;
@@ -243,7 +244,7 @@ public class SingleMenuView extends SurfaceView implements
 	}
 
 	protected void finishScroll() {
-		doPagingAnimation(mSplitLineX, mPagingDirection);
+		doPagingAnimation(mSplitLineX, mPagingDirection, PAGING_ACCELERATE);
 
 		mHasScrolled = false;
 		mSplitLineX = 0;
@@ -260,36 +261,58 @@ public class SingleMenuView extends SurfaceView implements
 		mPagingDirection = PAGING_UNKNOWN;
 	}
 
-	protected void doPagingAnimation(float splitX, int pagingDirection) {
+	/**
+	 * @Description animation page on given direction from splited position
+	 * @param splitX page split position
+	 * @param pagingDirection could be PAGING_PREV, PAGING_PREV, PAGING_UNKNOWN
+	 * @param accelerate pages move acceleration
+	 * @return boolean return false if null bitmap gotten from image cache
+	 */
+	protected boolean doPagingAnimation(float splitX, int pagingDirection, float accelerate) {
 		int speed = 32;
-		float accelerate = 32.0f;
 		int time = 1;
 		float distance = 0;
 		float start = splitX;
 		float splitLineX = splitX;
 
+		Bitmap pl = null;
+		Bitmap pr = null;
+
 		switch (pagingDirection) {
 		case PAGING_PREV:
+			pl = mImageCache.getPrev();
+			pr = mImageCache.getCurrent();
+			if (pl == null || pr == null)
+				return false;
+
 			while (splitLineX < this.getWidth()) {
 				distance = (speed + time * accelerate / 2) * time;
 				splitLineX += distance;
-				draw2SpitedBitmaps(start + distance, mImageCache.getPrev(), mImageCache.getCurrent());
+				draw2SpitedBitmaps(start + distance, pl, pr);
 				time++;
 			}
-			draw2SpitedBitmaps(this.getWidth(), mImageCache.getPrev(), mImageCache.getCurrent());
+			draw2SpitedBitmaps(this.getWidth(), pl, pr);
 			break;
 		case PAGING_NEXT:
+			pl = mImageCache.getCurrent();
+			pr = mImageCache.getNext();
+			if (pl == null || pr == null)
+				return false;
+
 			while (splitLineX > 0) {
 				distance = (speed + time * accelerate / 2) * time;
 				splitLineX -= distance;
-				draw2SpitedBitmaps(start - distance,  mImageCache.getCurrent(), mImageCache.getNext());
+				draw2SpitedBitmaps(start - distance,  pl, pr);
 				time++;
 			}
-			draw2SpitedBitmaps(0, mImageCache.getCurrent(), mImageCache.getNext());
+			draw2SpitedBitmaps(0, pl, pr);
 			break;
+		case PAGING_UNKNOWN:
 		default:
-				break;
+				return false;
 		}
+
+		return true;
 	}
 
 	public CBMenuItemsSet getMenuItemsSet() {
@@ -302,17 +325,18 @@ public class SingleMenuView extends SurfaceView implements
 	}
 
 	public boolean gotoNextItem() {
-		if (!mImageCache.moveToNext())
-			return false;
+		boolean res = doPagingAnimation(getWidth() / 2, PAGING_NEXT, PAGING_ACCELERATE);
+		if (res)
+			mImageCache.moveToNext();
 
-		return true;
+		return res;
 	}
 
 	public boolean gotoPrevItem() {
-		if (!mImageCache.moveToPrev())
-			return false;
-
-		return true;
+		boolean res = doPagingAnimation(getWidth() / 2, PAGING_PREV, PAGING_ACCELERATE);
+		if (res)
+			mImageCache.moveToPrev();
+		return res;
 	}
 
 	public void currentItemTouched() {
