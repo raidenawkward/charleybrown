@@ -39,12 +39,6 @@ public class SingleMenuView extends SurfaceView implements
 	SurfaceHolder.Callback, OnGestureListener, android.view.View.OnTouchListener,
 	CBIFCommonMenuHandler, CBIFSingleMenuHandler {
 
-	/** for current scrolling directions */
-	private final int SCROLLING_UNKNOWN = 0;
-	private final int SCROLLING_LEFT = 1;
-	private final int SCROLLING_RIGHT = 2;
-	private int mScrollDirection = SCROLLING_UNKNOWN;
-
 	/** for paging directions */
 	private final int PAGING_UNKNOWN = 0;
 	private final int PAGING_PREV = 1;
@@ -144,17 +138,14 @@ public class SingleMenuView extends SurfaceView implements
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX,
 			float distanceY) {
 		if (e1.getX() > e2.getX()) {
-			mScrollDirection = SCROLLING_RIGHT;
 			if (mPagingDirection == PAGING_UNKNOWN) {
 				mPagingDirection = PAGING_NEXT;
 			}
 		} else if (e1.getX() < e2.getX()){
-			mScrollDirection = SCROLLING_LEFT;
 			if (mPagingDirection == PAGING_UNKNOWN) {
 				mPagingDirection = PAGING_PREV;
 			}
 		} else {
-			mScrollDirection = SCROLLING_UNKNOWN;
 			mPagingDirection = PAGING_UNKNOWN;
 		}
 
@@ -183,7 +174,6 @@ public class SingleMenuView extends SurfaceView implements
 		mSplitLineX = 0;
 		mHasScrolled = false;
 		mPagingDirection = PAGING_UNKNOWN;
-		mScrollDirection = SCROLLING_UNKNOWN;
 
 		return false;
 	}
@@ -253,45 +243,45 @@ public class SingleMenuView extends SurfaceView implements
 	}
 
 	protected void finishScroll() {
-		doFinishingAnimation(mScrollDirection);
+		doPagingAnimation(mSplitLineX, mPagingDirection);
 
 		mHasScrolled = false;
 		mSplitLineX = 0;
 
 		switch (mPagingDirection) {
 		case PAGING_PREV:
-			gotoPrevItem();
+			mImageCache.moveToPrev();
 			break;
 		case PAGING_NEXT:
-			gotoNextItem();
+			mImageCache.moveToNext();
 			break;
 		}
 
-		mScrollDirection = SCROLLING_UNKNOWN;
 		mPagingDirection = PAGING_UNKNOWN;
 	}
 
-	protected void doFinishingAnimation(int direction) {
+	protected void doPagingAnimation(float splitX, int pagingDirection) {
 		int speed = 32;
 		float accelerate = 32.0f;
 		int time = 1;
 		float distance = 0;
-		float start = mSplitLineX;
+		float start = splitX;
+		float splitLineX = splitX;
 
-		switch (direction) {
-		case SCROLLING_LEFT:
-			while (mSplitLineX < this.getWidth()) {
+		switch (pagingDirection) {
+		case PAGING_PREV:
+			while (splitLineX < this.getWidth()) {
 				distance = (speed + time * accelerate / 2) * time;
-				mSplitLineX += distance;
+				splitLineX += distance;
 				draw2SpitedBitmaps(start + distance, mImageCache.getPrev(), mImageCache.getCurrent());
 				time++;
 			}
 			draw2SpitedBitmaps(this.getWidth(), mImageCache.getPrev(), mImageCache.getCurrent());
 			break;
-		case SCROLLING_RIGHT:
-			while (mSplitLineX > 0) {
+		case PAGING_NEXT:
+			while (splitLineX > 0) {
 				distance = (speed + time * accelerate / 2) * time;
-				mSplitLineX -= distance;
+				splitLineX -= distance;
 				draw2SpitedBitmaps(start - distance,  mImageCache.getCurrent(), mImageCache.getNext());
 				time++;
 			}
@@ -300,8 +290,6 @@ public class SingleMenuView extends SurfaceView implements
 		default:
 				break;
 		}
-
-		mSplitLineX = 0;
 	}
 
 	public CBMenuItemsSet getMenuItemsSet() {
