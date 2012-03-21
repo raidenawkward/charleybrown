@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * @author raiden
  *
- * @Description basic order struct
+ * @Description basic order structure
  */
 public class CBOrder {
 

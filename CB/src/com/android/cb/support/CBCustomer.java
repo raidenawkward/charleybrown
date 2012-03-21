@@ -43,4 +43,21 @@ public class CBCustomer {
 		this.mNumOfPeople = numOfPeople;
 	}
 
+	public boolean equals(CBCustomer customer) {
+		if (customer == null)
+			return false;
+
+		if (mId == null) {
+			if (customer.getId() != null)
+				return false;
+		}
+
+		if (mName != customer.getName())
+			return false;
+
+		if (mNumOfPeople != customer.getNumOfPeople())
+			return false;
+
+		return true;
+	}
 }

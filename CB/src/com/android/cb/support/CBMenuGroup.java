@@ -9,7 +9,7 @@ package com.android.cb.support;
 /**
  * @author raiden
  *
- * @Description logical menu ui item group
+ * @Description logical menu UI item group
  */
 public class CBMenuGroup {
 	private CBMenuItemsSet mMenuItemsSet = new CBMenuItemsSet();

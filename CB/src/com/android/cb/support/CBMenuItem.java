@@ -51,4 +51,15 @@ public class CBMenuItem {
 		this.mCheckedCount = checkedCount;
 	}
 
+	public boolean equals(CBMenuItem item) {
+		if (item == null)
+			return false;
+
+		if (mDish == null) {
+			if (item.getDish() == null)
+				return true;
+		}
+
+		return mDish.equals(item.getDish());
+	}
 }

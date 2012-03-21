@@ -9,7 +9,7 @@ package com.android.cb.support;
 /**
  * @author raiden
  *
- * @Description ctrls for signle menu ui
+ * @Description ctrls for single menu UI
  */
 public interface CBIFSingleMenuHandler extends CBIFCommonMenuHandler {
 	public boolean gotoNextItem();

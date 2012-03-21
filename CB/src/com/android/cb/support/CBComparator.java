@@ -9,7 +9,7 @@ package com.android.cb.support;
 /**
  * @author raiden
  *
- * @Description base compapator abstract class
+ * @Description base comparator abstract class
  */
 public abstract class CBComparator {
 
