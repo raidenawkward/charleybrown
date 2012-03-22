@@ -7,6 +7,7 @@
 package com.android.cb.support;
 
 import java.util.Date;
+import java.util.LinkedList;
 
 /**
  * @author raiden
@@ -17,14 +18,13 @@ public class CBOrder {
 
 	private CBId mId = new CBId();
 	private String mLocation = "";
-	private CBMenuItemsSet mMenuItemList;
-	private CBCustomer mCustomer;
+	private CBCustomer mCustomer = null;
 	private CBTagsSet mDisabledTags;
 	private float mDiscount = 1.0f;
 	private Date mCreatedTime = new Date();
 	private Date mSubmitedTime = new Date();
 	private float mSummation = 0.0f;
-	private String mMemo;
+	private String mMemo = "";
 	private String mRecordSavedPath;
 
 	private int mStatus;
@@ -32,6 +32,12 @@ public class CBOrder {
 	public final int  CBORDER_STATUS_ADDING = 1;
 	public final int  CBORDER_STATUS_EDITING = 2;
 	public final int  CBORDER_STATUS_CONFIRMED = 3;
+
+	private class OrderedItem {
+		public CBMenuItem item = null;
+		public int count = 0;
+	}
+	private LinkedList<OrderedItem> mOrderedItemsList = new LinkedList<OrderedItem>();
 
 	public CBOrder() {
 	}
@@ -42,7 +48,6 @@ public class CBOrder {
 
 		mId = new CBId(order.getId());
 		mLocation = order.getLocation();
-		mMenuItemList = new CBMenuItemsSet(order.getMenuItemList());
 		mCustomer = order.getCustomer();
 		mDisabledTags = order.getDisabledTags();
 		mDiscount = order.getDiscount();
@@ -59,47 +64,85 @@ public class CBOrder {
 	}
 
 	public boolean addItem(CBMenuItem item) {
-		return mMenuItemList.add(item);
+		return addItem(item,1);
 	}
 
-	public boolean isItemChecked(CBMenuItem item) {
-		return (getItemCheckedCount(item) != 0);
+	public boolean addItem(CBMenuItem item, int count) {
+		if (!isItemHasBeenChecked(item)) {
+			OrderedItem orderedItem = new OrderedItem();
+			orderedItem.item = item;
+			orderedItem.count = count;
+			return mOrderedItemsList.add(orderedItem);
+		}
+
+		return false;
+	}
+
+	public boolean isItemHasBeenChecked(CBMenuItem item) {
+		return (getOrderedItemFromOrderedList(item) != null);
+	}
+
+	private OrderedItem getOrderedItemFromOrderedList(CBMenuItem item) {
+		if (item == null)
+			return null;
+
+		for (int i = 0; i < mOrderedItemsList.size(); ++i) {
+			OrderedItem ordered = mOrderedItemsList.get(i);
+			if (ordered.item.equals(item))
+				return ordered;
+		}
+
+		return null;
 	}
 
 	public int getItemCheckedCount(CBMenuItem item) {
-		CBMenuItem it = mMenuItemList.getItem(item);
-		if (it == null)
+		OrderedItem orderedItem = getOrderedItemFromOrderedList(item);
+		if (orderedItem == null)
 			return 0;
 
-		return it.getCheckedCount();
+		return orderedItem.count;
 	}
 
 	public boolean isItemDisabled(CBMenuItem item) {
-		CBMenuItem it = mMenuItemList.getItem(item);
+		OrderedItem it = getOrderedItemFromOrderedList(item);
 		if (it == null)
 			return false;
 
-		return (mDisabledTags.getIntersection(item.getDish().getTagsSet()) != 0);
+		return (mDisabledTags.getIntersection(it.item.getDish().getTagsSet()) != 0);
 	}
 
-	public int getMenuItemIndex(CBMenuItem item) {
-		return mMenuItemList.getIndexOf(item);
+	public int getOrderedItemIndex(CBMenuItem item) {
+		if (item == null)
+			return -1;
+
+		for (int i = 0; i < mOrderedItemsList.size(); ++i) {
+			OrderedItem it = mOrderedItemsList.get(i);
+			if (it.item.equals(item))
+				return i;
+		}
+
+		return -1;
 	}
 
-	public boolean removeMenuItem(CBMenuItem item) {
-		return mMenuItemList.remove(item);
+	public boolean removeItem(CBMenuItem item) {
+		int index = getOrderedItemIndex(item);
+		return removeItem(index);
 	}
 
-	public boolean removeMenuItem(int index) {
-		return mMenuItemList.remove(index);
+	public boolean removeItem(int index) {
+		if (index < 0 || index >= mOrderedItemsList.size())
+			return false;
+
+		mOrderedItemsList.remove(index);
+		return true;
 	}
 
 	public float getRealSummation() {
 		float sum = 0.0f;
 
-		for (int i = 0; i < mMenuItemList.count(); ++i) {
-			CBMenuItem item = mMenuItemList.getMenuItemsList().get(i);
-			sum += item.getDish().getPrice() * item.getCheckedCount();
+		for (int i = 0; i < mOrderedItemsList.size(); ++i) {
+			CBMenuItem item = mOrderedItemsList.get(i).item;
+			sum += item.getDish().getPrice() * (float)item.getCheckedCount();
 		}
 
 		return sum;
@@ -125,12 +168,14 @@ public class CBOrder {
 		this.mLocation = location;
 	}
 
-	public CBMenuItemsSet getMenuItemList() {
-		return mMenuItemList;
-	}
+	public CBMenuItemsSet getOrderedItems() {
+		CBMenuItemsSet res = new CBMenuItemsSet();
+		for (int i = 0; i < mOrderedItemsList.size(); ++i) {
+			OrderedItem oitem = mOrderedItemsList.get(i);
+			res.add(oitem.item);
+		}
 
-	public void setMenuItemList(CBMenuItemsSet menuItemList) {
-		this.mMenuItemList = menuItemList;
+		return res;
 	}
 
 	public CBCustomer getCustomer() {
