@@ -141,8 +141,10 @@ public class CBOrder {
 		float sum = 0.0f;
 
 		for (int i = 0; i < mOrderedItemsList.size(); ++i) {
-			CBMenuItem item = mOrderedItemsList.get(i).item;
-			sum += item.getDish().getPrice() * (float)item.getCheckedCount();
+			OrderedItem oItem = mOrderedItemsList.get(i);
+			if (oItem.item == null)
+				continue;
+			sum += oItem.item.getDish().getPrice() * (float)oItem.count;
 		}
 
 		return sum;

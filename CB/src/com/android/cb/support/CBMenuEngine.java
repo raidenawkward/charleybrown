@@ -109,24 +109,11 @@ public class CBMenuEngine {
 	}
 
 	public int getCheckedItemCount() {
-		int res = 0;
-		for (int i = 0; i < mMenuItemsSet.count(); ++i) {
-			if (mMenuItemsSet.get(i).isChecked())
-				++res;
-		}
-
-		return res;
+		return 0;
 	}
 
 	public CBMenuItemsSet getCheckedItems() {
-		CBMenuItemsSet res = new CBMenuItemsSet();
-		for (int i = 0; i < mMenuItemsSet.count(); ++i) {
-			CBMenuItem item = mMenuItemsSet.get(i);
-			if (item.isChecked())
-				res.add(item);
-		}
-
-		return res;
+		return null;
 	}
 
 }

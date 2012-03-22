@@ -14,17 +14,13 @@ package com.android.cb.support;
 public class CBMenuItem {
 	private int mIndex = -1;
 	private CBDish mDish = null;
-	private int mCheckedCount = 0;
 
 	public CBMenuItem() {
 	}
 
-	/**
-	 * @Description if checked count is bigger than 0, then return true
-	 * @return boolean
-	 */
-	public boolean isChecked() {
-		return (mCheckedCount != 0);
+	public CBMenuItem(CBDish dish) {
+		if (dish != null)
+			mDish = dish;
 	}
 
 	public int getIndex() {
@@ -41,14 +37,6 @@ public class CBMenuItem {
 
 	public void setDish(CBDish dish) {
 		this.mDish = dish;
-	}
-
-	public int getCheckedCount() {
-		return mCheckedCount;
-	}
-
-	public void setCheckedCount(int checkedCount) {
-		this.mCheckedCount = checkedCount;
 	}
 
 	public boolean equals(CBMenuItem item) {
