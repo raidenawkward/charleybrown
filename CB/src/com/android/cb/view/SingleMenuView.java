@@ -349,7 +349,7 @@ public class SingleMenuView extends SurfaceView implements
 
 		mImageCache.setMenuEngine(mMenuEngine);
 
-		return mMenuEngine.count();
+		return mMenuEngine.getMenuItemcount();
 	}
 
 	public void refresh() {

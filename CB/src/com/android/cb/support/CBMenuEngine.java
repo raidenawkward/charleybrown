@@ -13,12 +13,14 @@ package com.android.cb.support;
  */
 public class CBMenuEngine {
 	private CBMenuItemsSet mMenuItemsSet = new CBMenuItemsSet();
+	private CBOrder mCurrentOrder = null;
 	private int mCurrentIndex = 0;
-	private int mSelectedCount = 0;
 
 	public CBMenuEngine() {
 
 	}
+
+	/** methods for menu items and positions */
 
 	public CBMenuItemsSet getMenuSet() {
 		return mMenuItemsSet;
@@ -36,10 +38,6 @@ public class CBMenuEngine {
 		this.mCurrentIndex = currentIndex;
 	}
 
-	public int getSelectedCount() {
-		return mSelectedCount;
-	}
-
 	public boolean gotoNext() {
 		if (mCurrentIndex == mMenuItemsSet.count() - 1) {
 			return false;
@@ -47,10 +45,6 @@ public class CBMenuEngine {
 
 		++mCurrentIndex;
 		return true;
-	}
-
-	public CBMenuItem next() {
-		return mMenuItemsSet.get(mCurrentIndex + 1);
 	}
 
 	public boolean gotoPrev() {
@@ -62,10 +56,6 @@ public class CBMenuEngine {
 		return true;
 	}
 
-	public CBMenuItem prev() {
-		return mMenuItemsSet.get(mCurrentIndex - 1);
-	}
-
 	public void gotoFirst() {
 		mCurrentIndex = 0;
 	}
@@ -75,23 +65,7 @@ public class CBMenuEngine {
 		mCurrentIndex = index >= 0? index : 0;
 	}
 
-	public CBMenuItem first() {
-		return mMenuItemsSet.get(0);
-	}
-
-	public CBMenuItem last() {
-		return mMenuItemsSet.get(mMenuItemsSet.count() - 1);
-	}
-
-	public CBMenuItem current() {
-		return mMenuItemsSet.get(mCurrentIndex);
-	}
-
-	public CBMenuItem get(int index) {
-		return mMenuItemsSet.get(index);
-	}
-
-	public boolean goTo(int index) {
+	public boolean gotoPos(int index) {
 		if (mMenuItemsSet.get(index) != null) {
 			mCurrentIndex = index;
 			return true;
@@ -100,20 +74,40 @@ public class CBMenuEngine {
 		return false;
 	}
 
-	public int count() {
+	public CBMenuItem getNextItem() {
+		return mMenuItemsSet.get(mCurrentIndex + 1);
+	}
+
+	public CBMenuItem getPrevItem() {
+		return mMenuItemsSet.get(mCurrentIndex - 1);
+	}
+
+	public CBMenuItem getFirstItem() {
+		return mMenuItemsSet.get(0);
+	}
+
+	public CBMenuItem getLastItem() {
+		return mMenuItemsSet.get(mMenuItemsSet.count() - 1);
+	}
+
+	public CBMenuItem getCurrentItem() {
+		return mMenuItemsSet.get(mCurrentIndex);
+	}
+
+	public CBMenuItem getItem(int index) {
+		return mMenuItemsSet.get(index);
+	}
+
+	public int getMenuItemcount() {
 		return mMenuItemsSet.count();
 	}
 
-	public int currentIndex() {
-		return mCurrentIndex;
-	}
+	/** methods for orders */
 
-	public int getCheckedItemCount() {
-		return 0;
-	}
+	public int getCurrentItemCheckedCount() {
+		if (mCurrentOrder == null)
+			return 0;
 
-	public CBMenuItemsSet getCheckedItems() {
-		return null;
+		return mCurrentOrder.getItemCheckedCount(getCurrentItem());
 	}
-
 }
