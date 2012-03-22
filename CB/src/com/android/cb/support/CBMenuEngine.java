@@ -9,7 +9,7 @@ package com.android.cb.support;
 /**
  * @author raiden
  *
- * @Description logical menu information & control center
+ * @Description logical menu information & order control center
  */
 public class CBMenuEngine {
 	private CBMenuItemsSet mMenuItemsSet = new CBMenuItemsSet();
@@ -20,7 +20,7 @@ public class CBMenuEngine {
 
 	}
 
-	/** methods for menu items and positions */
+	/** methods for menu items and positions **/
 
 	public CBMenuItemsSet getMenuSet() {
 		return mMenuItemsSet;
@@ -102,12 +102,85 @@ public class CBMenuEngine {
 		return mMenuItemsSet.count();
 	}
 
-	/** methods for orders */
+
+	/** methods for orders **/
+
+
+	public void setOrder(CBOrder order) {
+		if (order == null)
+			mCurrentOrder = new CBOrder();
+		else
+			mCurrentOrder = order;
+	}
+
+	public CBOrder getOrder() {
+		return mCurrentOrder;
+	}
+
+	public int getTotalItemCheckedCount() {
+		return mCurrentOrder.getTotalItemCheckedCount();
+	}
 
 	public int getCurrentItemCheckedCount() {
+		return getIndexedItemCheckedCount(mCurrentIndex);
+	}
+
+	public int getIndexedItemCheckedCount(int index) {
 		if (mCurrentOrder == null)
 			return 0;
 
-		return mCurrentOrder.getItemCheckedCount(getCurrentItem());
+		CBMenuItem indexedItem = this.getItem(index);
+
+		return mCurrentOrder.getItemCheckedCount(indexedItem);
+	}
+
+	public boolean isCurrentItemChecked() {
+		return (getCurrentItemCheckedCount() != 0);
+	}
+
+	public boolean isIndexedItemChecked(int index) {
+		return (getIndexedItemCheckedCount(index) != 0);
+	}
+
+	/**
+	 * @Description order / disorder item
+	 * @param index
+	 * @param count if count equals 0, item will be removed
+	 * @return boolean
+	 */
+	public boolean orderIndexedItem(int index, int count) {
+		CBMenuItem indexedItem = this.getItem(index);
+		if (indexedItem == null)
+			return false;
+
+		if (count > 0)
+			return mCurrentOrder.addItem(indexedItem, count);
+		else
+			return mCurrentOrder.removeItem(indexedItem);
+	}
+
+	public boolean orderCurrentItem(int count) {
+		return orderIndexedItem(mCurrentIndex, count);
+	}
+
+	public boolean disOrderIndexedItem(int index) {
+		CBMenuItem indexedItem = this.getItem(index);
+		if (indexedItem == null)
+			return false;
+
+		return mCurrentOrder.removeItem(indexedItem);
+	}
+
+	public boolean disOrderCurrentItem() {
+		return disOrderIndexedItem(mCurrentIndex);
+	}
+
+	public CBTagsSet getConflictedTagSetOfIndexedItem(int index) {
+		CBMenuItem indexedItem = this.getItem(index);
+		return mCurrentOrder.getConflictedTagsSet(indexedItem);
+	}
+
+	public CBTagsSet getConflictedTagSetOfCurrentItem() {
+		return mCurrentOrder.getConflictedTagsSet(getCurrentItem());
 	}
 }

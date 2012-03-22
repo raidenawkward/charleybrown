@@ -13,6 +13,7 @@ import com.android.cb.support.CBId;
 import com.android.cb.support.CBMenuEngine;
 import com.android.cb.support.CBMenuItem;
 import com.android.cb.support.CBMenuItemsSet;
+import com.android.cb.support.CBOrder;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -104,8 +105,11 @@ public class SingleMenuView extends SurfaceView implements
 			set.add(item);
 		}
 
+		CBOrder order = new CBOrder();
 		mMenuEngine = new CBMenuEngine();
 		mMenuEngine.setMenuSet(set);
+		mMenuEngine.setOrder(order);
+
 		this.setMenuEngine(mMenuEngine);
 	}
 
@@ -340,7 +344,16 @@ public class SingleMenuView extends SurfaceView implements
 	}
 
 	public void currentItemTouched() {
-		Toast.makeText(this.getContext(), new String("current: " + mImageCache.getCurrentIndexInSet()), 0).show();
+		String start = "";
+		if (mMenuEngine.isCurrentItemChecked()) {
+			start = "Disordered: ";
+			mMenuEngine.disOrderCurrentItem();
+		} else {
+			start = "Ordered: ";
+			mMenuEngine.orderCurrentItem(1);
+		}
+		Toast.makeText(this.getContext(), new String(start + mImageCache.getCurrentIndexInSet()
+				+ ", total ordered count: " + mMenuEngine.getTotalItemCheckedCount()), 0).show();
 	}
 
 	public int loadMenuItems() {
@@ -353,7 +366,7 @@ public class SingleMenuView extends SurfaceView implements
 	}
 
 	public void refresh() {
-		// TODO Auto-generated method stub
+		mMenuEngine.gotoFirst();
 	}
 
 }

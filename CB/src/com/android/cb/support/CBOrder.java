@@ -67,15 +67,28 @@ public class CBOrder {
 		return addItem(item,1);
 	}
 
+	/**
+	 * @Description add item to ordered set, if item exists, update it
+	 * @param item
+	 * @param count
+	 * @return boolean
+	 */
 	public boolean addItem(CBMenuItem item, int count) {
-		if (!isItemHasBeenChecked(item)) {
-			OrderedItem orderedItem = new OrderedItem();
-			orderedItem.item = item;
-			orderedItem.count = count;
-			return mOrderedItemsList.add(orderedItem);
-		}
+		if (count <= 0)
+			return false;
 
-		return false;
+		OrderedItem orderedItem = new OrderedItem();
+		orderedItem.item = item;
+		orderedItem.count = count;
+
+		int index = getOrderedItemIndex(item);
+
+		if (index < 0) {
+			return mOrderedItemsList.add(orderedItem);
+		} else {
+			mOrderedItemsList.set(index, orderedItem);
+			return true;
+		}
 	}
 
 	public boolean isItemHasBeenChecked(CBMenuItem item) {
@@ -95,6 +108,13 @@ public class CBOrder {
 		return null;
 	}
 
+	public int getTotalItemCheckedCount() {
+		if (mOrderedItemsList == null)
+			return 0;
+
+		return mOrderedItemsList.size();
+	}
+
 	public int getItemCheckedCount(CBMenuItem item) {
 		OrderedItem orderedItem = getOrderedItemFromOrderedList(item);
 		if (orderedItem == null)
@@ -109,6 +129,21 @@ public class CBOrder {
 			return false;
 
 		return (mDisabledTags.getIntersection(it.item.getDish().getTagsSet()) != 0);
+	}
+
+	public CBTagsSet getConflictedTagsSet(CBMenuItem item) {
+		CBTagsSet res = new CBTagsSet();
+		if (item == null)
+			return res;
+
+		CBTagsSet dishTags = item.getDish().getTagsSet();
+		for (int i = 0; i < dishTags.count(); ++i) {
+			String tag = dishTags.get(i);
+			if (mDisabledTags.contains(tag))
+				res.add(tag);
+		}
+
+		return res;
 	}
 
 	public int getOrderedItemIndex(CBMenuItem item) {
