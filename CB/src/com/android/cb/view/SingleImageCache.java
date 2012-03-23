@@ -72,7 +72,7 @@ public class SingleImageCache extends CBCache<Bitmap> {
 		mMenuEngine = engine;
 	}
 
-	private static int getAbs(int i) {
+	private static final int getAbs(int i) {
 		if (i < 0)
 			return i * (-1);
 		return i;
@@ -94,6 +94,36 @@ public class SingleImageCache extends CBCache<Bitmap> {
 		return biggestIndex;
 	}
 
+	private boolean isCacheThreadReady(int cachingPos) {
+		for (int i = 0; i < mImageCachingThreadList.size(); ++i) {
+			SingleImageCachingThread thread = mImageCachingThreadList.get(i);
+			if (thread == null)
+				continue;
+			if (thread.getCachingPos() == cachingPos) {
+				if (thread.isReady())
+					return true;
+				else
+					return false;
+			}
+		}
+		return false;
+	}
+
+	private void joinCachingThread(int cachingPos) {
+		for (int i = 0; i < mImageCachingThreadList.size(); ++i) {
+			SingleImageCachingThread thread = mImageCachingThreadList.get(i);
+			if (thread == null)
+				continue;
+			if (thread.getCachingPos() == cachingPos) {
+				try {
+					thread.join();
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
 	private CachedItem getCachedItem(int globalIndex) {
 
 		if (globalIndex < 0 || globalIndex >= mMenuEngine.getMenuItemcount())
@@ -104,7 +134,12 @@ public class SingleImageCache extends CBCache<Bitmap> {
 			if (item == null)
 				continue;
 			if (item.globalIndex == globalIndex) {
-				return item;
+				if (isCacheThreadReady(i))
+					return item;
+				else {
+					joinCachingThread(i);
+					return item;
+				}
 			}
 		}
 
@@ -137,8 +172,11 @@ public class SingleImageCache extends CBCache<Bitmap> {
 		int eIndex = getCachedItemToEliminate();
 		SingleImageCachingThread thread = mImageCachingThreadList.get(eIndex);
 		if (thread != null) {
-			if (!thread.isReady())
-				mImageCachingThreadList.get(eIndex).stop();
+			if (!thread.isReady()) {
+				// it is needed to stop the running thread, but it looks like bad to use 'stop'
+				// leave it here
+				//thread.stop();
+			}
 		}
 
 		thread = new SingleImageCachingThread(eIndex, globalIndex, item.getDish().getPicture());
@@ -189,10 +227,10 @@ public class SingleImageCache extends CBCache<Bitmap> {
 					cItem.globalIndex = mGloabalPos;
 					cItem.bitmap = bitmap;
 					mCachedItems.set(mCachingPos, cItem);
+					mIsReady = true;
 				}
 			}
 			refreshStatus();
-			mIsReady = true;
 			super.run();
 		}
 
@@ -205,7 +243,6 @@ public class SingleImageCache extends CBCache<Bitmap> {
 			return mIsReady;
 		}
 
-		@SuppressWarnings("unused")
 		public synchronized int getCachingPos() {
 			return mCachingPos;
 		}
