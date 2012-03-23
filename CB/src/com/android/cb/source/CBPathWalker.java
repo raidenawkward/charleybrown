@@ -72,12 +72,15 @@ public class CBPathWalker {
 		return mDirDetectedCount;
 	}
 
+	/**
+	 * @Description start go walk through path
+	 */
 	public void go() {
-		if (mCallback == null)
-			return;
-
 		mFileDetectedCount = 0;
 		mDirDetectedCount = 0;
+
+		if (mCallback == null)
+			return;
 
 		traverse(mRoot, 0);
 	}
