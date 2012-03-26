@@ -30,7 +30,7 @@ public abstract class CBListViewAdapter extends ArrayAdapter<CBMenuItem> {
 
 	public CBListViewAdapter(Context context, int textViewResourceId,
 			List<CBMenuItem> objects) {
-		super(context, 0, objects);
+		super(context, textViewResourceId, objects);
 
 	}
 

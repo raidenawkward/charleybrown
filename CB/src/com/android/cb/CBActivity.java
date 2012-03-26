@@ -8,6 +8,7 @@ import com.android.cb.support.CBMenuItem;
 import com.android.cb.support.CBMenuItemsSet;
 import com.android.cb.support.CBOrder;
 import com.android.cb.view.GridMenuView;
+import com.android.cb.view.GridMenuViewAdapter;
 import com.android.cb.view.SingleMenuView;
 
 import android.app.Activity;
@@ -42,7 +43,9 @@ public class CBActivity extends Activity {
 
 		// testing for gridview
 		GridMenuView gridMenuView = new GridMenuView(this);
-		gridMenuView.setMenuEngine(mMenuEngine);
+		CBMenuItemsSet set = mMenuEngine.getMenuSet();
+		GridMenuViewAdapter gridAdapter = new GridMenuViewAdapter(this, 0, set.getMenuItemsList(), gridMenuView);
+		gridMenuView.setAdapter(gridAdapter);
 		mLayoutMain.addView(gridMenuView);
     }
 
