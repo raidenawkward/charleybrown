@@ -6,14 +6,9 @@
  */
 package com.android.cb.view;
 
-import com.android.cb.support.CBDish;
 import com.android.cb.support.CBIFCommonMenuHandler;
 import com.android.cb.support.CBIFSingleMenuHandler;
-import com.android.cb.support.CBId;
 import com.android.cb.support.CBMenuEngine;
-import com.android.cb.support.CBMenuItem;
-import com.android.cb.support.CBMenuItemsSet;
-import com.android.cb.support.CBOrder;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -23,7 +18,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
@@ -83,34 +77,6 @@ public class SingleMenuView extends SurfaceView implements
 		mGuestureDetctor = new GestureDetector(this);
 
 		mImageCache = new SingleImageCache(this);
-
-		// for testing
-		testingPrepare();
-	}
-
-	private void testingPrepare() {
-		CBMenuItemsSet set = new CBMenuItemsSet();
-		for (int i = 1; i < 11; ++i) {
-			CBId id = new CBId();
-			id.setId(String.valueOf(i));
-
-			CBDish dish = new CBDish();
-			String image = "/sdcard/image/img" + String.valueOf(i) + ".jpg";
-			Log.d("## ", "loading: " +image);
-			dish.setPicture(image);
-			dish.setId(id);
-
-			CBMenuItem item = new CBMenuItem();
-			item.setDish(dish);
-			set.add(item);
-		}
-
-		CBOrder order = new CBOrder();
-		mMenuEngine = new CBMenuEngine();
-		mMenuEngine.setMenuSet(set);
-		mMenuEngine.setOrder(order);
-
-		this.setMenuEngine(mMenuEngine);
 	}
 
 	public void surfaceChanged(SurfaceHolder arg0, int arg1, int arg2, int arg3) {
