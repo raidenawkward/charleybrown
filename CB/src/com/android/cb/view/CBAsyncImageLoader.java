@@ -6,7 +6,11 @@
  */
 package com.android.cb.view;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.ref.SoftReference;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 
 
@@ -59,7 +63,7 @@ public class CBAsyncImageLoader {
         new Thread() {
             @Override
             public void run() {
-                Drawable drawable = loadDrawableFromUrl(imageUrl);
+                Drawable drawable = loadDrawableFromLocalUrl(imageUrl);
                 mImagesMap.put(imageUrl, new SoftReference<Drawable>(drawable));
                 Message message = handler.obtainMessage(0, drawable);
                 handler.sendMessage(message);
@@ -69,7 +73,7 @@ public class CBAsyncImageLoader {
 		return null;
 	}
 
-	protected static Drawable loadDrawableFromUrl(String imageUrl) {
+	protected static Drawable loadDrawableFromLocalUrl(String imageUrl) {
 		Options options=new Options();
         options.inSampleSize=2;
         Bitmap bitmap=BitmapFactory.decodeFile(imageUrl, options);
@@ -78,4 +82,20 @@ public class CBAsyncImageLoader {
 
         return drawable;
 	}
+
+	protected static Drawable loadDrawableFromNetUrl(String imageUrl) {
+		URL url;
+		InputStream iStream = null;
+		try {
+			url = new URL(imageUrl);
+			iStream = (InputStream) url.getContent();
+		} catch (MalformedURLException e1) {
+			e1.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Drawable drawable = Drawable.createFromStream(iStream, "src");
+		return drawable;
+	}
+
 }
