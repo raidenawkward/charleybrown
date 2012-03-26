@@ -1,7 +1,7 @@
 /**
  * @Title: CBAsyncImageLoader.java
  * @Package: com.android.cb.view
- * @Author: raiden
+ * @Author: Raiden Awkward<raiden.ht@gmail.com>
  * @Date: 2012-3-26
  */
 package com.android.cb.view;
