@@ -16,10 +16,9 @@ public final class R {
         public static final int img0030=0x7f020002;
     }
     public static final class id {
-        public static final int image=0x7f050002;
         public static final int listitem_base_image=0x7f050000;
         public static final int listitem_base_text=0x7f050001;
-        public static final int mainview=0x7f050003;
+        public static final int mainview=0x7f050002;
     }
     public static final class layout {
         public static final int listitem_base=0x7f030000;

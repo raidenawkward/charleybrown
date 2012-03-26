@@ -17,19 +17,24 @@ import android.widget.GridView;
  */
 public class GridMenuView extends GridView {
 
+	public final int COLUMN_COUNT = 3;
+
 	public GridMenuView(Context context) {
 		super(context);
-
+		initMenuView();
 	}
 
 	public GridMenuView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-
+		initMenuView();
 	}
 
 	public GridMenuView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-
+		initMenuView();
 	}
 
+	private void initMenuView() {
+		setNumColumns(COLUMN_COUNT);
+	}
 }
