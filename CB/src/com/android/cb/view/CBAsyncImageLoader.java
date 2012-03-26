@@ -30,8 +30,6 @@ import android.os.Message;
 public class CBAsyncImageLoader {
 
 	/**
-	 * @author raiden
-	 *
 	 * @Description callback used in loadDrawable
 	 */
 	public interface Callback {

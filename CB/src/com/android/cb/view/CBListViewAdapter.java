@@ -11,10 +11,12 @@ import java.util.List;
 import com.android.cb.support.CBMenuItem;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 
 /**
  * @author raiden
@@ -28,7 +30,7 @@ public abstract class CBListViewAdapter extends ArrayAdapter<CBMenuItem> {
 
 	public CBListViewAdapter(Context context, int textViewResourceId,
 			List<CBMenuItem> objects) {
-		super(context, textViewResourceId, objects);
+		super(context, 0, objects);
 
 	}
 
@@ -54,6 +56,24 @@ public abstract class CBListViewAdapter extends ArrayAdapter<CBMenuItem> {
 
 	public int getListItemSource() {
 		return mListItemSource;
+	}
+
+	public Drawable loadDrawable(String imageUrl) {
+		if (mAsyncImageLoader == null || mListView == null)
+			return null;
+
+		Drawable res = mAsyncImageLoader.loadDrawable(imageUrl,
+				new CBAsyncImageLoader.Callback() {
+					public void onImageLoaded(Drawable imageDrawable, String imageUrl) {
+						ImageView imageViewByTag = (ImageView) mListView.findViewWithTag(imageUrl);
+						if (imageViewByTag != null) {
+		                    imageViewByTag.setImageDrawable(imageDrawable);
+		                }
+					}
+				}
+		);
+
+		return res;
 	}
 
 	public abstract View getView(int position, View convertView, ViewGroup parent);

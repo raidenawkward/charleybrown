@@ -7,6 +7,7 @@ import com.android.cb.support.CBMenuEngine;
 import com.android.cb.support.CBMenuItem;
 import com.android.cb.support.CBMenuItemsSet;
 import com.android.cb.support.CBOrder;
+import com.android.cb.view.GridMenuView;
 import com.android.cb.view.SingleMenuView;
 
 import android.app.Activity;
@@ -30,16 +31,24 @@ public class CBActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		// testing for singleview
+		testingMenuEnginePrepare();
+
 		mLayoutMain = (LinearLayout) findViewById(R.id.mainview);
-		mSingleView = new SingleMenuView(this);
-		testingSingleViewPrepare();
-		mLayoutMain.addView(mSingleView);
+
+		// testing for singleview
+//		mSingleView = new SingleMenuView(this);
+//		mSingleView.setMenuEngine(mMenuEngine);
+//		mLayoutMain.addView(mSingleView);
+
+		// testing for gridview
+		GridMenuView gridMenuView = new GridMenuView(this);
+		gridMenuView.setMenuEngine(mMenuEngine);
+		mLayoutMain.addView(gridMenuView);
     }
 
-    private void testingSingleViewPrepare() {
+    private void testingMenuEnginePrepare() {
 		CBMenuItemsSet set = new CBMenuItemsSet();
-		for (int i = 1; i < 11; ++i) {
+		for (int i = 1; i <= 64; ++i) {
 			CBId id = new CBId();
 			id.setId(String.valueOf(i));
 
@@ -48,6 +57,7 @@ public class CBActivity extends Activity {
 			Log.d("## ", "loading: " +image);
 			dish.setPicture(image);
 			dish.setId(id);
+			dish.setName("img" + String.valueOf(i));
 
 			CBMenuItem item = new CBMenuItem();
 			item.setDish(dish);
@@ -58,8 +68,6 @@ public class CBActivity extends Activity {
 		mMenuEngine = new CBMenuEngine();
 		mMenuEngine.setMenuSet(set);
 		mMenuEngine.setOrder(order);
-
-		mSingleView.setMenuEngine(mMenuEngine);
 	}
 
     private class TestPathWalker implements CBPathWalker.Callback {
