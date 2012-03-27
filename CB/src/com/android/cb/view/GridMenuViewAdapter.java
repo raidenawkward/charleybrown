@@ -34,6 +34,7 @@ public class GridMenuViewAdapter extends CBListViewAdapter {
 		super(context, textViewResourceId, objects);
 		mMenuView = gridMenuView;
 
+//		CBAsyncImageLoader loader = new CBAsyncImageLoader(this.getImagePathList());
 		CBAsyncImageLoader loader = new CBAsyncImageLoader();
 		setAsyncImageLoader(loader);
 
@@ -61,7 +62,7 @@ public class GridMenuViewAdapter extends CBListViewAdapter {
 		}
 
 		CBMenuItem menuItem = getItem(position);
-		String imageUrl = menuItem.getDish().getPicture();
+		String imageUrl = menuItem.getDish().getThumb();
 		ImageView imageView = viewItem.getImageView();
 		imageView.setTag(imageUrl);
 

@@ -6,6 +6,7 @@
  */
 package com.android.cb.view;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.android.cb.support.CBMenuItem;
@@ -56,6 +57,18 @@ public abstract class CBListViewAdapter extends ArrayAdapter<CBMenuItem> {
 
 	public int getListItemSource() {
 		return mListItemSource;
+	}
+
+	public ArrayList<String> getImagePathList() {
+		ArrayList<String> res = new ArrayList<String>();
+
+		for (int i = 0; i < this.getCount(); ++i) {
+			CBMenuItem item = this.getItem(i);
+			String s = item.getDish().getThumb();
+			res.add(s);
+		}
+
+		return res;
 	}
 
 	public Drawable loadDrawable(String imageUrl) {

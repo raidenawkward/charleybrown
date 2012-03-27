@@ -59,6 +59,7 @@ public class CBActivity extends Activity {
 			String image = "/sdcard/image/img" + String.valueOf(i) + ".jpg";
 			Log.d("## ", "loading: " +image);
 			dish.setPicture(image);
+			dish.setThumb(image);
 			dish.setId(id);
 			dish.setName("img" + String.valueOf(i));
 
