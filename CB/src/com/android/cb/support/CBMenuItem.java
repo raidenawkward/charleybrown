@@ -13,9 +13,10 @@ package com.android.cb.support;
  */
 public class CBMenuItem {
 	private int mIndex = -1;
-	private CBDish mDish = null;
+	private CBDish mDish;
 
 	public CBMenuItem() {
+		mDish = new CBDish();
 	}
 
 	public CBMenuItem(CBDish dish) {
@@ -37,6 +38,14 @@ public class CBMenuItem {
 
 	public void setDish(CBDish dish) {
 		this.mDish = dish;
+	}
+
+	public boolean isTagContained(String tag) {
+		return mDish.isTagContained(tag);
+	}
+
+	public boolean isTagsSetContained(CBTagsSet set) {
+		return mDish.isTagsSetContained(set);
 	}
 
 	public boolean equals(CBMenuItem item) {

@@ -42,23 +42,23 @@ public class CBDish {
 		mPicture = dish.getPicture();
 	}
 
-	boolean equals(CBDish dish) {
+	public boolean equals(CBDish dish) {
 		return mId.equals(dish.getId());
 	}
 
-	boolean isTagContaioned(String tag) {
+	public boolean isTagContained(String tag) {
 		return mTags.contains(tag);
 	}
 
-	boolean isTagsSetContained(CBTagsSet tags) {
+	public boolean isTagsSetContained(CBTagsSet tags) {
 		return (mTags.getIntersection(tags) != 0);
 	}
 
-	void addTag(String tag) {
+	public void addTag(String tag) {
 		mTags.add(tag);
 	}
 
-	void addTagSet(CBTagsSet set) {
+	public void addTagSet(CBTagsSet set) {
 		mTags.combine(set);
 	}
 

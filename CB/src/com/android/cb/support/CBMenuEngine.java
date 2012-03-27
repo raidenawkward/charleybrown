@@ -20,15 +20,7 @@ public class CBMenuEngine {
 
 	}
 
-	/** methods for menu items and positions **/
-
-	public CBMenuItemsSet getMenuSet() {
-		return mMenuItemsSet;
-	}
-
-	public void setMenuSet(CBMenuItemsSet menuSet) {
-		this.mMenuItemsSet = new CBMenuItemsSet(menuSet);
-	}
+	/** methods for positions **/
 
 	public int getCurrentIndex() {
 		return mCurrentIndex;
@@ -94,12 +86,55 @@ public class CBMenuEngine {
 		return mMenuItemsSet.get(mCurrentIndex);
 	}
 
+	/** methods for menu items **/
+
+
 	public CBMenuItem getItem(int index) {
 		return mMenuItemsSet.get(index);
 	}
 
 	public int getMenuItemcount() {
 		return mMenuItemsSet.count();
+	}
+
+	public CBMenuItemsSet getMenuSet() {
+		return mMenuItemsSet;
+	}
+
+	public void setMenuSet(CBMenuItemsSet menuSet) {
+		this.mMenuItemsSet = new CBMenuItemsSet(menuSet);
+	}
+
+	public CBMenuItemsSet getMenuItemsSetWithTags(CBTagsSet tagSet) {
+		if (tagSet == null)
+			return null;
+
+		CBMenuItemsSet res = new CBMenuItemsSet();
+
+		for (int i = 0; i < mMenuItemsSet.count(); ++i) {
+			CBMenuItem item = mMenuItemsSet.get(i);
+			if (item.isTagsSetContained(tagSet)) {
+				res.add(item);
+			}
+		}
+
+		return res;
+	}
+
+	public CBMenuItemsSet getMenuItemsSetWithTag(String tag) {
+		if (tag == null)
+			return null;
+
+		CBMenuItemsSet res = new CBMenuItemsSet();
+
+		for (int i = 0; i < mMenuItemsSet.count(); ++i) {
+			CBMenuItem item = mMenuItemsSet.get(i);
+			if (item.isTagContained(tag)) {
+				res.add(item);
+			}
+		}
+
+		return res;
 	}
 
 

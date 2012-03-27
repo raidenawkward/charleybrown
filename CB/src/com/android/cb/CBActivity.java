@@ -8,12 +8,11 @@ import com.android.cb.support.CBMenuItem;
 import com.android.cb.support.CBMenuItemsSet;
 import com.android.cb.support.CBOrder;
 import com.android.cb.view.GridMenuView;
-import com.android.cb.view.GridMenuViewAdapter;
 import com.android.cb.view.SingleMenuView;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
@@ -22,6 +21,7 @@ public class CBActivity extends Activity {
 	LinearLayout mLayoutMain;
 	CBMenuEngine mMenuEngine;
 	SingleMenuView mSingleView;
+	GridMenuView mGridView;
 
     /** Called when the activity is first created. */
     @Override
@@ -42,11 +42,10 @@ public class CBActivity extends Activity {
 //		mLayoutMain.addView(mSingleView);
 
 		// testing for gridview
-		GridMenuView gridMenuView = new GridMenuView(this);
-		CBMenuItemsSet set = mMenuEngine.getMenuSet();
-		GridMenuViewAdapter gridAdapter = new GridMenuViewAdapter(this, set.getMenuItemsList(), gridMenuView);
-		gridMenuView.setAdapter(gridAdapter);
-		mLayoutMain.addView(gridMenuView);
+		mGridView = new GridMenuView(this);
+		mGridView.setMenuItemSet(mMenuEngine.getMenuSet());
+		mGridView.setMenuItemSet(mMenuEngine.getMenuItemsSetWithTag(sCurrentTag));
+		mLayoutMain.addView(mGridView);
     }
 
     private void testingMenuEnginePrepare() {
@@ -62,8 +61,14 @@ public class CBActivity extends Activity {
 			dish.setThumb(image);
 			dish.setId(id);
 			dish.setName("img" + String.valueOf(i));
+			if (i % 2 == 0) {
+				dish.addTag("even");
+			} else {
+				dish.addTag("odd");
+			}
 
 			CBMenuItem item = new CBMenuItem();
+			item.setIndex(i - 1);
 			item.setDish(dish);
 			set.add(item);
 		}
@@ -93,6 +98,22 @@ public class CBActivity extends Activity {
 		CBPathWalker walker = new CBPathWalker(new TestPathWalker());
 		walker.setRoot("/sdcard");
 		walker.go();
+	}
+
+	private static String sCurrentTag = "odd";
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		switch(keyCode) {
+		case KeyEvent.KEYCODE_MENU:
+			if (sCurrentTag == "odd")
+				sCurrentTag = "even";
+			else
+				sCurrentTag = "odd";
+			mGridView.setMenuItemSet(mMenuEngine.getMenuItemsSetWithTag(sCurrentTag));
+			break;
+		}
+
+		return super.onKeyDown(keyCode, event);
 	}
 
 }
