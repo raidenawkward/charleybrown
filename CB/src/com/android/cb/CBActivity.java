@@ -44,7 +44,7 @@ public class CBActivity extends Activity {
 		// testing for gridview
 		GridMenuView gridMenuView = new GridMenuView(this);
 		CBMenuItemsSet set = mMenuEngine.getMenuSet();
-		GridMenuViewAdapter gridAdapter = new GridMenuViewAdapter(this, 0, set.getMenuItemsList(), gridMenuView);
+		GridMenuViewAdapter gridAdapter = new GridMenuViewAdapter(this, set.getMenuItemsList(), gridMenuView);
 		gridMenuView.setAdapter(gridAdapter);
 		mLayoutMain.addView(gridMenuView);
     }

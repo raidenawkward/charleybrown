@@ -20,7 +20,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 /**
  * @author raiden
@@ -86,10 +85,8 @@ public class CBAsyncImageLoader {
             if (drawable != null) {
                 return drawable;
             }
-            Log.d("==-==", "empty: " + imageUrl);
         }
 
-		Log.d("=====", "not found: " + imageUrl);
 		final Handler handler = new Handler() {
             public void handleMessage(Message message) {
 				if (callback != null)

@@ -27,11 +27,12 @@ import com.android.cb.support.CBMenuItem;
  */
 public class GridMenuViewAdapter extends CBListViewAdapter {
 
-	GridMenuView mMenuView;
+	private GridMenuView mMenuView;
+	private LayoutInflater mInflater;
 
-	public GridMenuViewAdapter(Context context, int textViewResourceId,
+	public GridMenuViewAdapter(Context context,
 			List<CBMenuItem> objects, GridMenuView gridMenuView) {
-		super(context, textViewResourceId, objects);
+		super(context, objects);
 		mMenuView = gridMenuView;
 
 //		CBAsyncImageLoader loader = new CBAsyncImageLoader(this.getImagePathList());
@@ -40,30 +41,28 @@ public class GridMenuViewAdapter extends CBListViewAdapter {
 
 		setListView(gridMenuView);
 		setListItemSource(R.layout.listitem_base);
+
+		mInflater = LayoutInflater.from(mMenuView.getContext());
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		if (getListView() == null || getListItemSource() == 0
-				|| getAsyncImageLoader() == null)
-			return new View(this.getContext());
 
-		View rowView = convertView;
-		ItemView viewItem;
-		if (rowView == null) {
-			LayoutInflater inflater = LayoutInflater.from(mMenuView.getContext());
-			rowView = inflater.inflate(getListItemSource(), null);
-			viewItem = new ItemView(rowView,
+		if (convertView == null) {
+			convertView = mInflater.inflate(getListItemSource(), null, false);
+		}
+
+		ViewHolder viewHolder = (ViewHolder) convertView.getTag();
+		if (viewHolder == null) {
+			viewHolder = new ViewHolder(convertView,
 					R.id.listitem_base_text,
 					R.id.listitem_base_image);
-			rowView.setTag(viewItem);
-		} else {
-			viewItem = (ItemView) rowView.getTag();
+			convertView.setTag(viewHolder);
 		}
 
 		CBMenuItem menuItem = getItem(position);
 		String imageUrl = menuItem.getDish().getThumb();
-		ImageView imageView = viewItem.getImageView();
+		ImageView imageView = viewHolder.getImageView();
 		imageView.setTag(imageUrl);
 
 		Drawable drawableImage = loadDrawable(imageUrl);
@@ -74,17 +73,17 @@ public class GridMenuViewAdapter extends CBListViewAdapter {
 			imageView.setImageDrawable(drawableImage);
 		}
 
-		TextView textView = viewItem.getTextView();
+		TextView textView = viewHolder.getTextView();
 		textView.setText(menuItem.getDish().getName());
 
-		return rowView;
+		return convertView;
 	}
 
-	private class ItemView {
+	private class ViewHolder {
 		private TextView mTextView = null;
 		private ImageView mImageView = null;
 
-		public ItemView(View baseView, int textViewId, int imageViewId) {
+		public ViewHolder(View baseView, int textViewId, int imageViewId) {
 			if (baseView == null)
 				return;
 			mTextView = (TextView) baseView.findViewById(textViewId);

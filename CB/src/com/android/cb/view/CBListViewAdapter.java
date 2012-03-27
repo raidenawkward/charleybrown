@@ -29,9 +29,9 @@ public abstract class CBListViewAdapter extends ArrayAdapter<CBMenuItem> {
     private CBAsyncImageLoader mAsyncImageLoader = null;
     private int mListItemSource = 0;
 
-	public CBListViewAdapter(Context context, int textViewResourceId,
+	public CBListViewAdapter(Context context,
 			List<CBMenuItem> objects) {
-		super(context, textViewResourceId, objects);
+		super(context, 0, objects);
 
 	}
 
