@@ -40,7 +40,7 @@ public class GridMenuViewAdapter extends CBListViewAdapterBase {
 		setAsyncImageLoader(loader);
 
 		setListView(gridMenuView);
-		setListItemSource(R.layout.listitem_base);
+		setListItemSource(R.layout.menuitem_grid_base);
 
 		mInflater = LayoutInflater.from(mMenuView.getContext());
 	}
