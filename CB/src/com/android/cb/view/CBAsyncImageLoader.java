@@ -133,4 +133,11 @@ public class CBAsyncImageLoader {
 		return drawable;
 	}
 
+	public synchronized void cacheImage(String path) {
+		if (mImagesMap.containsKey(path))
+			return;
+
+		Drawable drawable = loadDrawableFromLocalUrl(path);
+        mImagesMap.put(path, new SoftReference<Drawable>(drawable));
+	}
 }

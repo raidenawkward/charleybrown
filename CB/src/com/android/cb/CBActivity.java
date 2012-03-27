@@ -51,7 +51,7 @@ public class CBActivity extends Activity {
 
     private void testingMenuEnginePrepare() {
 		CBMenuItemsSet set = new CBMenuItemsSet();
-		for (int i = 1; i <= 64; ++i) {
+		for (int i = 1; i <= 242; ++i) {
 			CBId id = new CBId();
 			id.setId(String.valueOf(i));
 
