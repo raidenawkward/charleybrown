@@ -12,8 +12,8 @@
 	android:scaleType="centerCrop"></ImageView>
 	<TextView
 	android:id="@+id/listitem_base_text"
-	android:layout_width="wrap_content"
-	android:layout_height="wrap_content"
+	android:layout_width="150dip"
+	android:layout_height="50dip"
 	android:layout_below="@+id/listitem_base_image"
 	android:layout_centerHorizontal="true"></TextView>
 </RelativeLayout>

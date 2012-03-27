@@ -6,9 +6,14 @@
  */
 package com.android.cb.view;
 
+import com.android.cb.support.CBMenuItem;
+
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.Toast;
 
 /**
  * @author raiden
@@ -36,5 +41,14 @@ public class GridMenuView extends GridView {
 
 	private void initMenuView() {
 		setNumColumns(COLUMN_COUNT);
+
+		this.setOnItemClickListener(new OnItemClickListener() {
+
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				CBMenuItem item = (CBMenuItem) arg0.getItemAtPosition(arg2);
+				Toast.makeText(GridMenuView.this.getContext(), item.getDish().getThumb(), 0).show();
+			}
+		});
 	}
 }
