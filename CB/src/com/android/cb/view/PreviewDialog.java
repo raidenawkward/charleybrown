@@ -53,6 +53,8 @@ public class PreviewDialog extends CBBaseDialog {
 		mTextViewPrice = (TextView) this.findViewById(R.id.textView_price);
 //		mTextViewSummary = (TextView) this.findViewById(R.id.textView_summary);
 		mTextViewDetail = (TextView) this.findViewById(R.id.textView_detail);
+
+		setCanceledOnTouchOutside(true);
 	}
 
 	@Override
