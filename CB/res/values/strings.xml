@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="hello">Hello World, CBActivity!</string>
     <string name="app_name">CB</string>
+    <string name="preview_name">name:</string>
+    <string name="preview_price">price:</string>
+    <string name="preview_summary">summary:</string>
+    <string name="preview_detail">detail:</string>
 
 </resources>

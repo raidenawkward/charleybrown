@@ -18,17 +18,22 @@ import android.content.Context;
  */
 public class CBBaseDialog extends Dialog {
 
+	protected Context mContext;
+
 	public CBBaseDialog(Context context, boolean cancelable,
 			OnCancelListener cancelListener) {
 		super(context, cancelable, cancelListener);
+		mContext = context;
 	}
 
 	public CBBaseDialog(Context context, int theme) {
 		super(context, theme);
+		mContext = context;
 	}
 
 	public CBBaseDialog(Context context) {
 		super(context, R.style.CBBaseDialog);
+		mContext = context;
 	}
 
 }
