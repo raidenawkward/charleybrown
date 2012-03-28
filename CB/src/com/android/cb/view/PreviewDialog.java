@@ -12,8 +12,8 @@ import com.android.cb.support.CBMenuItem;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.Display;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,11 +24,13 @@ import android.widget.TextView;
  */
 public class PreviewDialog extends CBBaseDialog {
 
-	ImageView mImageView = null;
-	TextView mTextViewName = null;
-	TextView mTextViewPrice = null;
-	TextView mTextViewSummary = null;
-	TextView mTextViewDetail = null;
+	public final float SCALED_RATE = 0.60f;
+
+	private ImageView mImageView = null;
+	private TextView mTextViewName = null;
+	private TextView mTextViewPrice = null;
+	private TextView mTextViewSummary = null;
+	private TextView mTextViewDetail = null;
 
 	public PreviewDialog(Context context, boolean cancelable,
 			OnCancelListener cancelListener) {
@@ -70,7 +72,10 @@ public class PreviewDialog extends CBBaseDialog {
 			return;
 
 		if (mImageView != null) {
-			Bitmap bitmap = BitmapFactory.decodeFile(dish.getPicture());
+			Display display = this.getWindow().getWindowManager().getDefaultDisplay();
+			float screenWidth = display.getWidth();
+			float screenHeight = display.getHeight();
+			Bitmap bitmap = CBBitmapFactory.loadScaledBitmap(dish.getPicture(), screenWidth * SCALED_RATE, screenHeight * SCALED_RATE);
 			mImageView.setImageBitmap(bitmap);
 		}
 
