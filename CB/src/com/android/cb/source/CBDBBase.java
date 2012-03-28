@@ -44,6 +44,10 @@ public abstract class CBDBBase {
 		execSQL(true,sqls);
 	}
 
+	public void flush() {
+		SQLiteDatabase.releaseMemory();
+	}
+
 	synchronized public Cursor select(String sql) {
 		Cursor res = null;
 
@@ -78,9 +82,6 @@ public abstract class CBDBBase {
 	}
 
 	public boolean open() {
-		if (mDB.isOpen())
-			return true;
-
 		if (mDBPath == null)
 			return false;
 
@@ -99,6 +100,8 @@ public abstract class CBDBBase {
 	public void close() {
 		if (mDB == null)
 			return;
+
+		flush();
 
 		if (mDB.isOpen()) {
 			mDB.close();

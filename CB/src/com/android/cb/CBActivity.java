@@ -1,5 +1,8 @@
 package com.android.cb;
 
+import java.io.File;
+
+import com.android.cb.source.CBDB;
 import com.android.cb.source.CBPathWalker;
 import com.android.cb.support.CBDish;
 import com.android.cb.support.CBId;
@@ -10,6 +13,7 @@ import com.android.cb.support.CBOrder;
 import com.android.cb.view.GridMenuView;
 import com.android.cb.view.SingleMenuView;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -35,6 +39,9 @@ public class CBActivity extends Activity {
 		testingMenuEnginePrepare();
 
 		mLayoutMain = (LinearLayout) findViewById(R.id.mainview);
+
+		// testing for db
+		testDB();
 
 		// testing for singleview
 //		mSingleView = new SingleMenuView(this);
@@ -114,6 +121,16 @@ public class CBActivity extends Activity {
 		}
 
 		return super.onKeyDown(keyCode, event);
+	}
+
+	private void testDB() {
+		File dbDir = getDir("db", Context.MODE_PRIVATE);
+		dbDir.mkdirs();
+		File dbFile = new File(dbDir, "cbdb.sqllite");
+		Log.d("-DB-", "DB created on " + dbFile.getAbsolutePath());
+		CBDB db = new CBDB(dbFile.getAbsolutePath());
+
+		db.close();
 	}
 
 }
