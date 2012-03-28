@@ -130,6 +130,13 @@ public class CBActivity extends Activity {
 		Log.d("-DB-", "DB created on " + dbFile.getAbsolutePath());
 		CBDB db = new CBDB(dbFile.getAbsolutePath());
 
+//		db.addMenuItemsToDB(mMenuEngine.getMenuSet());
+
+		CBMenuItemsSet set = db.loadMenuItemsSet();
+		for (int i = 0; i < set.count(); ++i) {
+			Log.d("-DB-", "item loaded: " + set.get(i).getDish().getPicture());
+		}
+
 		db.close();
 	}
 

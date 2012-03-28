@@ -182,4 +182,16 @@ public class CBTagsSet implements CBIFSetHandler<String> {
 
 		return -1;
 	}
+
+	public String toString(String splitor) {
+		String res = new String();
+		for (int i = 0; i < mTagsList.size(); ++i) {
+			String tag = mTagsList.get(i);
+			if (i > 0 && i != mTagsList.size() - 1)
+				res += splitor;
+			res += tag;
+		}
+
+		return res;
+	}
 }
