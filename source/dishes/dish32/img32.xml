@@ -1,0 +1,14 @@
+<dish>
+	<id>32</id>
+	<name>img32</name>
+	<price>0.0</price>
+	<tags>
+		<tag>even</tag>
+		<tag>test</tag>
+	</tags>
+	<score>0.0</score>
+	<summary>summary of img32.jpg</summary>
+	<detail>this is the detail of img32.jpg</detail>
+	<thumb>img32.jpg</thumb>
+	<picture>img32.jpg</picture>
+</dish>
