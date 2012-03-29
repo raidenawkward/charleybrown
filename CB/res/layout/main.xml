@@ -4,4 +4,11 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
+    <com.android.cb.view.CBButtonsGroup
+		android:id="@+id/buttonGroup"
+		android:padding="0px"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:orientation="vertical">
+    </com.android.cb.view.CBButtonsGroup>
 </LinearLayout>

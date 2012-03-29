@@ -7,6 +7,8 @@ import com.android.cb.support.CBMenuEngine;
 import com.android.cb.support.CBMenuItem;
 import com.android.cb.support.CBMenuItemsSet;
 import com.android.cb.support.CBOrder;
+import com.android.cb.view.CBButton;
+import com.android.cb.view.CBButtonsGroup;
 import com.android.cb.view.GridMenuView;
 import com.android.cb.view.SingleMenuView;
 import android.app.Activity;
@@ -42,10 +44,13 @@ public class CBActivity extends Activity {
 //		mLayoutMain.addView(mSingleView);
 
 		// testing for gridview
-		mGridView = new GridMenuView(this);
-		mGridView.setMenuItemSet(mMenuEngine.getMenuSet());
-		mGridView.setMenuItemSet(mMenuEngine.getMenuItemsSetWithTag(sCurrentTag));
-		mLayoutMain.addView(mGridView);
+//		mGridView = new GridMenuView(this);
+//		mGridView.setMenuItemSet(mMenuEngine.getMenuSet());
+//		mGridView.setMenuItemSet(mMenuEngine.getMenuItemsSetWithTag(sCurrentTag));
+//		mLayoutMain.addView(mGridView);
+
+		// testing for buttongroup
+		testButtonGroup();
     }
 
     private void testingMenuEnginePrepare() {
@@ -98,6 +103,16 @@ public class CBActivity extends Activity {
 		CBPathWalker walker = new CBPathWalker(new TestPathWalker());
 		walker.setRoot("/sdcard");
 		walker.go();
+	}
+
+	private void testButtonGroup() {
+		CBButtonsGroup buttonGroup = (CBButtonsGroup) this.findViewById(R.id.buttonGroup);
+
+		for (int i = 0; i < 6; ++i) {
+			CBButton button = new CBButton(this, R.drawable.button_orange, R.drawable.button_gray);
+			button.setText("this is button " + i + "with a long name");
+			buttonGroup.addButton(button);
+		}
 	}
 
 	private static String sCurrentTag = "odd";
