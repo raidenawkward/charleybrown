@@ -93,31 +93,5 @@ public class CBActivity extends Activity {
 //		walker.setRoot("/sdcard");
 //		walker.go();
 //	}
-//
-//	private void testButtonGroup() {
-//		CBButtonsGroup buttonGroup = (CBButtonsGroup) this.findViewById(R.id.buttonsGroup);
-//
-//		for (int i = 0; i < 6; ++i) {
-//			CBButton button = new CBButton(buttonGroup.getContext(), R.drawable.button_orange, R.drawable.button_gray);
-//			button.setText("this is button " + i + "with a long name");
-//			buttonGroup.addButton(button);
-//		}
-//	}
-//
-//	private static String sCurrentTag = "odd";
-//	@Override
-//	public boolean onKeyDown(int keyCode, KeyEvent event) {
-//		switch(keyCode) {
-//		case KeyEvent.KEYCODE_MENU:
-//			if (sCurrentTag == "odd")
-//				sCurrentTag = "even";
-//			else
-//				sCurrentTag = "odd";
-//			mGridView.setMenuItemSet(mMenuEngine.getMenuItemsSetWithTag(sCurrentTag));
-//			break;
-//		}
-//
-//		return super.onKeyDown(keyCode, event);
-//	}
 
 }

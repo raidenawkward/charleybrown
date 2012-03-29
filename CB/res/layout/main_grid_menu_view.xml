@@ -9,17 +9,18 @@
         android:id="@+id/linearLayout_content"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_height="fill_parent" >
 
 	    <LinearLayout
 	        android:id="@+id/linearLayout_left"
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content" >
+	        android:gravity="left"
+	        android:layout_width="wrap_content"
+	        android:layout_height="fill_parent" >
 
 	        <com.android.cb.view.CBButtonsGroup
 	            android:id="@+id/buttonsGroup"
 	            android:orientation="vertical"
-	            android:layout_width="wrap_content"
+	            android:layout_width="300px"
 	            android:layout_height="fill_parent" >
 	        </com.android.cb.view.CBButtonsGroup>
 
@@ -27,6 +28,7 @@
 
 	    <LinearLayout
 	            android:id="@+id/linearLayout_right"
+	            android:gravity="right"
 	            android:layout_width="wrap_content"
 	            android:layout_height="fill_parent" >
 	        <com.android.cb.view.GridMenuView

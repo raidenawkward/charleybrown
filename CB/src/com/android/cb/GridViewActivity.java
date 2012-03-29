@@ -86,7 +86,7 @@ public class GridViewActivity extends Activity {
 
 		for (int i = 0; i < 6; ++i) {
 			CBButton button = new CBButton(mButtonsGruop.getContext(), R.drawable.button_orange, R.drawable.button_gray);
-			button.setText("this is button " + i + "with a long name");
+			button.setText("this is button " + i);
 			mButtonsGruop.addButton(button);
 		}
 	}
