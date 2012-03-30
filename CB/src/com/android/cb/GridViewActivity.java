@@ -15,6 +15,7 @@ import com.android.cb.support.CBOrder;
 import com.android.cb.view.CBButton;
 import com.android.cb.view.CBButtonsGroup;
 import com.android.cb.view.GridMenuView;
+import com.android.cb.view.LaunchingDialog;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -26,11 +27,12 @@ import android.view.WindowManager;
  *
  * @Description grid style activity
  */
-public class GridViewActivity extends Activity implements CBButtonsGroup.Callback {
+public class GridViewActivity extends Activity implements CBButtonsGroup.Callback, LaunchingDialog.Callback {
 
 	private CBMenuEngine mMenuEngine;
 	private GridMenuView mGridView;
 	private CBButtonsGroup mButtonsGruop;
+	private LaunchingDialog mLaunchingDialog;
 
 	public GridViewActivity() {
 		super();
@@ -40,6 +42,9 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+
+		showLaunchingDialog();
+
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -95,16 +100,40 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 	private void initGridMenuView() {
 		mGridView = (GridMenuView) this.findViewById(R.id.gridMenuView);
 		mGridView.setMenuItemSet(mMenuEngine.getMenuSet());
-//		mGridView.setMenuItemSet(mMenuEngine.getMenuItemsSetWithTag(sCurrentTag));
 	}
 
-	public boolean onButtonClicked(int index) {
+	public boolean onButtonInGroupClicked(int index) {
 		switch (index) {
 		default:
 			break;
 		}
+//		mGridView.setMenuItemSet(mMenuEngine.getMenuItemsSetWithTag(sCurrentTag));
+		return true;
+	}
+
+	private void showLaunchingDialog() {
+		if (mLaunchingDialog == null)
+			mLaunchingDialog = new LaunchingDialog(this);
+		mLaunchingDialog.setCallback(this);
+		mLaunchingDialog.show();
+		mLaunchingDialog.start();
+	}
+
+	private static int sTimes = 12;
+	public boolean onLaunchingTick() {
+		if (--sTimes < 0) {
+			return false;
+		}
 
 		return true;
+	}
+
+	private static String sLaunchingText = "Launching";
+	public String getCurrentLaunchingText() {
+		sLaunchingText += ".";
+		if (sLaunchingText.length() > 12)
+			sLaunchingText = "Launching";
+		return sLaunchingText;
 	}
 
 }

@@ -28,7 +28,7 @@ public class CBButtonsGroup extends LinearLayout {
 	 * others in group would be turned off
 	 */
 	public interface Callback {
-		public boolean onButtonClicked(int index);
+		public boolean onButtonInGroupClicked(int index);
 	}
 
 	private Callback mCallback = null;
@@ -52,7 +52,7 @@ public class CBButtonsGroup extends LinearLayout {
 			if (CBButtonsGroup.this.mCallback == null)
 				turnButtonOn(mIndex);
 			else {
-				if (CBButtonsGroup.this.mCallback.onButtonClicked(mIndex)) {
+				if (CBButtonsGroup.this.mCallback.onButtonInGroupClicked(mIndex)) {
 					turnButtonOn(mIndex);
 				}
 			}
