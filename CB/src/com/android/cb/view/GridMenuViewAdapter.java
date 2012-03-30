@@ -25,7 +25,7 @@ import com.android.cb.support.CBMenuItem;
  *
  * @Description grid menu view adapter, used in GridMenuView
  */
-public class GridMenuViewAdapter extends CBListViewAdapter {
+public class GridMenuViewAdapter extends CBListViewAdapterBase {
 
 	private GridMenuView mMenuView;
 	private LayoutInflater mInflater;
@@ -40,7 +40,7 @@ public class GridMenuViewAdapter extends CBListViewAdapter {
 		setAsyncImageLoader(loader);
 
 		setListView(gridMenuView);
-		setListItemSource(R.layout.listitem_base);
+		setListItemSource(R.layout.menuitem_grid_base);
 
 		mInflater = LayoutInflater.from(mMenuView.getContext());
 	}

@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.util.Log;
 import android.view.View;
 
@@ -249,31 +248,17 @@ public class SingleImageCache extends CBCache<Bitmap> {
 
 	}
 
-	public static Bitmap scaleBitmapToFixView(Bitmap bitmap, float fixWidth, float fixHeight) {
-		if (bitmap == null)
-			return null;
-
-		float scaleW = fixWidth / (float)bitmap.getWidth();
-		float scaleH = fixHeight / (float)bitmap.getHeight();
-
-		Matrix matrix = new Matrix();
-
-		matrix.postScale(scaleW, scaleH);
-
-		return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-	}
-
 	private Bitmap loadBitmap(String path) {
 		if (path == null)
 			return null;
 
-		Bitmap bitmap = scaleBitmapToFixView(BitmapFactory.decodeFile(path), mBitmapWidth, mBitmapHeight);
+		Bitmap bitmap = CBBitmapFactory.loadScaledBitmap(path, mBitmapWidth, mBitmapHeight);
 		return bitmap;
 	}
 
 	@SuppressWarnings("unused")
 	private Bitmap loadBitmap(int resourceId) {
-		Bitmap bitmap = scaleBitmapToFixView(BitmapFactory.decodeResource(mView.getResources(), resourceId), mBitmapWidth, mBitmapHeight);
+		Bitmap bitmap = CBBitmapFactory.scaleBitmapToFixView(BitmapFactory.decodeResource(mView.getResources(), resourceId), mBitmapWidth, mBitmapHeight);
 		return bitmap;
 	}
 

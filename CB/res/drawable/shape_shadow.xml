@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" >
+    <!-- use 'android:background="@drawable/shape_shadow" to activate" -->
+	<gradient
+		android:shape="rectangle"
+		android:startColor="#552e3436"
+		android:centerColor="#55d3d7cf"
+		android:endColor="#55ffffff"
+		android:angle="180"/>
+	<padding android:left="0dp" android:top="0dp"
+            android:right="10dp" android:bottom="20dp"/>
+    <corners android:radius="2dp"/>
+</shape>

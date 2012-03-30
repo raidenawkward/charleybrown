@@ -6,17 +6,9 @@
  */
 package com.android.cb.view;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.ref.SoftReference;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.BitmapFactory.Options;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
@@ -61,7 +53,7 @@ public class CBAsyncImageLoader {
             public void run() {
 			for (int i = 0; i < mImagePathList.size(); ++i) {
 				String path = mImagePathList.get(i);
-				Drawable drawable = loadDrawableFromLocalUrl(path);
+				Drawable drawable = CBBitmapFactory.loadDrawableFromLocalUrl(path);
 				mImagesMap.put(path, new SoftReference<Drawable>(drawable));
 //				mImagesMap.put(path, drawable);
 				}
@@ -97,7 +89,7 @@ public class CBAsyncImageLoader {
         new Thread() {
             @Override
             public void run() {
-                Drawable drawable = loadDrawableFromLocalUrl(imageUrl);
+                Drawable drawable = CBBitmapFactory.loadDrawableFromLocalUrl(imageUrl);
                 mImagesMap.put(imageUrl, new SoftReference<Drawable>(drawable));
 //                mImagesMap.put(imageUrl, drawable);
                 Message message = handler.obtainMessage(0, drawable);
@@ -108,36 +100,12 @@ public class CBAsyncImageLoader {
 		return null;
 	}
 
-	protected static Drawable loadDrawableFromLocalUrl(String imageUrl) {
-		Options options=new Options();
-        options.inSampleSize=2;
-        Bitmap bitmap=BitmapFactory.decodeFile(imageUrl, options);
-
-        Drawable drawable=new BitmapDrawable(bitmap);
-
-        return drawable;
-	}
-
-	protected static Drawable loadDrawableFromNetUrl(String imageUrl) {
-		URL url;
-		InputStream iStream = null;
-		try {
-			url = new URL(imageUrl);
-			iStream = (InputStream) url.getContent();
-		} catch (MalformedURLException e1) {
-			e1.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		Drawable drawable = Drawable.createFromStream(iStream, "src");
-		return drawable;
-	}
-
 	public synchronized void cacheImage(String path) {
 		if (mImagesMap.containsKey(path))
 			return;
 
-		Drawable drawable = loadDrawableFromLocalUrl(path);
+		Drawable drawable = CBBitmapFactory.loadDrawableFromLocalUrl(path);
         mImagesMap.put(path, new SoftReference<Drawable>(drawable));
 	}
+
 }

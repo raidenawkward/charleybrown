@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainview"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/linearLayout_content"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent" >
+
+	    <LinearLayout
+	        android:id="@+id/linearLayout_left"
+	        android:gravity="left"
+	        android:layout_width="wrap_content"
+	        android:layout_height="fill_parent" >
+
+	        <com.android.cb.view.CBButtonsGroup
+	            android:id="@+id/buttonsGroup"
+	            android:orientation="vertical"
+	            android:layout_width="300px"
+	            android:layout_height="fill_parent" >
+	        </com.android.cb.view.CBButtonsGroup>
+
+	    </LinearLayout> <!-- left layout -->
+
+	    <LinearLayout
+	            android:id="@+id/linearLayout_right"
+	            android:gravity="right"
+	            android:layout_width="wrap_content"
+	            android:layout_height="fill_parent" >
+	        <com.android.cb.view.GridMenuView
+	            android:id="@+id/gridMenuView"
+	            android:layout_width="wrap_content"
+	            android:layout_height="fill_parent" >
+	        </com.android.cb.view.GridMenuView>
+	    </LinearLayout> <!-- right layout -->
+
+	</LinearLayout> <!-- content layout -->
+</LinearLayout> <!-- root layout -->

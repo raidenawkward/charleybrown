@@ -24,12 +24,12 @@ import android.widget.ImageView;
  *
  * @Description base menu list view adapter
  */
-public abstract class CBListViewAdapter extends ArrayAdapter<CBMenuItem> {
+public abstract class CBListViewAdapterBase extends ArrayAdapter<CBMenuItem> {
 	private AbsListView mListView = null;
     private CBAsyncImageLoader mAsyncImageLoader = null;
     private int mListItemSource = 0;
 
-	public CBListViewAdapter(Context context,
+	public CBListViewAdapterBase(Context context,
 			List<CBMenuItem> objects) {
 		super(context, 0, objects);
 
