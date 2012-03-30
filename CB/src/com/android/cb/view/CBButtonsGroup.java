@@ -32,6 +32,9 @@ public class CBButtonsGroup extends LinearLayout {
 	}
 
 	private Callback mCallback = null;
+	private int mButtonsMargins = -1;
+	private LinearLayout.LayoutParams mButtonLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,
+															LinearLayout.LayoutParams.WRAP_CONTENT);
 	private ArrayList<CBButton> mButtonList = new ArrayList<CBButton>();
 
 	private class CBButtonClickedListener implements Button.OnClickListener {
@@ -73,12 +76,22 @@ public class CBButtonsGroup extends LinearLayout {
 
 		int index = mButtonList.size() - 1;
 		button.setOnClickListener(new CBButtonClickedListener(index, button));
+
+		if (mButtonsMargins >= 0) {
+			mButtonLayoutParams.setMargins(mButtonsMargins,
+							mButtonsMargins,
+							mButtonsMargins,
+							mButtonsMargins);
+			button.setLayoutParams(mButtonLayoutParams);
+		}
+
 		this.addView(button);
 
 		return true;
 	}
 
 	public boolean removeButton(CBButton button) {
+		this.removeView(button);
 		return mButtonList.remove(button);
 	}
 
@@ -86,6 +99,7 @@ public class CBButtonsGroup extends LinearLayout {
 		if (index < 0 || index >= mButtonList.size())
 			return false;
 
+		this.removeViewAt(index);
 		return (mButtonList.remove(index) != null);
 	}
 
@@ -110,6 +124,22 @@ public class CBButtonsGroup extends LinearLayout {
 				button.turnOff();
 			}
 		} // for
+	}
+
+	public void setButtonsMargins(int buttonsMargins) {
+		this.mButtonsMargins = buttonsMargins;
+	}
+
+	public int getButtonsMargins() {
+		return mButtonsMargins;
+	}
+
+	public void setButtonLayoutParams(LinearLayout.LayoutParams buttonLayoutParams) {
+		this.mButtonLayoutParams = buttonLayoutParams;
+	}
+
+	public LinearLayout.LayoutParams getButtonLayoutParams() {
+		return mButtonLayoutParams;
 	}
 
 }

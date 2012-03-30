@@ -26,7 +26,7 @@ import android.view.WindowManager;
  *
  * @Description grid style activity
  */
-public class GridViewActivity extends Activity {
+public class GridViewActivity extends Activity implements CBButtonsGroup.Callback {
 
 	private CBMenuEngine mMenuEngine;
 	private GridMenuView mGridView;
@@ -83,6 +83,7 @@ public class GridViewActivity extends Activity {
 
 	private void initButtonGroups() {
 		mButtonsGruop = (CBButtonsGroup) this.findViewById(R.id.buttonsGroup);
+		mButtonsGruop.setButtonsMargins(5);
 
 		for (int i = 0; i < 6; ++i) {
 			CBButton button = new CBButton(mButtonsGruop.getContext(), R.drawable.button_orange, R.drawable.button_gray);
@@ -95,6 +96,15 @@ public class GridViewActivity extends Activity {
 		mGridView = (GridMenuView) this.findViewById(R.id.gridMenuView);
 		mGridView.setMenuItemSet(mMenuEngine.getMenuSet());
 //		mGridView.setMenuItemSet(mMenuEngine.getMenuItemsSetWithTag(sCurrentTag));
+	}
+
+	public boolean onButtonClicked(int index) {
+		switch (index) {
+		default:
+			break;
+		}
+
+		return true;
 	}
 
 }
