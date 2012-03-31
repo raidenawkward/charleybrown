@@ -9,6 +9,8 @@ package com.android.cb.view;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.widget.Button;
 
 /**
@@ -101,6 +103,23 @@ public class CBButton extends Button {
 
 	public void setDrawableOff(int id) {
 		this.mDrawableOff = getResources().getDrawable(id);
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		switch (event.getAction()) {
+		case MotionEvent.ACTION_DOWN:
+			if (mDrawableOn != null)
+				this.setBackgroundDrawable(mDrawableOn);
+			break;
+		case MotionEvent.ACTION_MOVE:
+			break;
+		case MotionEvent.ACTION_OUTSIDE:
+		case MotionEvent.ACTION_UP:
+			this.setBackgroundDrawable(mDrawableCurrent);
+			break;
+		}
+		return super.onTouchEvent(event);
 	}
 
 }
