@@ -8,7 +8,6 @@ package com.android.cb.view;
 
 import com.android.cb.R;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,7 +20,7 @@ import android.widget.TextView;
  *
  * @Description launching dialog
  */
-public class LaunchingDialog extends Dialog {
+public class LaunchingDialog extends CBBaseDialog {
 
 	/**
 	 * @Description will be called every tick

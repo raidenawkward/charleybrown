@@ -14,6 +14,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +26,16 @@ import android.widget.TextView;
  */
 public class PreviewDialog extends CBBaseDialog {
 
+	public interface Callback {
+		/**
+		 * @Description asked whether there is a next action on item
+		 * @param item
+		 * @return boolean if returns false, this dialog would be
+		 * dismissed
+		 */
+		public boolean onFurtherView(CBMenuItem item);
+	}
+
 	public final float SCALED_RATE = 0.60f;
 
 	private ImageView mImageView = null;
@@ -31,6 +43,9 @@ public class PreviewDialog extends CBBaseDialog {
 	private TextView mTextViewPrice = null;
 	private TextView mTextViewSummary = null;
 	private TextView mTextViewDetail = null;
+
+	Callback mCallback = null;
+	CBMenuItem mMenuItem = null;
 
 	public PreviewDialog(Context context, boolean cancelable,
 			OnCancelListener cancelListener) {
@@ -51,6 +66,17 @@ public class PreviewDialog extends CBBaseDialog {
 	private void initView() {
 		this.setContentView(R.layout.preview_dialog);
 		mImageView = (ImageView) this.findViewById(R.id.imageView);
+		mImageView.setOnTouchListener(new View.OnTouchListener() {
+			public boolean onTouch(View v, MotionEvent event) {
+				if (mCallback != null) {
+					if (!mCallback.onFurtherView(mMenuItem)) {
+						PreviewDialog.this.dismiss();
+					}
+				}
+				return false;
+			}
+		});
+
 		mTextViewName = (TextView) this.findViewById(R.id.textView_name);
 		mTextViewPrice = (TextView) this.findViewById(R.id.textView_price);
 //		mTextViewSummary = (TextView) this.findViewById(R.id.textView_summary);
@@ -64,9 +90,19 @@ public class PreviewDialog extends CBBaseDialog {
 		super.onCreate(savedInstanceState);
 	}
 
+	public void setCallback(Callback callback) {
+		mCallback = callback;
+	}
+
+	public CBMenuItem getMenuItem() {
+		return mMenuItem;
+	}
+
 	public void setMenuItem(CBMenuItem item) {
+		mMenuItem = item;
 		if (item == null)
 			return;
+
 		CBDish dish = item.getDish();
 		if (dish == null)
 			return;

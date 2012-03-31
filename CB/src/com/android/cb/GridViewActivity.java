@@ -32,6 +32,7 @@ import android.view.WindowManager;
  */
 public class GridViewActivity extends Activity implements CBButtonsGroup.Callback,
 	LaunchingDialog.Callback,
+	PreviewDialog.Callback,
 	GridMenuView.Callback {
 
 	private CBMenuEngine mMenuEngine;
@@ -138,6 +139,7 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 
 	public void onItemClicked(CBMenuItem item) {
 		PreviewDialog dialog = new PreviewDialog(this);
+		dialog.setCallback(this);
 		dialog.setMenuItem(item);
 		dialog.show();
 	}
@@ -152,7 +154,7 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 		protected Boolean doInBackground(Object... params) {
 			// fake delay for engine initializing
 			try {
-				Thread.sleep(10000);
+				Thread.sleep(5000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -180,5 +182,9 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 		}
 
 	} // InitAsyncTask
+
+	public boolean onFurtherView(CBMenuItem item) {
+		return false;
+	}
 
 }
