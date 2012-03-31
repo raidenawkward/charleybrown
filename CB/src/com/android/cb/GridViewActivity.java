@@ -18,6 +18,7 @@ import com.android.cb.view.CBButtonsGroup;
 import com.android.cb.view.GridMenuView;
 import com.android.cb.view.LaunchingDialog;
 import com.android.cb.view.PreviewDialog;
+import com.android.cb.view.SingleMenuViewDialog;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -33,6 +34,7 @@ import android.view.WindowManager;
 public class GridViewActivity extends Activity implements CBButtonsGroup.Callback,
 	LaunchingDialog.Callback,
 	PreviewDialog.Callback,
+	SingleMenuViewDialog.Callback,
 	GridMenuView.Callback {
 
 	private CBMenuEngine mMenuEngine;
@@ -183,7 +185,15 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 
 	} // InitAsyncTask
 
-	public boolean onFurtherView(CBMenuItem item) {
+	public boolean onImageClickedInPreviewDialog(CBMenuItem item) {
+		SingleMenuViewDialog dialog = new SingleMenuViewDialog(this);
+		dialog.setMenuItem(item);
+		dialog.setCallback(this);
+		dialog.show();
+		return true;
+	}
+
+	public boolean onMenuItemClickedOnSingleMenuDialog(CBMenuItem item) {
 		return false;
 	}
 

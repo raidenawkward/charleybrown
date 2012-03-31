@@ -4,7 +4,7 @@
   android:gravity="center"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent">
-	  <com.android.cb.view.SingleMenuView android:id="@+id/singleMenuView"
+	  <ImageView android:id="@+id/imageView"
 		  android:layout_width="fill_parent"
-		  android:layout_height="fill_parent"></com.android.cb.view.SingleMenuView>
+		  android:layout_height="fill_parent"></ImageView>
 </LinearLayout>

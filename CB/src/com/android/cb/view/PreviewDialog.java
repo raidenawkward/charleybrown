@@ -33,7 +33,7 @@ public class PreviewDialog extends CBBaseDialog {
 		 * @return boolean if returns false, this dialog would be
 		 * dismissed
 		 */
-		public boolean onFurtherView(CBMenuItem item);
+		public boolean onImageClickedInPreviewDialog(CBMenuItem item);
 	}
 
 	public final float SCALED_RATE = 0.60f;
@@ -64,12 +64,12 @@ public class PreviewDialog extends CBBaseDialog {
 	}
 
 	private void initView() {
-		this.setContentView(R.layout.preview_dialog);
+		this.setContentView(R.layout.dialog_preview);
 		mImageView = (ImageView) this.findViewById(R.id.imageView);
 		mImageView.setOnTouchListener(new View.OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
 				if (mCallback != null) {
-					if (!mCallback.onFurtherView(mMenuItem)) {
+					if (!mCallback.onImageClickedInPreviewDialog(mMenuItem)) {
 						PreviewDialog.this.dismiss();
 					}
 				}
