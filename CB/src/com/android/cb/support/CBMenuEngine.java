@@ -177,6 +177,10 @@ public class CBMenuEngine {
 		return (getIndexedItemCheckedCount(index) != 0);
 	}
 
+	public int getMenuItemIndex(CBMenuItem item) {
+		return this.mMenuItemsSet.getIndexOf(item);
+	}
+
 	/**
 	 * @Description order / disorder item
 	 * @param index

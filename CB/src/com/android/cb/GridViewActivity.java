@@ -75,7 +75,6 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 			}
 
 			CBMenuItem item = new CBMenuItem();
-			item.setIndex(i - 1);
 			item.setDish(dish);
 			set.add(item);
 		}

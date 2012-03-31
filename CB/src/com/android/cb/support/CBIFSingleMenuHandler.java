@@ -12,6 +12,8 @@ package com.android.cb.support;
  * @Description ctrls for single menu UI
  */
 public interface CBIFSingleMenuHandler extends CBIFCommonMenuHandler {
+	public boolean gotoItem(int index);
+	public boolean gotoItem(CBMenuItem item);
 	public boolean gotoNextItem();
 	public boolean gotoPrevItem();
 	public void currentItemTouched();

@@ -9,6 +9,7 @@ package com.android.cb.view;
 import com.android.cb.support.CBIFCommonMenuHandler;
 import com.android.cb.support.CBIFSingleMenuHandler;
 import com.android.cb.support.CBMenuEngine;
+import com.android.cb.support.CBMenuItem;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -34,6 +35,8 @@ import android.widget.Toast;
 public class SingleMenuView extends SurfaceView implements
 	SurfaceHolder.Callback, OnGestureListener, android.view.View.OnTouchListener,
 	CBIFCommonMenuHandler, CBIFSingleMenuHandler {
+
+	private boolean mPageTurningEnabled = true;
 
 	/** for paging directions */
 	private final int PAGING_UNKNOWN = 0;
@@ -80,21 +83,29 @@ public class SingleMenuView extends SurfaceView implements
 	}
 
 	public void surfaceChanged(SurfaceHolder arg0, int arg1, int arg2, int arg3) {
-		mImageCache.updateViewInfo();
+		if (this.mPageTurningEnabled)
+			mImageCache.updateViewInfo();
 	}
 
 	public void surfaceCreated(SurfaceHolder arg0) {
-		mImageCache.updateViewInfo();
-		mSplitLineX = 0;
-		draw2SpitedBitmaps(mSplitLineX,mImageCache.getCurrent(),mImageCache.getCurrent());
+		if (this.mPageTurningEnabled) {
+			mImageCache.updateViewInfo();
+			mSplitLineX = 0;
+
+			drawBitmap(mImageCache.getCurrent());
+		} else {
+			drawBitmap(CBBitmapFactory.loadBitmap(mMenuEngine.getCurrentItem().getDish().getPicture()));
+		}
 	}
 
 	public void surfaceDestroyed(SurfaceHolder arg0) {
-		mImageCache.clear();
+		if (this.mPageTurningEnabled) {
+			mImageCache.clear();
+		}
 	}
 
 	public boolean onDown(MotionEvent e) {
-		return true; // 'true' means a lot ...
+		return mPageTurningEnabled;
 	}
 
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
@@ -176,10 +187,34 @@ public class SingleMenuView extends SurfaceView implements
 	}
 
 	/**
+	 * @Description draw one bitmap to view
+	 * @param @param bitmap
+	 * @return boolean
+	 */
+	protected boolean drawBitmap(Bitmap bitmap) {
+		synchronized (mSurfaceHolder) {
+			Canvas canvas = mSurfaceHolder.lockCanvas();
+			canvas.drawColor(Color.BLACK);
+
+			if (bitmap == null)
+				return false;
+
+			Paint paint = new Paint();
+			canvas.drawBitmap(bitmap,
+						new Rect(0,0,bitmap.getWidth(),bitmap.getHeight()),
+						new Rect(0,0,this.getWidth(),this.getHeight()), paint);
+
+			onDraw(canvas);
+			mSurfaceHolder.unlockCanvasAndPost(canvas);
+		}
+
+		return true;
+	}
+	/**
 	 * @Description draw 2 bitmaps with position offset separator
-	 * @param @param offset x separator position
-	 * @param @param pl bitmap in left
-	 * @param @param pr bitmap in right
+	 * @param offset x separator position
+	 * @param pl bitmap in left
+	 * @param pr bitmap in right
 	 * @return boolean if the pictures have been scrolled
 	 */
 	protected boolean draw2SpitedBitmaps(float offset, Bitmap pl, Bitmap pr) {
@@ -285,6 +320,19 @@ public class SingleMenuView extends SurfaceView implements
 		return true;
 	}
 
+	public boolean isPageTurningEnabled() {
+		return mPageTurningEnabled;
+	}
+
+	public void setPageTurningEnabled(boolean enabled) {
+		mPageTurningEnabled = enabled;
+
+		if (this.mPageTurningEnabled) {
+			mImageCache.updateViewInfo();
+			mSplitLineX = 0;
+		}
+	}
+
 	public CBMenuEngine getMenuEngine() {
 		return mMenuEngine;
 	}
@@ -295,6 +343,9 @@ public class SingleMenuView extends SurfaceView implements
 	}
 
 	public boolean gotoNextItem() {
+		if (mPageTurningEnabled == false)
+			return false;
+
 		boolean res = doPagingAnimation(getWidth() / 2, PAGING_NEXT, PAGING_ACCELERATE);
 		if (res)
 			mImageCache.moveToNext();
@@ -303,10 +354,28 @@ public class SingleMenuView extends SurfaceView implements
 	}
 
 	public boolean gotoPrevItem() {
+		if (mPageTurningEnabled == false)
+			return false;
+
 		boolean res = doPagingAnimation(getWidth() / 2, PAGING_PREV, PAGING_ACCELERATE);
 		if (res)
 			mImageCache.moveToPrev();
 		return res;
+	}
+
+	public boolean gotoItem(int index) {
+		if (mPageTurningEnabled) {
+			return mImageCache.moveTo(index);
+		} else {
+			return mMenuEngine.gotoPos(index);
+		}
+	}
+
+	public boolean gotoItem(CBMenuItem item) {
+		if (item == null)
+			return false;
+
+		return gotoItem(mMenuEngine.getMenuItemIndex(item));
 	}
 
 	public void currentItemTouched() {
@@ -318,7 +387,7 @@ public class SingleMenuView extends SurfaceView implements
 			start = "Ordered: ";
 			mMenuEngine.orderCurrentItem(1);
 		}
-		Toast.makeText(this.getContext(), new String(start + mImageCache.getCurrentIndexInSet()
+		Toast.makeText(this.getContext(), new String(start + mMenuEngine.getCurrentIndex()
 				+ ", total ordered count: " + mMenuEngine.getTotalItemCheckedCount()), 0).show();
 	}
 
