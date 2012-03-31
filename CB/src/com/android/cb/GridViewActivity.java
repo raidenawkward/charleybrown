@@ -12,6 +12,7 @@ import com.android.cb.support.CBMenuEngine;
 import com.android.cb.support.CBMenuItem;
 import com.android.cb.support.CBMenuItemsSet;
 import com.android.cb.support.CBOrder;
+import com.android.cb.support.CBTagsSet;
 import com.android.cb.view.CBButton;
 import com.android.cb.view.CBButtonsGroup;
 import com.android.cb.view.GridMenuView;
@@ -36,27 +37,24 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 	private GridMenuView mGridView;
 	private CBButtonsGroup mButtonsGruop;
 	private LaunchingDialog mLaunchingDialog;
+	private CBTagsSet mContainedTags;
 
 	public GridViewActivity() {
 		super();
-
-		initMenuEngine();
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		setContentView(R.layout.main_grid_menu_view);
+		super.onCreate(savedInstanceState);
 
 		showLaunchingDialog();
 
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-		setContentView(R.layout.main_grid_menu_view);
-
+		initMenuEngine();
 		initButtonGroups();
 		initGridMenuView();
-
-		super.onCreate(savedInstanceState);
 	}
 
 	private void initMenuEngine() {
@@ -76,6 +74,7 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 			} else {
 				dish.addTag("odd");
 			}
+			dish.addTag("dish");
 
 			CBMenuItem item = new CBMenuItem();
 			item.setDish(dish);
@@ -90,11 +89,13 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 
 	private void initButtonGroups() {
 		mButtonsGruop = (CBButtonsGroup) this.findViewById(R.id.buttonsGroup);
+		mButtonsGruop.setCallback(this);
 		mButtonsGruop.setButtonsMargins(5);
 
-		for (int i = 0; i < 6; ++i) {
+		mContainedTags = mMenuEngine.getContainedTags();
+		for (int i = 0; i < mContainedTags.count(); ++i) {
 			CBButton button = new CBButton(mButtonsGruop.getContext(), R.drawable.button_orange, R.drawable.button_gray);
-			button.setText("this is button " + i);
+			button.setText(mContainedTags.get(i));
 			mButtonsGruop.addButton(button);
 		}
 	}
@@ -105,13 +106,9 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 		mGridView.setCallback(this);
 	}
 
-	public boolean onButtonInGroupClicked(int index) {
-		switch (index) {
-		default:
-			break;
-		}
-//		mGridView.setMenuItemSet(mMenuEngine.getMenuItemsSetWithTag(sCurrentTag));
-		return true;
+	public void onButtonInGroupClicked(int index) {
+		String tagSelected = mContainedTags.get(index);
+		mGridView.setMenuItemSet(mMenuEngine.getMenuItemsSetWithTag(tagSelected));
 	}
 
 	private void showLaunchingDialog() {
