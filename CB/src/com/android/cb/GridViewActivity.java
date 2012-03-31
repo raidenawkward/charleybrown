@@ -16,6 +16,7 @@ import com.android.cb.view.CBButton;
 import com.android.cb.view.CBButtonsGroup;
 import com.android.cb.view.GridMenuView;
 import com.android.cb.view.LaunchingDialog;
+import com.android.cb.view.PreviewDialog;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -27,7 +28,9 @@ import android.view.WindowManager;
  *
  * @Description grid style activity
  */
-public class GridViewActivity extends Activity implements CBButtonsGroup.Callback, LaunchingDialog.Callback {
+public class GridViewActivity extends Activity implements CBButtonsGroup.Callback,
+	LaunchingDialog.Callback,
+	GridMenuView.Callback {
 
 	private CBMenuEngine mMenuEngine;
 	private GridMenuView mGridView;
@@ -99,6 +102,7 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 	private void initGridMenuView() {
 		mGridView = (GridMenuView) this.findViewById(R.id.gridMenuView);
 		mGridView.setMenuItemSet(mMenuEngine.getMenuSet());
+		mGridView.setCallback(this);
 	}
 
 	public boolean onButtonInGroupClicked(int index) {
@@ -133,6 +137,16 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 		if (sLaunchingText.length() > 12)
 			sLaunchingText = "Launching";
 		return sLaunchingText;
+	}
+
+	public void onItemClicked(CBMenuItem item) {
+		PreviewDialog dialog = new PreviewDialog(this);
+		dialog.setMenuItem(item);
+		dialog.show();
+	}
+
+	public boolean onItemLongPressed(CBMenuItem item) {
+		return false;
 	}
 
 }
