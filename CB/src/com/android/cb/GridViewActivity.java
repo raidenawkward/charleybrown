@@ -20,6 +20,7 @@ import com.android.cb.view.LaunchingDialog;
 import com.android.cb.view.PreviewDialog;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
@@ -36,8 +37,10 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 	private CBMenuEngine mMenuEngine;
 	private GridMenuView mGridView;
 	private CBButtonsGroup mButtonsGruop;
-	private LaunchingDialog mLaunchingDialog;
 	private CBTagsSet mContainedTags;
+	private LaunchingDialog mLaunchingDialog = null;
+	private boolean mIsInitDone = false;
+
 
 	public GridViewActivity() {
 		super();
@@ -50,11 +53,8 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 		setContentView(R.layout.main_grid_menu_view);
 		super.onCreate(savedInstanceState);
 
-		showLaunchingDialog();
-
-		initMenuEngine();
-		initButtonGroups();
-		initGridMenuView();
+		InitAsyncTask initTask = new InitAsyncTask();
+		initTask.execute((Object)null);
 	}
 
 	private void initMenuEngine() {
@@ -102,8 +102,13 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 
 	private void initGridMenuView() {
 		mGridView = (GridMenuView) this.findViewById(R.id.gridMenuView);
-		mGridView.setMenuItemSet(mMenuEngine.getMenuSet());
 		mGridView.setCallback(this);
+
+		if (mContainedTags.count() > 0) {
+			mGridView.setMenuItemSet(mMenuEngine.getMenuItemsSetWithTag(mContainedTags.get(0)));
+		} else {
+			mGridView.setMenuItemSet(mMenuEngine.getMenuSet());
+		}
 	}
 
 	public void onButtonInGroupClicked(int index) {
@@ -119,13 +124,8 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 		mLaunchingDialog.start();
 	}
 
-	private static int sTimes = 12;
 	public boolean onLaunchingTick() {
-		if (--sTimes < 0) {
-			return false;
-		}
-
-		return true;
+		return !mIsInitDone;
 	}
 
 	private static String sLaunchingText = "Launching";
@@ -145,5 +145,40 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 	public boolean onItemLongPressed(CBMenuItem item) {
 		return false;
 	}
+
+	private class InitAsyncTask extends AsyncTask<Object, Integer, Boolean> {
+
+		@Override
+		protected Boolean doInBackground(Object... params) {
+			// fake delay for engine initializing
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+			initMenuEngine();
+			return Boolean.TRUE;
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			initButtonGroups();
+			initGridMenuView();
+
+			mIsInitDone = true;
+			if (mLaunchingDialog != null)
+				mLaunchingDialog.dismiss();
+
+			super.onPostExecute(result);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			showLaunchingDialog();
+			super.onPreExecute();
+		}
+
+	} // InitAsyncTask
 
 }
