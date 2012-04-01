@@ -54,44 +54,34 @@ public class CBSystemInfoCollector extends Activity {
         mButtonRetest = new Button(this);
         mButtonRetest.setText(R.string.button_retest);
         mButtonRetest.setOnClickListener(new OnClickListener() {
-
-			@Override
 			public void onClick(View v) {
 				test();
 			}
-        	
         });
+
         mButtonSave = new Button(this);
         mButtonSave.setText(R.string.button_save);
         mButtonSave.setOnClickListener(new OnClickListener() {
 
-			@Override
 			public void onClick(View v) {
 				showPathDialog();
 			}
-        	
         });
 
         mButtonAbout = new Button(this);
         mButtonAbout.setText(R.string.button_about);
         mButtonAbout.setOnClickListener(new OnClickListener() {
-
-			@Override
 			public void onClick(View v) {
 				showAboutDialog();
 			}
-        	
         });
 
         mButtonExit = new Button(this);
         mButtonExit.setText(R.string.button_exit);
         mButtonExit.setOnClickListener(new OnClickListener() {
-
-			@Override
 			public void onClick(View v) {
 				CBSystemInfoCollector.this.finish();
 			}
-
         });
 
         mLayoutButtons.addView(mButtonRetest);
@@ -109,7 +99,6 @@ public class CBSystemInfoCollector extends Activity {
     	mEditPath.setSelection(text.length());
         mListenerSave = new DialogInterface.OnClickListener() {
 
-			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				String path = mEditPath.getText().toString().trim();
 				int res = 0;
@@ -120,7 +109,6 @@ public class CBSystemInfoCollector extends Activity {
 				}
 				Toast.makeText(CBSystemInfoCollector.this, CBSystemInfoCollector.this.getResources().getString(res), 0).show();
 			}
-    		
     	};
 
 		new AlertDialog.Builder(this).setTitle(R.string.dialog_inputTitle).setIcon(
