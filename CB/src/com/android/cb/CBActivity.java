@@ -1,5 +1,7 @@
 package com.android.cb;
 
+import com.android.cb.view.CBValidityChecker;
+
 import android.app.Activity;
 import android.content.Intent;
 
@@ -34,6 +36,10 @@ public class CBActivity extends Activity {
 			}
 
 		});
+
+		if (CBValidityChecker.isValid(this) == false) {
+			buttonStart.setText("Invalid!");
+		}
 
 //		mLayoutMain = (LinearLayout) findViewById(R.id.mainview);
 
