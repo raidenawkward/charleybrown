@@ -6,6 +6,7 @@
  */
 package com.android.cb;
 
+import com.android.cb.source.CBDishesScanner;
 import com.android.cb.support.CBDish;
 import com.android.cb.support.CBId;
 import com.android.cb.support.CBMenuEngine;
@@ -28,6 +29,8 @@ import android.view.WindowManager;
  * @Description grid style activity
  */
 public class GridViewActivity extends Activity implements CBButtonsGroup.Callback, LaunchingDialog.Callback {
+
+	public static final String DISHES_DIR = "/sdcard/dishes";
 
 	private CBMenuEngine mMenuEngine;
 	private GridMenuView mGridView;
@@ -57,6 +60,17 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 	}
 
 	private void initMenuEngine() {
+		CBDishesScanner scanner = new CBDishesScanner(DISHES_DIR);
+		CBMenuItemsSet set = scanner.scan();
+
+		CBOrder order = new CBOrder();
+		mMenuEngine = new CBMenuEngine();
+		mMenuEngine.setMenuSet(set);
+		mMenuEngine.setOrder(order);
+	}
+
+	@SuppressWarnings("unused")
+	private void initTestingMenuEngine() {
 		CBMenuItemsSet set = new CBMenuItemsSet();
 		for (int i = 1; i <= 242; ++i) {
 			CBId id = new CBId();

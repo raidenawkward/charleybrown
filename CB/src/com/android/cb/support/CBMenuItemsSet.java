@@ -141,6 +141,10 @@ public class CBMenuItemsSet implements CBIFSetHandler<CBMenuItem> {
 		return true;
 	}
 
+	public void clear() {
+		mMenuItemList.clear();
+	}
+
 	/**
 	 * @Description judging if item is in set with 'item->dish->id'
 	 * @param @param item
