@@ -7,8 +7,12 @@
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
-    <style name="CBLaunchingDialog">
+    <style name="CBFullScreenView">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
+    </style>
+    <style name="CBLaunchingDialog" parent="CBFullScreenView">
+    </style>
+    <style name="CBSingleViewDialog" parent="CBFullScreenView">
     </style>
 </resources>

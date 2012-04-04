@@ -12,7 +12,6 @@ package com.android.cb.support;
  * @Description logic menu item info set
  */
 public class CBMenuItem {
-	private int mIndex = -1;
 	private CBDish mDish;
 
 	public CBMenuItem() {
@@ -22,14 +21,6 @@ public class CBMenuItem {
 	public CBMenuItem(CBDish dish) {
 		if (dish != null)
 			mDish = dish;
-	}
-
-	public int getIndex() {
-		return mIndex;
-	}
-
-	public void setIndex(int index) {
-		this.mIndex = index;
 	}
 
 	public CBDish getDish() {

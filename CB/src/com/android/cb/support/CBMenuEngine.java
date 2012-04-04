@@ -137,6 +137,22 @@ public class CBMenuEngine {
 		return res;
 	}
 
+	/**
+	 * @Description get tags contained by all dishes in engine source,
+	 * each tag only add once
+	 * @return CBTagsSet
+	 */
+	public CBTagsSet getContainedTags() {
+		CBTagsSet set = new CBTagsSet();
+
+		for (int i = 0; i < mMenuItemsSet.count(); ++i) {
+			CBMenuItem item = mMenuItemsSet.get(i);
+			set.combine(item.getDish().getTagsSet());
+		}
+
+		return set;
+	}
+
 
 	/** methods for orders **/
 
@@ -175,6 +191,10 @@ public class CBMenuEngine {
 
 	public boolean isIndexedItemChecked(int index) {
 		return (getIndexedItemCheckedCount(index) != 0);
+	}
+
+	public int getMenuItemIndex(CBMenuItem item) {
+		return this.mMenuItemsSet.getIndexOf(item);
 	}
 
 	/**

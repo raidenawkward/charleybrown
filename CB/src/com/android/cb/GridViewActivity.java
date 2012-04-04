@@ -13,12 +13,16 @@ import com.android.cb.support.CBMenuEngine;
 import com.android.cb.support.CBMenuItem;
 import com.android.cb.support.CBMenuItemsSet;
 import com.android.cb.support.CBOrder;
+import com.android.cb.support.CBTagsSet;
 import com.android.cb.view.CBButton;
 import com.android.cb.view.CBButtonsGroup;
 import com.android.cb.view.GridMenuView;
 import com.android.cb.view.LaunchingDialog;
+import com.android.cb.view.PreviewDialog;
+import com.android.cb.view.SingleMenuViewDialog;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
@@ -28,35 +32,35 @@ import android.view.WindowManager;
  *
  * @Description grid style activity
  */
-public class GridViewActivity extends Activity implements CBButtonsGroup.Callback, LaunchingDialog.Callback {
+public class GridViewActivity extends Activity implements CBButtonsGroup.Callback,
+	LaunchingDialog.Callback,
+	PreviewDialog.Callback,
+	SingleMenuViewDialog.Callback,
+	GridMenuView.Callback {
 
 	public static final String DISHES_DIR = "/sdcard/dishes";
 
 	private CBMenuEngine mMenuEngine;
 	private GridMenuView mGridView;
 	private CBButtonsGroup mButtonsGruop;
-	private LaunchingDialog mLaunchingDialog;
+	private CBTagsSet mContainedTags;
+	private LaunchingDialog mLaunchingDialog = null;
+	private boolean mIsInitDone = false;
+
 
 	public GridViewActivity() {
 		super();
-
-		initMenuEngine();
 	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-
-		showLaunchingDialog();
-
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
 		setContentView(R.layout.main_grid_menu_view);
-
-		initButtonGroups();
-		initGridMenuView();
-
 		super.onCreate(savedInstanceState);
+
+		InitAsyncTask initTask = new InitAsyncTask();
+		initTask.execute((Object)null);
 	}
 
 	private void initMenuEngine() {
@@ -87,9 +91,9 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 			} else {
 				dish.addTag("odd");
 			}
+			dish.addTag("dish");
 
 			CBMenuItem item = new CBMenuItem();
-			item.setIndex(i - 1);
 			item.setDish(dish);
 			set.add(item);
 		}
@@ -102,27 +106,31 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 
 	private void initButtonGroups() {
 		mButtonsGruop = (CBButtonsGroup) this.findViewById(R.id.buttonsGroup);
+		mButtonsGruop.setCallback(this);
 		mButtonsGruop.setButtonsMargins(5);
 
-		for (int i = 0; i < 6; ++i) {
+		mContainedTags = mMenuEngine.getContainedTags();
+		for (int i = 0; i < mContainedTags.count(); ++i) {
 			CBButton button = new CBButton(mButtonsGruop.getContext(), R.drawable.button_orange, R.drawable.button_gray);
-			button.setText("this is button " + i);
+			button.setText(mContainedTags.get(i));
 			mButtonsGruop.addButton(button);
 		}
 	}
 
 	private void initGridMenuView() {
 		mGridView = (GridMenuView) this.findViewById(R.id.gridMenuView);
-		mGridView.setMenuItemSet(mMenuEngine.getMenuSet());
+		mGridView.setCallback(this);
+
+		if (mContainedTags.count() > 0) {
+			mGridView.setMenuItemSet(mMenuEngine.getMenuItemsSetWithTag(mContainedTags.get(0)));
+		} else {
+			mGridView.setMenuItemSet(mMenuEngine.getMenuSet());
+		}
 	}
 
-	public boolean onButtonInGroupClicked(int index) {
-		switch (index) {
-		default:
-			break;
-		}
-//		mGridView.setMenuItemSet(mMenuEngine.getMenuItemsSetWithTag(sCurrentTag));
-		return true;
+	public void onButtonInGroupClicked(int index) {
+		String tagSelected = mContainedTags.get(index);
+		mGridView.setMenuItemSet(mMenuEngine.getMenuItemsSetWithTag(tagSelected));
 	}
 
 	private void showLaunchingDialog() {
@@ -133,13 +141,8 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 		mLaunchingDialog.start();
 	}
 
-	private static int sTimes = 12;
 	public boolean onLaunchingTick() {
-		if (--sTimes < 0) {
-			return false;
-		}
-
-		return true;
+		return !mIsInitDone;
 	}
 
 	private static String sLaunchingText = "Launching";
@@ -148,6 +151,64 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 		if (sLaunchingText.length() > 12)
 			sLaunchingText = "Launching";
 		return sLaunchingText;
+	}
+
+	public void onItemClicked(CBMenuItem item) {
+		PreviewDialog dialog = new PreviewDialog(this);
+		dialog.setCallback(this);
+		dialog.setMenuItem(item);
+		dialog.show();
+	}
+
+	public boolean onItemLongPressed(CBMenuItem item) {
+		return false;
+	}
+
+	private class InitAsyncTask extends AsyncTask<Object, Integer, Boolean> {
+
+		@Override
+		protected Boolean doInBackground(Object... params) {
+			// fake delay for engine initializing
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+			initMenuEngine();
+			return Boolean.TRUE;
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+			initButtonGroups();
+			initGridMenuView();
+
+			mIsInitDone = true;
+			if (mLaunchingDialog != null)
+				mLaunchingDialog.dismiss();
+
+			super.onPostExecute(result);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			showLaunchingDialog();
+			super.onPreExecute();
+		}
+
+	} // InitAsyncTask
+
+	public boolean onImageClickedInPreviewDialog(CBMenuItem item) {
+		SingleMenuViewDialog dialog = new SingleMenuViewDialog(this);
+		dialog.setMenuItem(item);
+		dialog.setCallback(this);
+		dialog.show();
+		return true;
+	}
+
+	public boolean onMenuItemClickedOnSingleMenuDialog(CBMenuItem item) {
+		return false;
 	}
 
 }

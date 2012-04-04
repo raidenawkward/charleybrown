@@ -88,7 +88,6 @@ public class CBDB extends CBDBBase implements CBIFDishDB {
 
 			CBMenuItem menuItem = new CBMenuItem();
 			menuItem.setDish(dish);
-			menuItem.setIndex(i);
 			res.add(menuItem);
 
 			if (!cursor.moveToNext())
