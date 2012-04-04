@@ -44,7 +44,8 @@ function gen_xml {
 	thumb="$9"
 	picture="${10}"
 
-	echo "<dish>" > $xml
+	echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>" > $xml
+	echo "<dish>" >> $xml
 	echo "	<id>$id</id>" >> $xml
 	echo "	<name>$file_name</name>" >> $xml
 	echo "	<price>$price</price>" >> $xml

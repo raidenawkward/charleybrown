@@ -45,6 +45,11 @@ public class CBDishParser extends CBXmlParser {
 					break;
 				case XmlPullParser.START_TAG://start element parse
 					String name = parser.getName();
+					if (name.equals("dish") || name.equals("tags")) {
+						eventType = parser.next();
+						continue;
+					}
+
 					String value  = parser.nextText();
 					parseDish(name, value);
 					break;
@@ -62,7 +67,7 @@ public class CBDishParser extends CBXmlParser {
 				e.printStackTrace();
 		}
 
-		return false;
+		return true;
 	}
 
 	/**
@@ -107,7 +112,7 @@ public class CBDishParser extends CBXmlParser {
 			else if (name.equalsIgnoreCase("picture")) {
 				mDish.setPicture(value);
 			}			
-		}	// if
+		} // if
 	}
 
 }

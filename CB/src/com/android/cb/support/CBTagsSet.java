@@ -51,7 +51,7 @@ public class CBTagsSet implements CBIFSetHandler<String> {
 			return false;
 
 		for (int i = 0; i < mTagsList.size(); ++i) {
-			if (mTagsList.get(i) == tag)
+			if (mTagsList.get(i).equals(tag))
 				return true;
 		}
 

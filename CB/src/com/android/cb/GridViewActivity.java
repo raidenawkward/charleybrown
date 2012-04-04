@@ -169,11 +169,11 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 		@Override
 		protected Boolean doInBackground(Object... params) {
 			// fake delay for engine initializing
-			try {
-				Thread.sleep(5000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+//			try {
+//				Thread.sleep(5000);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
 
 			initMenuEngine();
 			return Boolean.TRUE;

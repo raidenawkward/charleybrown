@@ -18,6 +18,8 @@ import com.android.cb.support.CBMenuItemsSet;
 public class CBDishesScanner implements CBPathWalker.Callback {
 
 	private final static String STRING_XML_EXT = "xml";
+	private final static String STRING_BACKLASH = "/";
+
 	private CBPathWalker mPathWalker = new CBPathWalker(this);;
 	private String mPath = null;
 	private CBMenuItemsSet mMenuItemsSet = new CBMenuItemsSet();
@@ -44,7 +46,7 @@ public class CBDishesScanner implements CBPathWalker.Callback {
 	 * @return CBMenuItemsSet scan result
 	 */
 	public CBMenuItemsSet scan(String dishesDir) {
-		if (mPath == null)
+		if (dishesDir == null)
 			return mMenuItemsSet;
 
 		clear();
@@ -77,6 +79,14 @@ public class CBDishesScanner implements CBPathWalker.Callback {
 		return indexOfDot >= 0 ? path.substring(indexOfDot + 1) : path;
 	}
 
+	private static String getFileDirFromPath(String path) {
+		if (path == null)
+			return null;
+
+		int indexOfBackash = path.lastIndexOf(STRING_BACKLASH);
+		return indexOfBackash > 0 ? path.substring(0,indexOfBackash + 1) : path;
+	}
+
 	private static boolean fileExists(String path) {
 //		File file = new File(path);
 //		return file.exists();
@@ -100,6 +110,9 @@ public class CBDishesScanner implements CBPathWalker.Callback {
 			return false;
 		if (!fileExists(dish.getPicture()))
 			return false;
+
+		dish.setPicture(getFileDirFromPath(file) + "" + dish.getPicture());
+		dish.setThumb(getFileDirFromPath(file) + dish.getThumb());
 
 		CBMenuItem item = new CBMenuItem(dish);
 		mMenuItemsSet.add(item);
