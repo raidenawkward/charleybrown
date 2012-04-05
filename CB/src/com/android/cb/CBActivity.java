@@ -30,9 +30,7 @@ public class CBActivity extends Activity {
 		buttonStart.setOnClickListener(new Button.OnClickListener() {
 
 			public void onClick(View arg0) {
-				Intent intent = new Intent();
-				intent.setClass(CBActivity.this, GridViewActivity.class);
-				CBActivity.this.startActivity(intent);
+				openGridViewActivity();
 			}
 
 		});
@@ -50,6 +48,12 @@ public class CBActivity extends Activity {
 //		mSingleView = new SingleMenuView(this);
 //		mSingleView.setMenuEngine(mMenuEngine);
 //		mLayoutMain.addView(mSingleView);
+    }
+
+    private void openGridViewActivity() {
+		Intent intent = new Intent();
+		intent.setClass(CBActivity.this, GridViewActivity.class);
+		CBActivity.this.startActivity(intent);
     }
 
 //    private void testingMenuEnginePrepare() {

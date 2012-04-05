@@ -5,5 +5,8 @@
     <string name="preview_price">price:</string>
     <string name="preview_summary">summary:</string>
     <string name="preview_detail">detail:</string>
+    <string name="dishinfo_quit">quit</string>
+    <string name="dishinfo_price_prefix"></string>
+    <string name="dishinfo_price_rear">元</string>
 
 </resources>

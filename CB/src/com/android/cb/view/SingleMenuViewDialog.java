@@ -24,19 +24,10 @@ import android.widget.ImageView;
  *
  * @Description show single image view according to MenuItem
  */
-public class SingleMenuViewDialog extends CBBaseDialog {
-
-	public interface Callback {
-		/**
-		 * @Description be called on image clicked
-		 * @return boolean will close this dialog if this method returns false
-		 */
-		public boolean onMenuItemClickedOnSingleMenuDialog(CBMenuItem item);
-	}
+public class SingleMenuViewDialog extends CBBaseDialog implements DishInfoDialog.Callback {
 
 	private CBMenuItem mMenuItem = null;
 	private ImageView mImageView;
-	private Callback mCallback = null;
 
 	public SingleMenuViewDialog(Context context, boolean cancelable,
 			OnCancelListener cancelListener) {
@@ -60,18 +51,15 @@ public class SingleMenuViewDialog extends CBBaseDialog {
 
 		mImageView.setOnTouchListener(new OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
-				if (mCallback != null) {
-					if (mCallback.onMenuItemClickedOnSingleMenuDialog(mMenuItem) == false) {
-						SingleMenuViewDialog.this.dismiss();
-					}
-				}
+				DishInfoDialog dialog = new DishInfoDialog(SingleMenuViewDialog.this.getContext());
+				dialog.setCallback(SingleMenuViewDialog.this);
+
+				if (mMenuItem != null)
+					dialog.setMenuItem(mMenuItem);
+				dialog.show();
 				return false;
 			}
 		});
-	}
-
-	public void setCallback(Callback callback) {
-		mCallback = callback;
 	}
 
 	public void setMenuItem(CBMenuItem item) {
@@ -90,6 +78,10 @@ public class SingleMenuViewDialog extends CBBaseDialog {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+	}
+
+	public void onQuitFromDishInfoDialog() {
+		this.dismiss();
 	}
 
 }

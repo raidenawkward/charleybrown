@@ -35,7 +35,6 @@ import android.view.WindowManager;
 public class GridViewActivity extends Activity implements CBButtonsGroup.Callback,
 	LaunchingDialog.Callback,
 	PreviewDialog.Callback,
-	SingleMenuViewDialog.Callback,
 	GridMenuView.Callback {
 
 	public static final String DISHES_DIR = "/sdcard/dishes";
@@ -202,13 +201,8 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 	public boolean onImageClickedInPreviewDialog(CBMenuItem item) {
 		SingleMenuViewDialog dialog = new SingleMenuViewDialog(this);
 		dialog.setMenuItem(item);
-		dialog.setCallback(this);
 		dialog.show();
 		return true;
-	}
-
-	public boolean onMenuItemClickedOnSingleMenuDialog(CBMenuItem item) {
-		return false;
 	}
 
 }
