@@ -16,7 +16,8 @@ public final class R {
         public static final int ic_launcher=0x7f020002;
         public static final int img0001=0x7f020003;
         public static final int img0030=0x7f020004;
-        public static final int shape_shadow=0x7f020005;
+        public static final int shape_rectangle_dialog=0x7f020005;
+        public static final int shape_shadow=0x7f020006;
     }
     public static final class id {
         public static final int button_start=0x7f060009;
@@ -56,8 +57,9 @@ public final class R {
     }
     public static final class style {
         public static final int CBBaseDialog=0x7f050000;
-        public static final int CBFullScreenView=0x7f050001;
-        public static final int CBLaunchingDialog=0x7f050002;
-        public static final int CBSingleViewDialog=0x7f050003;
+        public static final int CBFullScreenView=0x7f050002;
+        public static final int CBLaunchingDialog=0x7f050003;
+        public static final int CBSingleViewDialog=0x7f050004;
+        public static final int CBTranslucentDialog=0x7f050001;
     }
 }
