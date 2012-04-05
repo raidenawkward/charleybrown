@@ -204,6 +204,9 @@ public class CBMenuEngine {
 	 * @return boolean
 	 */
 	public boolean orderIndexedItem(int index, int count) {
+		if (mCurrentOrder == null)
+			return false;
+
 		CBMenuItem indexedItem = this.getItem(index);
 		if (indexedItem == null)
 			return false;
@@ -219,6 +222,9 @@ public class CBMenuEngine {
 	}
 
 	public boolean disOrderIndexedItem(int index) {
+		if (mCurrentOrder == null)
+			return false;
+
 		CBMenuItem indexedItem = this.getItem(index);
 		if (indexedItem == null)
 			return false;
@@ -231,11 +237,17 @@ public class CBMenuEngine {
 	}
 
 	public CBTagsSet getConflictedTagSetOfIndexedItem(int index) {
+		if (mCurrentOrder == null)
+			return null;
+
 		CBMenuItem indexedItem = this.getItem(index);
 		return mCurrentOrder.getConflictedTagsSet(indexedItem);
 	}
 
 	public CBTagsSet getConflictedTagSetOfCurrentItem() {
+		if (mCurrentOrder == null)
+			return null;
+
 		return mCurrentOrder.getConflictedTagsSet(getCurrentItem());
 	}
 }

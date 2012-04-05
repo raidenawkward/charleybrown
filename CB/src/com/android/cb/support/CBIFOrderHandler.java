@@ -12,9 +12,13 @@ package com.android.cb.support;
  * @Description order ctrls
  */
 public interface CBIFOrderHandler {
-	public boolean loadRecord(String recordPath);
-	public boolean saveRecord();
-	public boolean addItemToRecord(CBMenuItem item);
-	public boolean removeFromRecord(CBMenuItem item);
-	public boolean removeFromRecord(int index);
+	public boolean loadOrderRecord(String recordPath);
+	public boolean saveOrderRecord();
+	/**
+	 * @Description add or update item record in order
+	 * @return boolean returns false if add or update failed
+	 */
+	public boolean addItemToOrder(CBMenuItem item);
+	public boolean removeItemFromOrder(CBMenuItem item);
+	public boolean removeItemFromOrder(int index);
 }

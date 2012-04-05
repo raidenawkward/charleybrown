@@ -8,6 +8,7 @@ package com.android.cb;
 
 import com.android.cb.source.CBDishesScanner;
 import com.android.cb.support.CBDish;
+import com.android.cb.support.CBIFOrderHandler;
 import com.android.cb.support.CBId;
 import com.android.cb.support.CBMenuEngine;
 import com.android.cb.support.CBMenuItem;
@@ -33,6 +34,7 @@ import android.view.WindowManager;
  */
 public class GridViewActivity extends Activity implements CBButtonsGroup.Callback,
 	LaunchingDialog.Callback,
+	CBIFOrderHandler,
 	GridMenuView.Callback {
 
 	public static final String DISHES_DIR = "/sdcard/dishes";
@@ -153,6 +155,7 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 	public void onItemClicked(CBMenuItem item) {
 		PreviewDialog dialog = new PreviewDialog(this);
 		dialog.setMenuItem(item);
+		dialog.setOrderHandler(this);
 		dialog.show();
 	}
 
@@ -194,5 +197,30 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 		}
 
 	} // InitAsyncTask
+
+	public boolean loadOrderRecord(String recordPath) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean saveOrderRecord() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean addItemToOrder(CBMenuItem item) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean removeItemFromOrder(CBMenuItem item) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean removeItemFromOrder(int index) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }

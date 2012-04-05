@@ -8,6 +8,7 @@ package com.android.cb.view;
 
 import com.android.cb.R;
 import com.android.cb.support.CBDish;
+import com.android.cb.support.CBIFOrderHandler;
 import com.android.cb.support.CBMenuItem;
 
 import android.content.Context;
@@ -26,6 +27,7 @@ import android.widget.ImageView;
  */
 public class SingleMenuViewDialog extends CBBaseDialog implements DishInfoDialog.Callback {
 
+	private CBIFOrderHandler mOrderHandler = null;
 	private CBMenuItem mMenuItem = null;
 	private ImageView mImageView;
 
@@ -86,6 +88,14 @@ public class SingleMenuViewDialog extends CBBaseDialog implements DishInfoDialog
 
 	public void onQuitFromDishInfoDialog() {
 		this.dismiss();
+	}
+
+	public CBIFOrderHandler getOrderHandler() {
+		return mOrderHandler;
+	}
+
+	public void setOrderHandler(CBIFOrderHandler orderHandler) {
+		this.mOrderHandler = orderHandler;
 	}
 
 }

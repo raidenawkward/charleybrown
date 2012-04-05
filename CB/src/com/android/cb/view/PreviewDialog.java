@@ -8,6 +8,7 @@ package com.android.cb.view;
 
 import com.android.cb.R;
 import com.android.cb.support.CBDish;
+import com.android.cb.support.CBIFOrderHandler;
 import com.android.cb.support.CBMenuItem;
 
 import android.content.Context;
@@ -37,7 +38,8 @@ public class PreviewDialog extends CBBaseDialog {
 	private CBDialogButton mButtonDetail = null;
 	private CBDialogButton mButtonQuit = null;
 
-	CBMenuItem mMenuItem = null;
+	private CBIFOrderHandler mOrderHandler = null;
+	private CBMenuItem mMenuItem = null;
 
 	public PreviewDialog(Context context, boolean cancelable,
 			OnCancelListener cancelListener) {
@@ -97,6 +99,7 @@ public class PreviewDialog extends CBBaseDialog {
 
 		SingleMenuViewDialog dialog = new SingleMenuViewDialog(PreviewDialog.this.getContext());
 		dialog.setMenuItem(mMenuItem);
+		dialog.setOrderHandler(mOrderHandler);
 		dialog.show();
 		dialog.showDishInfoDialog();
 	}
@@ -139,6 +142,14 @@ public class PreviewDialog extends CBBaseDialog {
 		if (mTextViewDetail != null) {
 			mTextViewDetail.setText(dish.getDetail());
 		}
+	}
+
+	public CBIFOrderHandler getOrderHandler() {
+		return mOrderHandler;
+	}
+
+	public void setOrderHandler(CBIFOrderHandler orderHandler) {
+		this.mOrderHandler = orderHandler;
 	}
 
 }
