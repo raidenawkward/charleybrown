@@ -36,10 +36,6 @@
 				android:layout_width="wrap_content"
 				android:orientation="horizontal"
 				android:gravity="left">
-					<TextView android:text="@string/preview_name"
-						android:textSize="18px"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"></TextView>
 					<TextView android:id="@+id/textView_name"
 						android:text="name"
 						android:textSize="18px"
@@ -52,10 +48,6 @@
 				android:layout_width="wrap_content"
 				android:orientation="horizontal"
 				android:gravity="right">
-					<TextView android:text="@string/preview_price"
-						android:textSize="18px"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"></TextView>
 					<TextView android:id="@+id/textView_price"
 						android:text="name"
 						android:textSize="18px"
@@ -68,15 +60,26 @@
 		android:layout_width="wrap_content"
 		android:orientation="horizontal"
 		android:gravity="left">
-			<TextView android:text="@string/preview_detail"
-				android:textSize="18px"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"></TextView>
-			<TextView android:id="@+id/textView_detail"
+			<TextView android:id="@+id/textView_summary"
 				android:text="name"
 				android:textSize="18px"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"></TextView>
+		</LinearLayout>
+		<LinearLayout
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"
+		android:orientation="horizontal"
+		android:gravity="right">
+			<Button android:id="@+id/button_detail"
+			android:text="@string/preview_detail"
+			android:layout_height="wrap_content"
+			android:layout_width="100px"/>
+
+			<Button android:id="@+id/button_quit"
+			android:text="@string/preview_quit"
+			android:layout_height="wrap_content"
+			android:layout_width="100px"/>
 		</LinearLayout>
 	</LinearLayout>
 </LinearLayout>

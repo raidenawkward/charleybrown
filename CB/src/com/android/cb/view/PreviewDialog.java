@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,16 +27,6 @@ import android.widget.TextView;
  */
 public class PreviewDialog extends CBBaseDialog {
 
-	public interface Callback {
-		/**
-		 * @Description asked whether there is a next action on item
-		 * @param item
-		 * @return boolean if returns false, this dialog would be
-		 * dismissed
-		 */
-		public boolean onImageClickedInPreviewDialog(CBMenuItem item);
-	}
-
 	public final float SCALED_RATE = 0.60f;
 
 	private ImageView mImageView = null;
@@ -43,8 +34,9 @@ public class PreviewDialog extends CBBaseDialog {
 	private TextView mTextViewPrice = null;
 	private TextView mTextViewSummary = null;
 	private TextView mTextViewDetail = null;
+	private Button mButtonDetail = null;
+	private Button mButtonQuit = null;
 
-	Callback mCallback = null;
 	CBMenuItem mMenuItem = null;
 
 	public PreviewDialog(Context context, boolean cancelable,
@@ -68,19 +60,28 @@ public class PreviewDialog extends CBBaseDialog {
 		mImageView = (ImageView) this.findViewById(R.id.imageView);
 		mImageView.setOnTouchListener(new View.OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
-				if (mCallback != null) {
-					if (!mCallback.onImageClickedInPreviewDialog(mMenuItem)) {
-						PreviewDialog.this.dismiss();
-					}
-				}
 				return false;
 			}
 		});
 
 		mTextViewName = (TextView) this.findViewById(R.id.textView_name);
 		mTextViewPrice = (TextView) this.findViewById(R.id.textView_price);
-//		mTextViewSummary = (TextView) this.findViewById(R.id.textView_summary);
-		mTextViewDetail = (TextView) this.findViewById(R.id.textView_detail);
+		mTextViewSummary = (TextView) this.findViewById(R.id.textView_summary);
+//		mTextViewDetail = (TextView) this.findViewById(R.id.textView_detail);
+
+		mButtonDetail = (Button) this.findViewById(R.id.button_detail);
+		mButtonDetail.setOnClickListener(new Button.OnClickListener() {
+			public void onClick(View v) {
+				showSingleMenuViewDialog();
+			}
+		});
+
+		mButtonQuit = (Button) this.findViewById(R.id.button_quit);
+		mButtonQuit.setOnClickListener(new Button.OnClickListener() {
+			public void onClick(View v) {
+				PreviewDialog.this.dismiss();
+			}
+		});
 
 		setCanceledOnTouchOutside(true);
 	}
@@ -90,8 +91,14 @@ public class PreviewDialog extends CBBaseDialog {
 		super.onCreate(savedInstanceState);
 	}
 
-	public void setCallback(Callback callback) {
-		mCallback = callback;
+	private void showSingleMenuViewDialog() {
+		if (mMenuItem == null)
+			return;
+
+		SingleMenuViewDialog dialog = new SingleMenuViewDialog(PreviewDialog.this.getContext());
+		dialog.setMenuItem(mMenuItem);
+		dialog.show();
+		dialog.showDishInfoDialog();
 	}
 
 	public CBMenuItem getMenuItem() {
@@ -120,11 +127,13 @@ public class PreviewDialog extends CBBaseDialog {
 		}
 
 		if (mTextViewPrice != null) {
-			mTextViewPrice.setText(String.valueOf(dish.getPrice()));
+			mTextViewPrice.setText(getContext().getResources().getString(R.string.preview_price_prefix)
+						+ String.valueOf(dish.getPrice())
+						+ getContext().getResources().getString(R.string.preview_price_rear));
 		}
 
 		if (mTextViewSummary != null) {
-			mTextViewDetail.setText(dish.getSummarize());
+			mTextViewSummary.setText(dish.getSummarize());
 		}
 
 		if (mTextViewDetail != null) {

@@ -19,7 +19,6 @@ import com.android.cb.view.CBButtonsGroup;
 import com.android.cb.view.GridMenuView;
 import com.android.cb.view.LaunchingDialog;
 import com.android.cb.view.PreviewDialog;
-import com.android.cb.view.SingleMenuViewDialog;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -34,7 +33,6 @@ import android.view.WindowManager;
  */
 public class GridViewActivity extends Activity implements CBButtonsGroup.Callback,
 	LaunchingDialog.Callback,
-	PreviewDialog.Callback,
 	GridMenuView.Callback {
 
 	public static final String DISHES_DIR = "/sdcard/dishes";
@@ -154,7 +152,6 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 
 	public void onItemClicked(CBMenuItem item) {
 		PreviewDialog dialog = new PreviewDialog(this);
-		dialog.setCallback(this);
 		dialog.setMenuItem(item);
 		dialog.show();
 	}
@@ -197,13 +194,5 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 		}
 
 	} // InitAsyncTask
-
-	public boolean onImageClickedInPreviewDialog(CBMenuItem item) {
-		SingleMenuViewDialog dialog = new SingleMenuViewDialog(this);
-		dialog.setMenuItem(item);
-		dialog.show();
-		dialog.showDishInfoDialog();
-		return true;
-	}
 
 }
