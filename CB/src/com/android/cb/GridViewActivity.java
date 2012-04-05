@@ -202,6 +202,7 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 		SingleMenuViewDialog dialog = new SingleMenuViewDialog(this);
 		dialog.setMenuItem(item);
 		dialog.show();
+		dialog.showDishInfoDialog();
 		return true;
 	}
 

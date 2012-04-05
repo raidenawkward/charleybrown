@@ -51,12 +51,7 @@ public class SingleMenuViewDialog extends CBBaseDialog implements DishInfoDialog
 
 		mImageView.setOnTouchListener(new OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
-				DishInfoDialog dialog = new DishInfoDialog(SingleMenuViewDialog.this.getContext());
-				dialog.setCallback(SingleMenuViewDialog.this);
-
-				if (mMenuItem != null)
-					dialog.setMenuItem(mMenuItem);
-				dialog.show();
+				showDishInfoDialog();
 				return false;
 			}
 		});
@@ -78,6 +73,15 @@ public class SingleMenuViewDialog extends CBBaseDialog implements DishInfoDialog
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+	}
+
+	public void showDishInfoDialog() {
+		DishInfoDialog dialog = new DishInfoDialog(SingleMenuViewDialog.this.getContext());
+		dialog.setCallback(SingleMenuViewDialog.this);
+
+		if (mMenuItem != null)
+			dialog.setMenuItem(mMenuItem);
+		dialog.show();
 	}
 
 	public void onQuitFromDishInfoDialog() {
