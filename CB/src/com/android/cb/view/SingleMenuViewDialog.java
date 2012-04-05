@@ -98,4 +98,12 @@ public class SingleMenuViewDialog extends CBBaseDialog implements DishInfoDialog
 		this.mOrderHandler = orderHandler;
 	}
 
+	public void onItemOrderedFromDishInfoDialog() {
+		showOrderingDialog();
+	}
+
+	public void showOrderingDialog() {
+
+	}
+
 }

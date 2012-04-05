@@ -71,6 +71,12 @@
 		android:layout_width="fill_parent"
 		android:orientation="horizontal"
 		android:gravity="right">
+			<com.android.cb.view.CBDialogButton android:id="@+id/button_order"
+			android:text="@string/preview_order"
+			android:layout_marginRight="5px"
+			android:layout_height="wrap_content"
+			android:layout_width="100px"/>
+
 			<com.android.cb.view.CBDialogButton android:id="@+id/button_detail"
 			android:text="@string/preview_detail"
 			android:layout_marginRight="5px"

@@ -28,6 +28,7 @@ public class DishInfoDialog extends CBBaseDialog {
 
 	public interface Callback {
 		public void onQuitFromDishInfoDialog();
+		public void onItemOrderedFromDishInfoDialog();
 	}
 
 	private Callback mCallback = null;
@@ -40,6 +41,7 @@ public class DishInfoDialog extends CBBaseDialog {
 	private TextView mViewSummary;
 	private TextView mViewDetail;
 	private CBDialogButton mButtonQuit;
+	private CBDialogButton mButtonOrder;
 
 	public DishInfoDialog(Context context, boolean cancelable,
 			OnCancelListener cancelListener) {
@@ -75,8 +77,16 @@ public class DishInfoDialog extends CBBaseDialog {
 		mViewPrice = (TextView) this.findViewById(R.id.view_price);
 		mViewSummary = (TextView) this.findViewById(R.id.view_summary);
 		mViewDetail = (TextView) this.findViewById(R.id.view_detail);
-		mButtonQuit = (CBDialogButton) this.findViewById(R.id.button_quit);
 
+		mButtonOrder = (CBDialogButton) this.findViewById(R.id.button_order);
+		mButtonOrder.setOnClickListener(new Button.OnClickListener() {
+			public void onClick(View v) {
+				if (mCallback != null)
+					mCallback.onItemOrderedFromDishInfoDialog();
+			}
+		});
+
+		mButtonQuit = (CBDialogButton) this.findViewById(R.id.button_quit);
 		mButtonQuit.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
 				if (mCallback != null)

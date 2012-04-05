@@ -21,4 +21,9 @@ public interface CBIFOrderHandler {
 	public boolean addItemToOrder(CBMenuItem item);
 	public boolean removeItemFromOrder(CBMenuItem item);
 	public boolean removeItemFromOrder(int index);
+	/**
+	 * @Description get the ordered count if item
+	 * @return int returns 0 if item is null
+	 */
+	public int getItemOrederedCount(CBMenuItem item);
 }

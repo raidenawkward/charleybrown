@@ -223,4 +223,9 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 		return false;
 	}
 
+	public int getItemOrederedCount(CBMenuItem item) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

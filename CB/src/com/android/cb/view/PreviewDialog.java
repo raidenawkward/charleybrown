@@ -35,6 +35,7 @@ public class PreviewDialog extends CBBaseDialog {
 	private TextView mTextViewPrice = null;
 	private TextView mTextViewSummary = null;
 	private TextView mTextViewDetail = null;
+	private CBDialogButton mButtonOrder = null;
 	private CBDialogButton mButtonDetail = null;
 	private CBDialogButton mButtonQuit = null;
 
@@ -70,6 +71,13 @@ public class PreviewDialog extends CBBaseDialog {
 		mTextViewPrice = (TextView) this.findViewById(R.id.textView_price);
 		mTextViewSummary = (TextView) this.findViewById(R.id.textView_summary);
 //		mTextViewDetail = (TextView) this.findViewById(R.id.textView_detail);
+
+		mButtonOrder = (CBDialogButton) this.findViewById(R.id.button_order);
+		mButtonOrder.setOnClickListener(new Button.OnClickListener() {
+			public void onClick(View v) {
+				showOrdingDialog();
+			}
+		});
 
 		mButtonDetail = (CBDialogButton) this.findViewById(R.id.button_detail);
 		mButtonDetail.setOnClickListener(new Button.OnClickListener() {
@@ -150,6 +158,10 @@ public class PreviewDialog extends CBBaseDialog {
 
 	public void setOrderHandler(CBIFOrderHandler orderHandler) {
 		this.mOrderHandler = orderHandler;
+	}
+
+	public void showOrdingDialog() {
+
 	}
 
 }

@@ -3,9 +3,11 @@
     <string name="app_name">CB</string>
     <string name="preview_detail">详细内容</string>
     <string name="preview_quit">返回</string>
-    <string name="dishinfo_quit">返回</string>
+    <string name="preview_order">加入菜单</string>
     <string name="preview_price_prefix"></string>
     <string name="preview_price_rear">元</string>
+    <string name="dishinfo_quit">返回</string>
+    <string name="dishinfo_order">加入菜单</string>
     <string name="dishinfo_price_prefix"></string>
     <string name="dishinfo_price_rear">元</string>
 
