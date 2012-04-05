@@ -34,8 +34,8 @@ public class PreviewDialog extends CBBaseDialog {
 	private TextView mTextViewPrice = null;
 	private TextView mTextViewSummary = null;
 	private TextView mTextViewDetail = null;
-	private Button mButtonDetail = null;
-	private Button mButtonQuit = null;
+	private CBDialogButton mButtonDetail = null;
+	private CBDialogButton mButtonQuit = null;
 
 	CBMenuItem mMenuItem = null;
 
@@ -69,14 +69,14 @@ public class PreviewDialog extends CBBaseDialog {
 		mTextViewSummary = (TextView) this.findViewById(R.id.textView_summary);
 //		mTextViewDetail = (TextView) this.findViewById(R.id.textView_detail);
 
-		mButtonDetail = (Button) this.findViewById(R.id.button_detail);
+		mButtonDetail = (CBDialogButton) this.findViewById(R.id.button_detail);
 		mButtonDetail.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
 				showSingleMenuViewDialog();
 			}
 		});
 
-		mButtonQuit = (Button) this.findViewById(R.id.button_quit);
+		mButtonQuit = (CBDialogButton) this.findViewById(R.id.button_quit);
 		mButtonQuit.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
 				PreviewDialog.this.dismiss();

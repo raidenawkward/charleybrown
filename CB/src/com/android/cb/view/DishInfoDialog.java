@@ -39,7 +39,7 @@ public class DishInfoDialog extends CBBaseDialog {
 	private TextView mViewPrice;
 	private TextView mViewSummary;
 	private TextView mViewDetail;
-	private Button mButtonQuit;
+	private CBDialogButton mButtonQuit;
 
 	public DishInfoDialog(Context context, boolean cancelable,
 			OnCancelListener cancelListener) {
@@ -75,7 +75,7 @@ public class DishInfoDialog extends CBBaseDialog {
 		mViewPrice = (TextView) this.findViewById(R.id.view_price);
 		mViewSummary = (TextView) this.findViewById(R.id.view_summary);
 		mViewDetail = (TextView) this.findViewById(R.id.view_detail);
-		mButtonQuit = (Button) this.findViewById(R.id.button_quit);
+		mButtonQuit = (CBDialogButton) this.findViewById(R.id.button_quit);
 
 		mButtonQuit.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {

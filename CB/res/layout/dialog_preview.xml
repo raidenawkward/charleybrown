@@ -71,12 +71,13 @@
 		android:layout_width="fill_parent"
 		android:orientation="horizontal"
 		android:gravity="right">
-			<Button android:id="@+id/button_detail"
+			<com.android.cb.view.CBDialogButton android:id="@+id/button_detail"
 			android:text="@string/preview_detail"
+			android:layout_marginRight="5px"
 			android:layout_height="wrap_content"
 			android:layout_width="100px"/>
 
-			<Button android:id="@+id/button_quit"
+			<com.android.cb.view.CBDialogButton android:id="@+id/button_quit"
 			android:text="@string/preview_quit"
 			android:layout_height="wrap_content"
 			android:layout_width="100px"/>

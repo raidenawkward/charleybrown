@@ -75,7 +75,7 @@
 	android:gravity="right"
 	android:layout_height="wrap_content"
 	android:layout_width="fill_parent">
-		<Button android:id="@+id/button_quit"
+		<com.android.cb.view.CBDialogButton android:id="@+id/button_quit"
 		android:text="@string/dishinfo_quit"
 		android:layout_height="wrap_content"
 		android:layout_width="100px"/>
