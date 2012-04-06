@@ -19,13 +19,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 /**
  * @author raiden
  *
  * @Description show single image view according to MenuItem
  */
-public class SingleMenuViewDialog extends CBBaseDialog implements DishInfoDialog.Callback {
+public class SingleMenuViewDialog extends CBBaseDialog implements DishInfoDialog.Callback,
+		OrderingDialog.Callback {
 
 	private CBIFOrderHandler mOrderHandler = null;
 	private CBMenuItem mMenuItem = null;
@@ -103,7 +105,23 @@ public class SingleMenuViewDialog extends CBBaseDialog implements DishInfoDialog
 	}
 
 	public void showOrderingDialog() {
+		OrderingDialog dialog = new OrderingDialog(this.getContext());
+		dialog.setOrderHandler(mOrderHandler);
+		dialog.setMenuItem(mMenuItem);
+		dialog.setCallback(this);
+		dialog.show();
+	}
 
+	public void onItemAddingToOrder(boolean succeed) {
+		int stringId = (succeed ? R.string.ordering_adding_succeed : R.string.ordering_adding_failed);
+		String str = this.getContext().getResources().getString(stringId);
+		Toast.makeText(this.getContext(), str, 0).show();
+	}
+
+	public void onItemDeletingFromOrder(boolean succeed) {
+		int stringId = (succeed ? R.string.ordering_deleting_succeed : R.string.ordering_deleting_falied);
+		String str = this.getContext().getResources().getString(stringId);
+		Toast.makeText(this.getContext(), str, 0).show();
 	}
 
 }
