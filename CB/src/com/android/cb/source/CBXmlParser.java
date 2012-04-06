@@ -6,6 +6,13 @@
  */
 package com.android.cb.source;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
+
+import org.xmlpull.v1.XmlPullParser;
+
+import android.util.Xml;
+
 /**
  * @author raiden
  *
@@ -13,6 +20,13 @@ package com.android.cb.source;
  */
 public abstract class CBXmlParser {
 
+	public interface Callback {
+		public void onStartDocument();
+		public void onTagWithValueDetected(String tag, String value);
+		public void onEndDocument();
+	}
+
+	private Callback mCallback = null;
 	private String mFile;
 
 	public CBXmlParser() {
@@ -35,6 +49,62 @@ public abstract class CBXmlParser {
 	 * @Description do parse action
 	 * @return boolean
 	 */
-	public abstract boolean parse();
+	public boolean parse() {
+		XmlPullParser parser = Xml.newPullParser();
+		CBXmlParser.Callback callback = getCallback();
+
+		try {
+			InputStream inStream = new FileInputStream(getFile());
+			parser.setInput(inStream, "UTF-8");
+			int eventType = parser.getEventType();
+			while (eventType != XmlPullParser.END_DOCUMENT) {
+				switch (eventType) {
+				case XmlPullParser.START_DOCUMENT:
+					if (callback != null) {
+						callback.onStartDocument();
+					}
+					break;
+				case XmlPullParser.START_TAG:
+					String name = parser.getName();
+
+					eventType = parser.next();
+					while(eventType == XmlPullParser.IGNORABLE_WHITESPACE) {
+						eventType = parser.next();
+					}
+
+					if (eventType == XmlPullParser.TEXT) {
+						if (callback != null) {
+							String value  = parser.getText();
+							callback.onTagWithValueDetected(name, value);
+						}
+					} else
+						continue;
+
+					break;
+				case XmlPullParser.END_TAG:
+					if (callback != null) {
+						callback.onEndDocument();
+					}
+					break;
+				}
+
+				eventType = parser.next();
+			} // while
+
+			inStream.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+		}
+
+		return true;
+	}
+
+	public void setCallback(Callback callback) {
+		this.mCallback = callback;
+	}
+
+	public Callback getCallback() {
+		return mCallback;
+	}
 
 }

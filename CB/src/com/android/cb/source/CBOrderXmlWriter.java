@@ -21,7 +21,7 @@ public class CBOrderXmlWriter {
 	public static final String TAG_CUSTOMER = "Customer";
 	public static final String TAG_ID = "Id";
 	public static final String TAG_DISABLED_TAGS = "DisabledTags";
-	public static final String TAG_TAG = "Tag";
+	public static final String TAG_DISABLED_TAG = "DisabledTag";
 	public static final String TAG_DISCOUNT = "Discount";
 	public static final String TAG_CREATED_TIME = "CreatedTime";
 	public static final String TAG_SUBMIT_TIME = "SubmitTime";
@@ -49,7 +49,7 @@ public class CBOrderXmlWriter {
 		CBTagsSet disabledTagsSet = order.getDisabledTags();
 		for (int i = 0; i < disabledTagsSet.count(); ++i) {
 			String tag = disabledTagsSet.get(i);
-			writter.writeOneLineTags(TAG_TAG, null, tag, 2);
+			writter.writeOneLineTags(TAG_DISABLED_TAG, null, tag, 2);
 		}
 		writter.writeEndTag(TAG_DISABLED_TAGS, 1);
 

@@ -223,6 +223,11 @@ public class CBOrder {
 		this.mCustomer = customer;
 	}
 
+	public void addDisabledTag(String tag) {
+		if (mDisabledTags != null || tag != null)
+			mDisabledTags.add(tag);
+	}
+
 	public CBTagsSet getDisabledTags() {
 		return mDisabledTags;
 	}
