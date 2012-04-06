@@ -19,7 +19,7 @@
 		android:gravity="left">
 		<TextView android:id="@+id/view_name"
 			android:textStyle="bold"
-			android:text="name"
+			android:text=""
 			android:textSize="24px"
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent"/>
@@ -39,13 +39,14 @@
 				android:layout_width="75px"/>
 
 			<EditText android:id="@+id/edit_count"
+			    android:focusable="false"
 				android:text="1"
 				android:textSize="24px"
 				android:textStyle="bold"
 				android:gravity="center"
 				android:layout_centerInParent="true"
-				android:layout_marginRight="5px"
-				android:layout_marginLeft="5px"
+				android:layout_marginRight="15px"
+				android:layout_marginLeft="15px"
 				android:layout_width="75px"
 				android:layout_height="wrap_content" />
 
@@ -64,19 +65,18 @@
 		android:gravity="center">
 			<com.android.cb.view.CBDialogButton android:id="@+id/button_ok"
 				android:text="@string/ordering_ok"
-				android:layout_marginRight="5px"
 				android:layout_height="wrap_content"
 				android:layout_width="100px"/>
 
 			<com.android.cb.view.CBDialogButton android:id="@+id/button_clear"
 				android:text="@string/ordering_clear"
-				android:layout_marginRight="5px"
+				android:layout_marginRight="15px"
+				android:layout_marginLeft="15px"
 				android:layout_height="wrap_content"
 				android:layout_width="100px"/>
 
 			<com.android.cb.view.CBDialogButton android:id="@+id/button_quit"
 				android:text="@string/ordering_quit"
-				android:layout_marginLeft="5px"
 				android:layout_height="wrap_content"
 				android:layout_width="100px"/>
 		</LinearLayout>
