@@ -200,7 +200,8 @@ public class CBMenuEngine {
 	/**
 	 * @Description order / disorder item
 	 * @param index
-	 * @param count if count equals 0, item will be removed
+	 * @param count if item exists, item will be updated, or if
+	 * count <= 0, item will be removed
 	 * @return boolean
 	 */
 	public boolean orderIndexedItem(int index, int count) {

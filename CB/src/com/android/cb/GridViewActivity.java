@@ -198,6 +198,14 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 
 	} // InitAsyncTask
 
+	public boolean loadOrderRecord(CBOrder order) {
+		if (order == null)
+			return false;
+
+		mMenuEngine.setOrder(order);
+		return true;
+	}
+
 	public boolean loadOrderRecord(String recordPath) {
 		// TODO Auto-generated method stub
 		return false;
@@ -208,24 +216,29 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 		return false;
 	}
 
-	public boolean addItemToOrder(CBMenuItem item) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean addItemToOrder(CBMenuItem item, int count) {
+		if (item == null || count <= 0)
+			return false;
+
+		int index = mMenuEngine.getMenuItemIndex(item);
+		if (index < 0)
+			return false;
+
+		return mMenuEngine.orderIndexedItem(index, count);
 	}
 
 	public boolean removeItemFromOrder(CBMenuItem item) {
-		// TODO Auto-generated method stub
-		return false;
+		int index = mMenuEngine.getMenuItemIndex(item);
+		return mMenuEngine.disOrderIndexedItem(index);
 	}
 
 	public boolean removeItemFromOrder(int index) {
-		// TODO Auto-generated method stub
-		return false;
+		return mMenuEngine.disOrderIndexedItem(index);
 	}
 
 	public int getItemOrederedCount(CBMenuItem item) {
-		// TODO Auto-generated method stub
-		return 0;
+		int index = mMenuEngine.getMenuItemIndex(item);
+		return mMenuEngine.getIndexedItemCheckedCount(index);
 	}
 
 }
