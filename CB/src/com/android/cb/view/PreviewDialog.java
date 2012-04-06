@@ -20,13 +20,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * @author raiden
  *
  * @Description dialog with image preview and dish detail
  */
-public class PreviewDialog extends CBBaseDialog {
+public class PreviewDialog extends CBBaseDialog implements OrderingDialog.Callback {
 
 	public final float SCALED_RATE = 0.60f;
 
@@ -161,7 +162,23 @@ public class PreviewDialog extends CBBaseDialog {
 	}
 
 	public void showOrdingDialog() {
+		OrderingDialog dialog = new OrderingDialog(this.getContext());
+		dialog.setOrderHandler(mOrderHandler);
+		dialog.setMenuItem(mMenuItem);
+		dialog.setCallback(this);
+		dialog.show();
+	}
 
+	public void onItemAddingToOrder(boolean succeed) {
+		int stringId = (succeed ? R.string.ordering_adding_succeed : R.string.ordering_adding_failed);
+		String str = this.getContext().getResources().getString(stringId);
+		Toast.makeText(this.getContext(), str, 0).show();
+	}
+
+	public void onItemDeletingFromOrder(boolean succeed) {
+		int stringId = (succeed ? R.string.ordering_deleting_succeed : R.string.ordering_deleting_falied);
+		String str = this.getContext().getResources().getString(stringId);
+		Toast.makeText(this.getContext(), str, 0).show();
 	}
 
 }

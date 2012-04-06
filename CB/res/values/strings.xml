@@ -15,5 +15,8 @@
     <string name="ordering_increase">+</string>
     <string name="ordering_decrease">-</string>
     <string name="ordering_clear">清零</string>
-
+    <string name="ordering_adding_succeed">添加成功</string>
+    <string name="ordering_adding_failed">添加失败</string>
+    <string name="ordering_deleting_succeed">删除成功</string>
+    <string name="ordering_deleting_falied">删除失败</string>
 </resources>

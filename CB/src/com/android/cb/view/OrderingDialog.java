@@ -26,8 +26,15 @@ public class OrderingDialog extends CBBaseDialog {
 
 	public static final int MAX_ITEM_COUNT = 50;
 
+	public interface Callback {
+		public void onItemAddingToOrder(boolean succeed);
+		public void onItemDeletingFromOrder(boolean succeed);
+	}
+
+	Callback mCallback = null;
 	CBMenuItem mMenuItem = null;
 	CBIFOrderHandler mOrderHandler = null;
+	int mOriginalCount = 0;
 
 	private TextView mViewName;
 	private EditText mEditCount;
@@ -104,39 +111,87 @@ public class OrderingDialog extends CBBaseDialog {
 
 		CBDish dish = item.getDish();
 		mViewName.setText(dish.getName());
+
+		if (mOrderHandler != null) {
+			int count = mOrderHandler.getItemOrederedCount(item);
+			mOriginalCount = count;
+
+			if (count == 0)
+				count = 1;
+			setCount(count);
+		}
+
 		mMenuItem = item;
 	}
 
-	public void increaseCount() {
-		int count = Integer.valueOf(mEditCount.getText().toString().trim());
-		if (count >= MAX_ITEM_COUNT)
+	private int getCount() {
+		if (mEditCount == null)
+			return 0;
+
+		return Integer.valueOf(mEditCount.getText().toString().trim());
+	}
+
+	private void setCount(int count) {
+		if (count < 0 || count >= MAX_ITEM_COUNT)
 			return;
 
-		mEditCount.setText(String.valueOf(++count));
+		mEditCount.setText(String.valueOf(count));
 		mEditCount.selectAll();
+	}
+
+	public void increaseCount() {
+		int count = getCount();
+		setCount(++count);
 	}
 
 	public void decreaseCount() {
-		int count = Integer.valueOf(mEditCount.getText().toString().trim());
-		if (count <= 0)
-			return;
+		int count = getCount();
 
-		mEditCount.setText(String.valueOf(--count));
-		mEditCount.selectAll();
+		setCount(--count);
 	}
 
 	public void clear() {
-		mEditCount.setText(String.valueOf(0));
-		mEditCount.selectAll();
+		setCount(0);
 	}
 
 	public void submit() {
-		if (mMenuItem == null)
+		if (mMenuItem == null || mOrderHandler == null)
 			return;
+
+		int count = getCount();
+
+		if (count == mOriginalCount) {
+			dismiss();
+			return;
+		}
+
+		if (count > 0) {
+			boolean res = mOrderHandler.addItemToOrder(mMenuItem, count);
+			if (mCallback != null) {
+				mCallback.onItemAddingToOrder(res);
+			}
+		} else if (count == 0) {
+			boolean res = mOrderHandler.removeItemFromOrder(mMenuItem);
+			if (mCallback != null) {
+				mCallback.onItemDeletingFromOrder(res);
+			}
+		} else {
+
+		}
+
+		dismiss();
 	}
 
+	/**
+	 * @Description this method should be set before 'setMenuItem' called
+	 * @return void
+	 */
 	public void setOrderHandler(CBIFOrderHandler handler) {
 		mOrderHandler = handler;
+	}
+
+	public void setCallback(Callback callback) {
+		mCallback = callback;
 	}
 
 }

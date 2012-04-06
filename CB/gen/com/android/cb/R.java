@@ -68,8 +68,12 @@ public final class R {
         public static final int dishinfo_price_prefix=0x7f040008;
         public static final int dishinfo_price_rear=0x7f040009;
         public static final int dishinfo_quit=0x7f040006;
+        public static final int ordering_adding_failed=0x7f040010;
+        public static final int ordering_adding_succeed=0x7f04000f;
         public static final int ordering_clear=0x7f04000e;
         public static final int ordering_decrease=0x7f04000d;
+        public static final int ordering_deleting_falied=0x7f040012;
+        public static final int ordering_deleting_succeed=0x7f040011;
         public static final int ordering_increase=0x7f04000c;
         public static final int ordering_ok=0x7f04000a;
         public static final int ordering_quit=0x7f04000b;
