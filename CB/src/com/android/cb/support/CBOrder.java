@@ -182,6 +182,8 @@ public class CBOrder {
 			sum += oItem.item.getDish().getPrice() * (float)oItem.count;
 		}
 
+		sum *= this.getDiscount();
+		mSummation = sum;
 		return sum;
 	}
 

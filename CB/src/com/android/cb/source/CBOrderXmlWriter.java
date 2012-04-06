@@ -1,13 +1,14 @@
 /**
  * @Title: CBOrderXmlWriter.java
  * @Package: com.android.cb.source
- * @Author: huangtao
+ * @Author: Raiden Awkward<raiden.ht@gmail.com>
  * @Date: 2012-4-6
  */
 package com.android.cb.source;
 
 import java.util.LinkedList;
 
+import com.android.cb.support.CBCustomer;
 import com.android.cb.support.CBDish;
 import com.android.cb.support.CBOrder;
 import com.android.cb.support.CBTagsSet;
@@ -51,13 +52,17 @@ public class CBOrderXmlWriter {
 		writter.writeStartTag(TAG_ORDER, 0);
 		writter.writeOneLineTags(TAG_ID, null, order.getId().toString(), 1);
 		writter.writeOneLineTags(TAG_LOCATION, null, order.getLocation(), 1);
-		writter.writeOneLineTags(TAG_CUSTOMER, null, order.getCustomer().toString(), 1);
+		CBCustomer customer = order.getCustomer();
+		if (customer != null)
+			writter.writeOneLineTags(TAG_CUSTOMER, null, order.getCustomer().toString(), 1);
 
 		writter.writeStartTag(TAG_DISABLED_TAGS, 1);
 		CBTagsSet disabledTagsSet = order.getDisabledTags();
-		for (int i = 0; i < disabledTagsSet.count(); ++i) {
-			String tag = disabledTagsSet.get(i);
-			writter.writeOneLineTags(TAG_DISABLED_TAG, null, tag, 2);
+		if (disabledTagsSet != null) {
+			for (int i = 0; i < disabledTagsSet.count(); ++i) {
+				String tag = disabledTagsSet.get(i);
+				writter.writeOneLineTags(TAG_DISABLED_TAG, null, tag, 2);
+			}
 		}
 		writter.writeEndTag(TAG_DISABLED_TAGS, 1);
 
@@ -73,10 +78,10 @@ public class CBOrderXmlWriter {
 		for (int i = 0; i < dishes.size(); ++i) {
 			OrderedItem item = dishes.get(i);
 			CBDish dish = item.item.getDish();
-			String attr = TAG_DISH;
-			attr += " " + TAG_ATTR_ID + "=\"" + dish.getId().toString() + "\"";
+			String attr = "";
+			attr += TAG_ATTR_ID + "=\"" + dish.getId().toString() + "\"";
 			attr += " " + TAG_ATTR_COUNT + "=\"" + String.valueOf(item.count) + "\"";
-			writter.writeOneLineTags(TAG_DISH, attr, String.valueOf(order.getStatus()), 2);
+			writter.writeOneLineTags(TAG_DISH, attr, String.valueOf(dish.getName()), 2);
 		}
 		writter.writeEndTag(TAG_DISHES, 1);
 

@@ -48,6 +48,7 @@ public class CBOrderFactory {
 
 		refreshCurrentTime();
 		order.setSubmitedTime(sCurrentTime);
+		order.getRealSummation();
 
 		return CBOrderXmlWriter.writeOrderRecord(order, order.getRecordSavedPath());
 	}
@@ -76,11 +77,11 @@ public class CBOrderFactory {
 		res += CB_ORDER_PATH_SPLITOR;
 		res += generateOrderFileName();
 
-		return CB_ORDER_RECORD_DIR;
+		return res;
 	}
 
 	protected static CBId generateOrderId() {
-		SimpleDateFormat format = new SimpleDateFormat(CB_ORDER_RECORD_DIR_FORMAT + CB_ORDER_RECORD_DIR_FORMAT);
+		SimpleDateFormat format = new SimpleDateFormat(CB_ORDER_RECORD_DIR_FORMAT + CB_ORDER_RECORD_FILE_FORMAT);
 		String id = format.format(sCurrentTime);
 		return new CBId(id);
 	}
@@ -100,8 +101,7 @@ public class CBOrderFactory {
 		res += format.format(sCurrentTime);
 
 		File dir = new File(res);
-		if (dir.mkdirs() == false)
-			return null;
+		dir.mkdirs();
 
 		return res;
 	}
