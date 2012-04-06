@@ -12,6 +12,7 @@ package com.android.cb.support;
  * @Description order controls
  */
 public interface CBIFOrderHandler {
+	public boolean createOrder();
 	public boolean loadOrderRecord(CBOrder order);
 	public boolean loadOrderRecord(String recordPath);
 	public boolean saveOrderRecord();

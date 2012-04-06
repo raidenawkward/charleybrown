@@ -7,6 +7,7 @@
 package com.android.cb;
 
 import com.android.cb.source.CBDishesScanner;
+import com.android.cb.source.CBOrderFactory;
 import com.android.cb.source.CBOrderXmlWriter;
 import com.android.cb.support.CBDish;
 import com.android.cb.support.CBIFOrderHandler;
@@ -70,10 +71,10 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 		CBDishesScanner scanner = new CBDishesScanner(DISHES_DIR);
 		CBMenuItemsSet set = scanner.scan();
 
-		CBOrder order = new CBOrder();
 		mMenuEngine = new CBMenuEngine();
 		mMenuEngine.setMenuSet(set);
-		mMenuEngine.setOrder(order);
+
+		this.createOrder();
 	}
 
 	@SuppressWarnings("unused")
@@ -206,6 +207,12 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 		}
 
 	} // InitAsyncTask
+
+	public boolean createOrder() {
+		CBOrder order = CBOrderFactory.newOrder();
+		mMenuEngine.setOrder(order);
+		return true;
+	}
 
 	public boolean loadOrderRecord(CBOrder order) {
 		if (order == null)
