@@ -10,5 +10,10 @@
     <string name="dishinfo_order">加入菜单</string>
     <string name="dishinfo_price_prefix"></string>
     <string name="dishinfo_price_rear">元</string>
+    <string name="ordering_ok">确定</string>
+    <string name="ordering_quit">取消</string>
+    <string name="ordering_increase">+</string>
+    <string name="ordering_decrease">-</string>
+    <string name="ordering_clear">清零</string>
 
 </resources>

@@ -60,6 +60,8 @@ public class PreviewDialog extends CBBaseDialog {
 
 	private void initView() {
 		this.setContentView(R.layout.dialog_preview);
+		setCanceledOnTouchOutside(true);
+
 		mImageView = (ImageView) this.findViewById(R.id.imageView);
 		mImageView.setOnTouchListener(new View.OnTouchListener() {
 			public boolean onTouch(View v, MotionEvent event) {
@@ -92,8 +94,6 @@ public class PreviewDialog extends CBBaseDialog {
 				PreviewDialog.this.dismiss();
 			}
 		});
-
-		setCanceledOnTouchOutside(true);
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.android.cb;
 
 import com.android.cb.view.CBValidityChecker;
+import com.android.cb.view.OrderingDialog;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -31,6 +32,8 @@ public class CBActivity extends Activity {
 
 			public void onClick(View arg0) {
 				openGridViewActivity();
+//				OrderingDialog dialog = new OrderingDialog(CBActivity.this);
+//				dialog.show();
 			}
 
 		});
