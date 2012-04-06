@@ -20,6 +20,7 @@ import com.android.cb.view.CBButton;
 import com.android.cb.view.CBButtonsGroup;
 import com.android.cb.view.GridMenuView;
 import com.android.cb.view.LaunchingDialog;
+import com.android.cb.view.OrderingDialog;
 import com.android.cb.view.PreviewDialog;
 
 import android.app.Activity;
@@ -27,6 +28,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 /**
  * @author raiden
@@ -35,6 +37,7 @@ import android.view.WindowManager;
  */
 public class GridViewActivity extends Activity implements CBButtonsGroup.Callback,
 	LaunchingDialog.Callback,
+	OrderingDialog.Callback,
 	CBIFOrderHandler,
 	GridMenuView.Callback {
 
@@ -161,6 +164,11 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 	}
 
 	public boolean onItemLongPressed(CBMenuItem item) {
+		OrderingDialog dialog = new OrderingDialog(this);
+		dialog.setCallback(this);
+		dialog.setOrderHandler(this);
+		dialog.setMenuItem(item);
+		dialog.show();
 		return false;
 	}
 
@@ -243,6 +251,18 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 	public int getItemOrederedCount(CBMenuItem item) {
 		int index = mMenuEngine.getMenuItemIndex(item);
 		return mMenuEngine.getIndexedItemCheckedCount(index);
+	}
+
+	public void onItemAddingToOrder(boolean succeed) {
+		int stringId = (succeed ? R.string.ordering_adding_succeed : R.string.ordering_adding_failed);
+		String str = this.getResources().getString(stringId);
+		Toast.makeText(this, str, 0).show();
+	}
+
+	public void onItemDeletingFromOrder(boolean succeed) {
+		int stringId = (succeed ? R.string.ordering_deleting_succeed : R.string.ordering_deleting_falied);
+		String str = this.getResources().getString(stringId);
+		Toast.makeText(this, str, 0).show();
 	}
 
 }
