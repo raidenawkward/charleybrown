@@ -12,11 +12,26 @@ package com.android.cb.support;
  * @Description customer info
  */
 public class CBCustomer {
+	public static final String VALUE_SPLITER = "__";
 	private CBId mId = new CBId();
 	private String mName = "";
 	private int mNumOfPeople = 0;
 
 	public CBCustomer() {
+
+	}
+
+	public CBCustomer(String string) {
+		if (string == null)
+			return;
+
+		String[] list = string.split(VALUE_SPLITER);
+		if (list.length < 3)
+			return;
+
+		mId = new CBId(list[0]);
+		mName = new String(list[1]);
+		mNumOfPeople = Integer.valueOf(list[2]);
 	}
 
 	public CBId getId() {
@@ -60,4 +75,9 @@ public class CBCustomer {
 
 		return true;
 	}
+
+	public String toString() {
+		return mId.toString() + VALUE_SPLITER + mName + VALUE_SPLITER + mNumOfPeople;
+	}
+
 }
