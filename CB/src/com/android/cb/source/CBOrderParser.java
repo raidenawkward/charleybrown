@@ -8,8 +8,12 @@ package com.android.cb.source;
 
 import java.util.Date;
 
+import org.xmlpull.v1.XmlPullParser;
+
 import com.android.cb.support.CBCustomer;
 import com.android.cb.support.CBId;
+import com.android.cb.support.CBMenuEngine;
+import com.android.cb.support.CBMenuItem;
 import com.android.cb.support.CBOrder;
 
 /**
@@ -20,6 +24,7 @@ import com.android.cb.support.CBOrder;
 public class CBOrderParser extends CBXmlParser implements CBXmlParser.Callback {
 
 	private CBOrder mOrder = null;
+	private CBMenuEngine mMenuEngine = null;
 
 	public CBOrderParser() {
 		super();
@@ -49,10 +54,9 @@ public class CBOrderParser extends CBXmlParser implements CBXmlParser.Callback {
 		return mOrder;
 	}
 
-	public void onTagWithValueDetected(String tag, String value) {
+	public void onTagWithValueDetected(String tag, String value, final XmlPullParser parser) {
 		if (mOrder == null)
 			return;
-
 		if (tag.equalsIgnoreCase(CBOrderXmlWriter.TAG_ID)) {
 			CBId id = new CBId(value);
 			mOrder.setId(id);
@@ -87,15 +91,39 @@ public class CBOrderParser extends CBXmlParser implements CBXmlParser.Callback {
 		} else if (tag.equalsIgnoreCase(CBOrderXmlWriter.TAG_STATUS)) {
 			mOrder.setStatus(Integer.valueOf(value));
 
+		} else if (tag.equalsIgnoreCase(CBOrderXmlWriter.TAG_DISH)) {
+			if (mMenuEngine != null) {
+				String id = null;
+				int count = 0;
+				for (int i = 0; i < parser.getAttributeCount(); ++i) {
+					if (parser.getAttributeName(i).equalsIgnoreCase(CBOrderXmlWriter.TAG_ATTR_ID)) {
+						id = parser.getAttributeValue(i);
+					} else if (parser.getAttributeName(i).equalsIgnoreCase(CBOrderXmlWriter.TAG_ATTR_COUNT)) {
+						count = Integer.valueOf(parser.getAttributeValue(i));
+					}
+				}
+				CBMenuItem item = mMenuEngine.getItemById(new CBId(id));
+				if (item != null) {
+					mOrder.addItem(item, count);
+				}
+			}
 		}
 	}
 
-	public void onStartDocument() {
+	public void onStartDocument(final XmlPullParser parser) {
 		mOrder = new CBOrder();
 	}
 
-	public void onEndDocument() {
+	public void onEndDocument(final XmlPullParser parser) {
 
+	}
+
+	public CBMenuEngine getMenuEngine() {
+		return mMenuEngine;
+	}
+
+	public void setMenuEngine(CBMenuEngine menuEngine) {
+		this.mMenuEngine = menuEngine;
 	}
 
 }

@@ -21,9 +21,9 @@ import android.util.Xml;
 public abstract class CBXmlParser {
 
 	public interface Callback {
-		public void onStartDocument();
-		public void onTagWithValueDetected(String tag, String value);
-		public void onEndDocument();
+		public void onStartDocument(final XmlPullParser parser);
+		public void onTagWithValueDetected(String tag, String value, final XmlPullParser parser);
+		public void onEndDocument(final XmlPullParser parser);
 	}
 
 	private Callback mCallback = null;
@@ -61,7 +61,7 @@ public abstract class CBXmlParser {
 				switch (eventType) {
 				case XmlPullParser.START_DOCUMENT:
 					if (callback != null) {
-						callback.onStartDocument();
+						callback.onStartDocument(parser);
 					}
 					break;
 				case XmlPullParser.START_TAG:
@@ -75,7 +75,7 @@ public abstract class CBXmlParser {
 					if (eventType == XmlPullParser.TEXT) {
 						if (callback != null) {
 							String value  = parser.getText();
-							callback.onTagWithValueDetected(name, value);
+							callback.onTagWithValueDetected(name, value, parser);
 						}
 					} else
 						continue;
@@ -83,7 +83,7 @@ public abstract class CBXmlParser {
 					break;
 				case XmlPullParser.END_TAG:
 					if (callback != null) {
-						callback.onEndDocument();
+						callback.onEndDocument(parser);
 					}
 					break;
 				}

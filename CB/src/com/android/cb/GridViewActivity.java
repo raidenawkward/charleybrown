@@ -8,7 +8,6 @@ package com.android.cb;
 
 import com.android.cb.source.CBDishesScanner;
 import com.android.cb.source.CBOrderFactory;
-import com.android.cb.source.CBOrderXmlWriter;
 import com.android.cb.support.CBDish;
 import com.android.cb.support.CBIFOrderHandler;
 import com.android.cb.support.CBId;
@@ -135,6 +134,7 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 	public void onButtonInGroupClicked(int index) {
 		String tagSelected = mContainedTags.get(index);
 		mGridView.setMenuItemSet(mMenuEngine.getMenuItemsSetWithTag(tagSelected));
+		this.saveOrderRecord();
 	}
 
 	private void showLaunchingDialog() {
@@ -223,16 +223,13 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 	}
 
 	public boolean loadOrderRecord(String recordPath) {
-		// TODO Auto-generated method stub
-		return false;
+		CBOrder order = CBOrderFactory.loadOrder(recordPath, mMenuEngine);
+		return loadOrderRecord(order);
 	}
 
 	public boolean saveOrderRecord() {
 		CBOrder order = mMenuEngine.getOrder();
-		if (order == null)
-			return false;
-
-		return CBOrderXmlWriter.writeOrderRecord(order, order.getRecordSavedPath());
+		return CBOrderFactory.saveOrder(order);
 	}
 
 	public boolean addItemToOrder(CBMenuItem item, int count) {

@@ -6,8 +6,12 @@
  */
 package com.android.cb.source;
 
+import java.util.LinkedList;
+
+import com.android.cb.support.CBDish;
 import com.android.cb.support.CBOrder;
 import com.android.cb.support.CBTagsSet;
+import com.android.cb.support.CBOrder.OrderedItem;
 
 /**
  * @author raiden
@@ -28,6 +32,10 @@ public class CBOrderXmlWriter {
 	public static final String TAG_SUMMATION = "Summation";
 	public static final String TAG_MEMO = "Memo";
 	public static final String TAG_STATUS = "Status";
+	public static final String TAG_DISHES = "Dishes";
+	public static final String TAG_DISH = "Dish";
+	public static final String TAG_ATTR_COUNT = "count";
+	public static final String TAG_ATTR_ID = "id";
 
 	public static boolean writeOrderRecord(CBOrder order, String path) {
 		if (order == null || path == null)
@@ -59,6 +67,18 @@ public class CBOrderXmlWriter {
 		writter.writeOneLineTags(TAG_SUMMATION, null, String.valueOf(order.getSummation()), 1);
 		writter.writeOneLineTags(TAG_MEMO, null, order.getMemo(), 1);
 		writter.writeOneLineTags(TAG_STATUS, null, String.valueOf(order.getStatus()), 1);
+
+		writter.writeStartTag(TAG_DISHES, 1);
+		LinkedList<OrderedItem> dishes = order.getOrderedItemsWithCount();
+		for (int i = 0; i < dishes.size(); ++i) {
+			OrderedItem item = dishes.get(i);
+			CBDish dish = item.item.getDish();
+			String attr = TAG_DISH;
+			attr += " " + TAG_ATTR_ID + "=\"" + dish.getId().toString() + "\"";
+			attr += " " + TAG_ATTR_COUNT + "=\"" + String.valueOf(item.count) + "\"";
+			writter.writeOneLineTags(TAG_DISH, attr, String.valueOf(order.getStatus()), 2);
+		}
+		writter.writeEndTag(TAG_DISHES, 1);
 
 		writter.writeEndTag(TAG_ORDER, 0);
 

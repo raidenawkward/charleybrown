@@ -28,12 +28,12 @@ public class CBOrder {
 	private String mRecordSavedPath;
 
 	private int mStatus;
-	public final int  CBORDER_STATUS_UNKNOWN = 0;
-	public final int  CBORDER_STATUS_ADDING = 1;
-	public final int  CBORDER_STATUS_EDITING = 2;
-	public final int  CBORDER_STATUS_CONFIRMED = 3;
+	public final static int  CBORDER_STATUS_UNKNOWN = 0;
+	public final static int  CBORDER_STATUS_ADDING = 1;
+	public final static int  CBORDER_STATUS_EDITING = 2;
+	public final static int  CBORDER_STATUS_CONFIRMED = 3;
 
-	private class OrderedItem {
+	public class OrderedItem {
 		public CBMenuItem item = null;
 		public int count = 0;
 	}
@@ -213,6 +213,10 @@ public class CBOrder {
 		}
 
 		return res;
+	}
+
+	public LinkedList<OrderedItem> getOrderedItemsWithCount() {
+		return mOrderedItemsList;
 	}
 
 	public CBCustomer getCustomer() {

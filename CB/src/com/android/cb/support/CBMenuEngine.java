@@ -93,6 +93,16 @@ public class CBMenuEngine {
 		return mMenuItemsSet.get(index);
 	}
 
+	public CBMenuItem getItemById(CBId id) {
+		for (int i = 0; i < mMenuItemsSet.count(); ++i) {
+			CBMenuItem item = mMenuItemsSet.get(i);
+			if (item.getDish().getId().equals(id))
+				return item;
+		}
+
+		return null;
+	}
+
 	public int getMenuItemcount() {
 		return mMenuItemsSet.count();
 	}
