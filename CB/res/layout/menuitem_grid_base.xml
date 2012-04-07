@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
-  android:paddingBottom="5px"
-  android:paddingTop="5px"
-  android:paddingLeft="5px"
-  android:paddingRight="5px"
+  android:paddingBottom="2px"
+  android:paddingTop="2px"
+  android:paddingLeft="2px"
+  android:paddingRight="2px"
+  android:background="#35FFFFFF"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent">
 	<ImageView
@@ -13,7 +14,7 @@
 		android:layout_width="240px"
 		android:paddingTop="10px"
 		android:layout_centerHorizontal="true"
-		android:scaleType="centerCrop"></ImageView>
+		android:scaleType="centerCrop" />
 	<TextView
 		android:id="@+id/listitem_base_text"
 		android:layout_below="@+id/listitem_base_image"
@@ -22,5 +23,5 @@
 		android:textSize="20px"
 		android:textStyle="bold"
 		android:gravity="center"
-		android:layout_centerHorizontal="true"></TextView>
+		android:layout_centerHorizontal="true" />
 </RelativeLayout>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/mainview"
+    android:background="@drawable/img_background_test"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical">
@@ -11,24 +12,53 @@
         android:layout_width="wrap_content"
         android:layout_height="fill_parent" >
 
-	    <LinearLayout
+	    <RelativeLayout
 	        android:id="@+id/linearLayout_left"
+	        android:background="#CC000000"
 	        android:gravity="left"
+	        android:orientation="vertical"
+	        android:paddingTop="15px"
+	        android:paddingBottom="50px"
 	        android:layout_width="wrap_content"
 	        android:layout_height="fill_parent" >
 
-	        <com.android.cb.view.CBButtonsGroup
-	            android:id="@+id/buttonsGroup"
-	            android:orientation="vertical"
-	            android:layout_width="300px"
-	            android:layout_height="fill_parent" >
-	        </com.android.cb.view.CBButtonsGroup>
+			<ScrollView
+				android:id="@+id/scrollView_leftTop"
+				android:layout_alignParentTop="true"
+				android:fillViewport="true"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content">
+				<com.android.cb.view.CBButtonsGroup
+					android:id="@+id/buttonsGroup"
+					android:orientation="vertical"
+					android:layout_gravity="top"
+					android:layout_width="300px"
+					android:layout_height="wrap_content" />
+			</ScrollView>
 
-	    </LinearLayout> <!-- left layout -->
+			<LinearLayout
+				android:id="@+id/linearLayout_leftBottom"
+				android:layout_alignParentBottom="true"
+				android:orientation="vertical"
+				android:paddingLeft="5px"
+				android:paddingRight="10px"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content" >
+					<com.android.cb.view.CBDialogButton
+						android:id="@+id/botton_OrderList"
+						android:text="@string/dishinfo_order"
+						android:gravity="center"
+						android:layout_height="wrap_content"
+						android:layout_width="300px" />
+			</LinearLayout>
+
+	    </RelativeLayout> <!-- left layout -->
 
 	    <LinearLayout
 	            android:id="@+id/linearLayout_right"
+	            android:background="#AA000000"
 	            android:gravity="right"
+	            android:padding="10px"
 	            android:layout_width="wrap_content"
 	            android:layout_height="fill_parent" >
 	        <com.android.cb.view.GridMenuView

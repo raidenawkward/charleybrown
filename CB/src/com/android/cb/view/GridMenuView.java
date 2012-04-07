@@ -54,6 +54,8 @@ public class GridMenuView extends GridView
 	private void initMenuView() {
 		setNumColumns(COLUMN_COUNT);
 
+		this.setHorizontalSpacing(65);
+		this.setVerticalSpacing(45);
 		this.setOnItemClickListener(this);
 		this.setOnItemLongClickListener(this);
 	}
