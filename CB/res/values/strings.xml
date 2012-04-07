@@ -24,4 +24,6 @@
     <string name="ordering_goBack">返回</string>
     <string name="ordering_edit">编辑</string>
     <string name="ordering_remove">删除</string>
+    <string name="ordering_label_price">单价: </string>
+    <string name="ordering_label_count">数量: x</string>
 </resources>

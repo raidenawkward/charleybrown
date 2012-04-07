@@ -21,6 +21,7 @@ import com.android.cb.view.CBButtonsGroup;
 import com.android.cb.view.CBDialogButton;
 import com.android.cb.view.GridMenuView;
 import com.android.cb.view.LaunchingDialog;
+import com.android.cb.view.OrderedDialog;
 import com.android.cb.view.OrderingDialog;
 import com.android.cb.view.PreviewDialog;
 
@@ -300,7 +301,9 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 	}
 
 	public void showOrderedDialog() {
-
+		OrderedDialog dialog = new OrderedDialog(this);
+		dialog.setOrder(mMenuEngine.getOrder());
+		dialog.show();
 	}
 
 }

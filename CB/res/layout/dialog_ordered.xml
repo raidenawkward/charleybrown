@@ -4,16 +4,16 @@
 	android:orientation="vertical"
 	android:gravity="center"
 	android:paddingTop="20px"
-	android:paddingBottom="20px"
+	android:paddingBottom="10px"
 	android:paddingLeft="20px"
 	android:paddingRight="20px"
 	android:background="#FFFFFFFF"
 	android:layout_width="wrap_content"
-	android:layout_height="wrap_content" >
+	android:layout_height="fill_parent" >
 
 		<!-- date line -->
 		<LinearLayout
-			android:layout_weight="8"
+			android:layout_marginTop="10px"
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent">
 			<TextView android:id="@+id/view_date"
@@ -26,7 +26,7 @@
 
 		<!-- title line -->
 		<LinearLayout
-			android:layout_weight="8"
+			android:layout_marginTop="10px"
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent">
 			<TextView android:id="@+id/view_title"
@@ -39,15 +39,21 @@
 
 		<!-- list view -->
 		<LinearLayout
-			android:layout_weight="8"
-			android:layout_height="wrap_content"
+			android:layout_marginTop="10px"
+			android:layout_weight="250"
+			android:layout_height="fill_parent"
 			android:layout_width="fill_parent">
+
+			<com.android.cb.view.CBOrderedListView
+			    android:id="@+id/cblistview_orderItemsList"
+			    android:layout_height="fill_parent"
+				android:layout_width="fill_parent"/>
 
 		</LinearLayout>
 
 		<!-- summation line -->
 		<LinearLayout
-			android:layout_weight="8"
+			android:layout_marginTop="10px"
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent">
 				<RelativeLayout
@@ -73,13 +79,14 @@
 
 		<!-- buttons line -->
 		<LinearLayout
+			android:layout_marginTop="10px"
 			android:layout_gravity="bottom"
 			android:gravity="right"
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent">
 				<com.android.cb.view.CBDialogButton android:id="@+id/button_submit"
 					android:text="@string/ordering_submit"
-					android:layout_marginRight="5px"
+					android:layout_marginRight="15px"
 					android:layout_height="wrap_content"
 					android:layout_width="100px"/>
 				<com.android.cb.view.CBDialogButton android:id="@+id/button_quit"
