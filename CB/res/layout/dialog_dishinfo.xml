@@ -6,9 +6,9 @@
   android:padding="10px"
   android:layout_width="fill_parent"
   android:layout_height="fill_parent">
-    <RelativeLayout
-    android:layout_weight="8"
-    android:orientation="horizontal"
+	<RelativeLayout
+	android:layout_weight="8"
+	android:orientation="horizontal"
 	android:layout_height="wrap_content"
 	android:layout_width="fill_parent">
 		<LinearLayout

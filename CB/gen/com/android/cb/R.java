@@ -23,10 +23,12 @@ public final class R {
         public static final int button_clear=0x7f060011;
         public static final int button_decrease=0x7f06000f;
         public static final int button_detail=0x7f060018;
+        public static final int button_edit=0x7f060027;
         public static final int button_increase=0x7f06000d;
         public static final int button_ok=0x7f060010;
         public static final int button_order=0x7f060005;
         public static final int button_quit=0x7f060006;
+        public static final int button_remove=0x7f060028;
         public static final int button_start=0x7f06001a;
         public static final int button_submit=0x7f06000c;
         public static final int buttonsGroup=0x7f06001e;
@@ -49,6 +51,7 @@ public final class R {
         public static final int textView_name=0x7f060015;
         public static final int textView_price=0x7f060016;
         public static final int textView_summary=0x7f060017;
+        public static final int view_count=0x7f060026;
         public static final int view_date=0x7f060008;
         public static final int view_detail=0x7f060004;
         public static final int view_itemCount=0x7f06000a;
@@ -69,6 +72,7 @@ public final class R {
         public static final int main_grid_menu_view=0x7f030007;
         public static final int main_menu_item=0x7f030008;
         public static final int menuitem_grid_base=0x7f030009;
+        public static final int ordered_list_item=0x7f03000a;
     }
     public static final class string {
         public static final int app_name=0x7f040000;
@@ -82,11 +86,13 @@ public final class R {
         public static final int ordering_decrease=0x7f04000d;
         public static final int ordering_deleting_falied=0x7f040012;
         public static final int ordering_deleting_succeed=0x7f040011;
+        public static final int ordering_edit=0x7f040016;
         public static final int ordering_goBack=0x7f040015;
         public static final int ordering_increase=0x7f04000c;
         public static final int ordering_myOrder_button_text=0x7f040013;
         public static final int ordering_ok=0x7f04000a;
         public static final int ordering_quit=0x7f04000b;
+        public static final int ordering_remove=0x7f040017;
         public static final int ordering_submit=0x7f040014;
         public static final int preview_detail=0x7f040001;
         public static final int preview_order=0x7f040003;

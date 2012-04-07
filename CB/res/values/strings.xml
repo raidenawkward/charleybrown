@@ -22,4 +22,6 @@
     <string name="ordering_myOrder_button_text">我的菜单</string>
     <string name="ordering_submit">提交菜单</string>
     <string name="ordering_goBack">返回</string>
+    <string name="ordering_edit">编辑</string>
+    <string name="ordering_remove">删除</string>
 </resources>

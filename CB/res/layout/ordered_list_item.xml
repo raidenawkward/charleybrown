@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal">
+
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_gravity="left"
+		android:gravity="center"
+		android:layout_height="fill_parent"
+		android:layout_width="wrap_content">
+		<TextView android:id="@+id/view_name"
+			android:gravity="left"
+			android:text="count"
+			android:textSize="28px"
+			android:textStyle="bold"
+			android:layout_height="wrap_content"
+			android:layout_width="fill_parent"/>
+		<TextView android:id="@+id/view_price"
+			android:gravity="left"
+			android:text="price"
+			android:textSize="20px"
+			android:textStyle="bold"
+			android:layout_height="wrap_content"
+			android:layout_width="fill_parent"/>
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_weight="250"
+		android:gravity="center"
+		android:layout_height="fill_parent"
+		android:layout_width="wrap_content">
+		<TextView android:id="@+id/view_count"
+			android:text="count"
+			android:textSize="28px"
+			android:textStyle="bold"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"/>
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_gravity="right"
+		android:gravity="right|center"
+		android:layout_height="fill_parent"
+		android:layout_width="wrap_content">
+			<com.android.cb.view.CBDialogButton android:id="@+id/button_edit"
+				android:text="@string/ordering_edit"
+				android:layout_marginRight="5px"
+				android:layout_height="wrap_content"
+				android:layout_width="100px"/>
+			<com.android.cb.view.CBDialogButton android:id="@+id/button_remove"
+				android:text="@string/ordering_remove"
+				android:layout_height="wrap_content"
+				android:layout_width="100px"/>
+	</LinearLayout>
+
+</LinearLayout>
