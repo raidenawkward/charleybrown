@@ -18,6 +18,7 @@ import com.android.cb.support.CBOrder;
 import com.android.cb.support.CBTagsSet;
 import com.android.cb.view.CBButton;
 import com.android.cb.view.CBButtonsGroup;
+import com.android.cb.view.CBDialogButton;
 import com.android.cb.view.GridMenuView;
 import com.android.cb.view.LaunchingDialog;
 import com.android.cb.view.OrderingDialog;
@@ -26,8 +27,10 @@ import com.android.cb.view.PreviewDialog;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.Toast;
 
 /**
@@ -43,9 +46,11 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 
 	public static final String DISHES_DIR = "/sdcard/dishes";
 
-	private CBMenuEngine mMenuEngine;
 	private GridMenuView mGridView;
 	private CBButtonsGroup mButtonsGruop;
+	private CBDialogButton mButtonOrdered;
+
+	private CBMenuEngine mMenuEngine;
 	private CBTagsSet mContainedTags;
 	private LaunchingDialog mLaunchingDialog = null;
 	private boolean mIsInitDone = false;
@@ -107,7 +112,7 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 		mMenuEngine.setOrder(order);
 	}
 
-	private void initButtonGroups() {
+	private void initButtons() {
 		mButtonsGruop = (CBButtonsGroup) this.findViewById(R.id.buttonsGroup);
 		mButtonsGruop.setCallback(this);
 		mButtonsGruop.setButtonsMargins(5);
@@ -118,6 +123,14 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 			button.setText(mContainedTags.get(i));
 			mButtonsGruop.addButton(button);
 		}
+
+		mButtonOrdered = (CBDialogButton) this.findViewById(R.id.botton_OrderList);
+		mButtonOrdered.setOnClickListener(new Button.OnClickListener() {
+			public void onClick(View arg0) {
+				showOrderedDialog();
+			}
+		});
+		updateOrderingButtonStatus();
 	}
 
 	private void initGridMenuView() {
@@ -190,7 +203,7 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 
 		@Override
 		protected void onPostExecute(Boolean result) {
-			initButtonGroups();
+			initButtons();
 			initGridMenuView();
 
 			mIsInitDone = true;
@@ -240,16 +253,25 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 		if (index < 0)
 			return false;
 
-		return mMenuEngine.orderIndexedItem(index, count);
+		boolean res = mMenuEngine.orderIndexedItem(index, count);
+		if (res == true)
+			updateOrderingButtonStatus();
+		return res;
 	}
 
 	public boolean removeItemFromOrder(CBMenuItem item) {
 		int index = mMenuEngine.getMenuItemIndex(item);
-		return mMenuEngine.disOrderIndexedItem(index);
+		boolean res = mMenuEngine.disOrderIndexedItem(index);
+		if (res == true)
+			updateOrderingButtonStatus();
+		return res;
 	}
 
 	public boolean removeItemFromOrder(int index) {
-		return mMenuEngine.disOrderIndexedItem(index);
+		boolean res = mMenuEngine.disOrderIndexedItem(index);
+		if (res == true)
+			updateOrderingButtonStatus();
+		return res;
 	}
 
 	public int getItemOrederedCount(CBMenuItem item) {
@@ -267,6 +289,18 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 		int stringId = (succeed ? R.string.ordering_deleting_succeed : R.string.ordering_deleting_falied);
 		String str = this.getResources().getString(stringId);
 		Toast.makeText(this, str, 0).show();
+	}
+
+	public void updateOrderingButtonStatus() {
+		String buttonText = this.getResources().getString(R.string.ordering_myOrder_button_text);
+		int orderingCount = mMenuEngine.getTotalItemCheckedCount();
+		buttonText += " (" + orderingCount + ")";
+
+		mButtonOrdered.setText(buttonText);
+	}
+
+	public void showOrderedDialog() {
+
 	}
 
 }

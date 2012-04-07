@@ -77,6 +77,7 @@ public final class R {
         public static final int ordering_deleting_falied=0x7f040012;
         public static final int ordering_deleting_succeed=0x7f040011;
         public static final int ordering_increase=0x7f04000c;
+        public static final int ordering_myOrder_button_text=0x7f040013;
         public static final int ordering_ok=0x7f04000a;
         public static final int ordering_quit=0x7f04000b;
         public static final int preview_detail=0x7f040001;

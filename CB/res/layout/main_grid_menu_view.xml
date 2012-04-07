@@ -46,7 +46,7 @@
 				android:layout_height="wrap_content" >
 					<com.android.cb.view.CBDialogButton
 						android:id="@+id/botton_OrderList"
-						android:text="@string/dishinfo_order"
+						android:text="@string/ordering_myOrder_button_text"
 						android:gravity="center"
 						android:layout_height="wrap_content"
 						android:layout_width="300px" />
