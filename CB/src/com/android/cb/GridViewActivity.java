@@ -148,7 +148,6 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 	public void onButtonInGroupClicked(int index) {
 		String tagSelected = mContainedTags.get(index);
 		mGridView.setMenuItemSet(mMenuEngine.getMenuItemsSetWithTag(tagSelected));
-		this.saveOrderRecord();
 	}
 
 	private void showLaunchingDialog() {
@@ -295,7 +294,8 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 	public void updateOrderingButtonStatus() {
 		String buttonText = this.getResources().getString(R.string.ordering_myOrder_button_text);
 		int orderingCount = mMenuEngine.getTotalItemCheckedCount();
-		buttonText += " (" + orderingCount + ")";
+		if (orderingCount > 0)
+			buttonText += " (" + orderingCount + ")";
 
 		mButtonOrdered.setText(buttonText);
 	}
@@ -304,6 +304,7 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 		OrderedDialog dialog = new OrderedDialog(this);
 		dialog.setOrder(mMenuEngine.getOrder());
 		dialog.show();
+//		this.saveOrderRecord();
 	}
 
 }

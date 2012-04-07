@@ -112,7 +112,11 @@ public class CBOrder {
 		if (mOrderedItemsList == null)
 			return 0;
 
-		return mOrderedItemsList.size();
+		int res = 0;
+		for (int i = 0; i < mOrderedItemsList.size(); ++i) {
+			res += mOrderedItemsList.get(i).count;
+		}
+		return res;
 	}
 
 	public int getItemCheckedCount(CBMenuItem item) {

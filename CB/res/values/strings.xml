@@ -24,6 +24,9 @@
     <string name="ordering_goBack">返回</string>
     <string name="ordering_edit">编辑</string>
     <string name="ordering_remove">删除</string>
-    <string name="ordering_label_price">单价: </string>
-    <string name="ordering_label_count">数量: x</string>
+    <string name="ordering_listitem_label_price">单价: </string>
+    <string name="ordering_listitem_label_count">数量: x</string>
+    <string name="ordering_dialog_label_count">总数: </string>
+    <string name="ordering_dialog_label_price">总价: </string>
+    <string name="ordering_dialog_price_tail"> 元</string>
 </resources>

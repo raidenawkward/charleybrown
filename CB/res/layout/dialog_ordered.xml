@@ -16,7 +16,7 @@
 			android:layout_marginTop="10px"
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent">
-			<TextView android:id="@+id/view_date"
+			<TextView android:id="@+id/view_header"
 				android:text="date"
 				android:textSize="20px"
 				android:textStyle="bold"
@@ -60,14 +60,14 @@
 					android:orientation="horizontal"
 					android:layout_height="wrap_content"
 					android:layout_width="fill_parent">
-					<TextView android:id="@+id/view_itemCount"
+					<TextView android:id="@+id/view_count"
 						android:gravity="left"
 						android:text="count"
 						android:textSize="20px"
 						android:textStyle="bold"
 						android:layout_height="wrap_content"
 						android:layout_width="fill_parent"/>
-					<TextView android:id="@+id/view_itemPrice"
+					<TextView android:id="@+id/view_price"
 						android:gravity="right"
 						android:text="price"
 						android:textSize="20px"
