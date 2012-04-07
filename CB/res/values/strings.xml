@@ -20,4 +20,6 @@
     <string name="ordering_deleting_succeed">删除成功</string>
     <string name="ordering_deleting_falied">删除失败</string>
     <string name="ordering_myOrder_button_text">我的菜单</string>
+    <string name="ordering_submit">提交菜单</string>
+    <string name="ordering_goBack">返回</string>
 </resources>
