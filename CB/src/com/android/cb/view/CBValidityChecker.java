@@ -17,24 +17,41 @@ import android.content.Context;
  */
 public class CBValidityChecker {
 
-	protected static final String[] ALLOWED_DEVICE_IDS = {
-		"352778030577675", /** g1 */
-		"123456789012346", /** f7_1 */
+	public static final int CHECK_DEVICE = 0;
+	public static final int CHECK_DEVICE_ID = 1;
+	public static final int CHECK_DEVICE_MAC = 2;
+	public static final int CHECK_DEVICE_SYSTEM_ID = 3;
+	public static final int CHECK_DEVICE_SUBSCRIBE_ID = 4;
+	public static final int CHECK_DEVICE_LAST_INFO = 5;
+
+	protected static final String[] DEVICE_INFO_G1 = {
+		"g1",
+		"352778030577675",
+		"00:18:41:fd:fd:59",
+		"200140d98932780b",
+		"460002031727147",
 	};
 
-	protected static final String[] ALLOWED_MACS = {
-		"00:18:41:fd:fd:59", /** g1 */
-		"20:59:A0:40:7C:05", /** f7_1 */
+	protected static final String[] DEVICE_INFO_F7 = {
+		"f7",
+		"123456789012346",
+		"20:59:A0:40:7C:05",
+		"61e3420362520eb9",
+		"012345678912345",
 	};
 
-	protected static final String[] ALLOWED_ANDROID_SYSTEM_IDS = {
-		"200140d98932780b", /** g1 */
-		"61e3420362520eb9", /** f7_1 */
+	protected static final String[] DEVICE_INFO_ACER_ZZY = {
+		"acer",
+		"",
+		"14:DA:E9:23:E1:68",
+		"70c516644ad8fe61",
+		"",
 	};
 
-	protected static final String[] ALLOWED_SUBSCRIBE_IDS = {
-		"460002031727147", /** g1 */
-		"012345678912345", /** f7_1 */
+	protected static String[][] ALLOWED_DEVICES = {
+		DEVICE_INFO_G1,
+		DEVICE_INFO_F7,
+		DEVICE_INFO_ACER_ZZY,
 	};
 
 	/**
@@ -44,51 +61,62 @@ public class CBValidityChecker {
 	 * @return boolean
 	 */
 	public static boolean isValid(Context context) {
-		if (checkDeviceId(context) == false)
+		String systemId = CBSystemInfo.getAndroidSystemId(context);
+		String[] info = getDeviceIndexBySystemId(systemId);
+
+		if (info == null)
 			return false;
 
-//		if (checkMac(context) == false)
-//			return false;
+		String deviceId = CBSystemInfo.getDeviceId(context);
+		if (deviceId == null)
+			deviceId = "";
+		String mac = CBSystemInfo.getMac(context);
+		if (mac == null)
+			mac = "";
+		String subscriberId = CBSystemInfo.getSubscriberId(context);
+		if (subscriberId == null)
+			subscriberId = "";
 
-		if (checkAndroidSystemId(context) == false)
-			return false;
-
-		if (checkSubscribeId(context) == false)
-			return false;
+		for (int i = CHECK_DEVICE_ID; i < CHECK_DEVICE_LAST_INFO; ++i) {
+			switch (i) {
+			case CHECK_DEVICE_ID:
+				if (deviceId.equals(info[i]) == false)
+					return false;
+				break;
+			case CHECK_DEVICE_MAC:
+				if (mac.equals(info[i]) == false);
+				break;
+			case CHECK_DEVICE_SYSTEM_ID:
+				break;
+			case CHECK_DEVICE_SUBSCRIBE_ID:
+				if (subscriberId.equals(info[i]) == false)
+					return false;
+				break;
+			default:
+					break;
+			}
+		}
 
 		return true;
 	}
 
-	protected static boolean checkDeviceId(Context context) {
-		String id = CBSystemInfo.getDeviceId(context);
-		return isValueInList(id, ALLOWED_DEVICE_IDS);
-	}
+	protected static String[] getDeviceIndexBySystemId(String systemId) {
+		if (systemId == null)
+			return null;
 
-	protected static boolean checkMac(Context context) {
-		String mac = CBSystemInfo.getMac(context);
-		return isValueInList(mac, ALLOWED_MACS);
-	}
+		for (int i = 0; i < ALLOWED_DEVICES.length; ++i) {
+			String[] deviceInfo = ALLOWED_DEVICES[i];
+			if (deviceInfo == null)
+				continue;
 
-	protected static boolean checkAndroidSystemId(Context context) {
-		String id = CBSystemInfo.getAndroidSystemId(context);
-		return isValueInList(id, ALLOWED_ANDROID_SYSTEM_IDS);
-	}
+			if (deviceInfo.length < CHECK_DEVICE_LAST_INFO)
+				continue;
 
-	protected static boolean checkSubscribeId(Context context) {
-		String id = CBSystemInfo.getSubscriberId(context);
-		return isValueInList(id, ALLOWED_SUBSCRIBE_IDS);
-	}
-
-	protected static boolean isValueInList(String value, String[] list) {
-		if (value == null || list == null)
-			return false;
-
-		for (int i = 0; i < list.length; ++i) {
-			if (value.equals(list[i]))
-				return true;
+			if (deviceInfo[CHECK_DEVICE_SYSTEM_ID].equals(systemId))
+				return deviceInfo;
 		}
 
-		return false;
+		return null;
 	}
 
 }
