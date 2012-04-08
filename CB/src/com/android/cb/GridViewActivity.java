@@ -319,7 +319,7 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 	}
 
 	public void onOrderSubmitted() {
-		mLaunchingDialog.show();
+		this.finish();
 	}
 
 }

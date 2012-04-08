@@ -96,9 +96,6 @@ public class LaunchingDialog extends CBBaseDialog {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		if (isLaunching() == false)
-			this.dismiss();
-
 		return super.onTouchEvent(event);
 	}
 
@@ -139,7 +136,7 @@ public class LaunchingDialog extends CBBaseDialog {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		setText(this.getContext().getResources().getString(R.string.launching_done));
+		dismiss();
 	}
 
 	private class ProgressThread extends Thread {

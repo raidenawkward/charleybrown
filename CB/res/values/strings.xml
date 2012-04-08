@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CB</string>
+
     <string name="launching_text">正在加载</string>
     <string name="launching_done">点击屏幕开始点菜</string>
+
+    <string name="managing_button_to_order_menu">开始点菜</string>
+    <string name="managing_button_to_ordesr_list">进入当日订单列表</string>
+    <string name="managing_button_quit">退出</string>
+
     <string name="preview_detail">详细内容</string>
     <string name="preview_quit">返回</string>
     <string name="preview_order">加入菜单</string>
     <string name="preview_price_prefix"></string>
     <string name="preview_price_rear">元</string>
+
     <string name="dishinfo_quit">返回</string>
     <string name="dishinfo_order">加入菜单</string>
     <string name="dishinfo_price_prefix"></string>
     <string name="dishinfo_price_rear">元</string>
+
     <string name="ordering_ok">确定</string>
     <string name="ordering_quit">取消</string>
     <string name="ordering_increase">+</string>
@@ -42,6 +50,7 @@
     <string name="ordered_dialog_submit_warning_empty">您的菜单是空的!</string>
     <string name="ordered_dialog_submit_succeed">提交成功!</string>
     <string name="ordered_dialog_submit_failed">提交失败!</string>
+
     <string name="confirm_dialog_title">请确认</string>
     <string name="confirm_dialog_ok">确认</string>
     <string name="confirm_dialog_cancel">取消</string>
