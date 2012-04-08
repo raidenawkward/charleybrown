@@ -30,6 +30,11 @@ import android.widget.Toast;
 public class OrderedDialog extends CBBaseDialog
 								implements CBOrderedListView.Callback, OrderingDialog.Callback {
 
+	public interface Callback {
+		public void onOrderSubmitted();
+	}
+	private Callback mCallback = null;
+
 	private final float DIALOG_SIZE_SCALE_RATE_WIDTH = 0.55f;
 	private final float DIALOG_SIZE_SCALE_RATE_HEIGHT = 0.90f;
 
@@ -132,6 +137,9 @@ public class OrderedDialog extends CBBaseDialog
 
 				Toast.makeText(OrderedDialog.this.getContext(), message, 0).show();
 				OrderedDialog.this.dismiss();
+
+				if (mCallback != null)
+					mCallback.onOrderSubmitted();
 			}
 
 			public void onCancel() {
@@ -208,6 +216,14 @@ public class OrderedDialog extends CBBaseDialog
 	public boolean onItemDeletingFromOrder(CBMenuItem item) {
 		Toast.makeText(this.getContext(), R.string.ordering_count_cannot_be_zero, 0).show();
 		return false;
+	}
+
+	public Callback getCallback() {
+		return mCallback;
+	}
+
+	public void setCallback(Callback callback) {
+		this.mCallback = callback;
 	}
 
 }

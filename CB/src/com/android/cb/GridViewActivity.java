@@ -42,6 +42,7 @@ import android.widget.Toast;
 public class GridViewActivity extends Activity implements CBButtonsGroup.Callback,
 	LaunchingDialog.Callback,
 	OrderingDialog.Callback,
+	OrderedDialog.Callback,
 	CBIFOrderHandler,
 	GridMenuView.Callback {
 
@@ -211,7 +212,7 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 
 			mIsInitDone = true;
 			if (mLaunchingDialog != null)
-				mLaunchingDialog.dismiss();
+				mLaunchingDialog.hide();
 
 			super.onPostExecute(result);
 		}
@@ -311,7 +312,12 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 		OrderedDialog dialog = new OrderedDialog(this);
 		dialog.setOrder(mMenuEngine.getOrder());
 		dialog.setOrderHandler(this);
+		dialog.setCallback(this);
 		dialog.show();
+	}
+
+	public void onOrderSubmitted() {
+		mLaunchingDialog.show();
 	}
 
 }
