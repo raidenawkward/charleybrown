@@ -10,7 +10,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.android.cb.R;
-import com.android.cb.support.CBIFOrderHandler;
 import com.android.cb.support.CBOrder;
 import com.android.cb.support.CBOrder.OrderedItem;
 
@@ -31,8 +30,13 @@ import android.widget.TextView;
  */
 public class CBOrderedListView extends ListView {
 
-	private CBIFOrderHandler mOrderHandler = null;
+	public interface Callback {
+		public void onOrderedItemEditInList(CBOrder.OrderedItem item);
+		public void onOrderedItemRemoveInList(CBOrder.OrderedItem item);
+		public void onOrderedItemListUpdate();
+	}
 
+	private Callback mCallback = null;
 	private CBOrderedListView.ListAdapter mAdapter = null;
 
 	public CBOrderedListView(Context context, AttributeSet attrs, int defStyle) {
@@ -67,26 +71,31 @@ public class CBOrderedListView extends ListView {
 	}
 
 	protected void onOrderItemEdit(CBOrder.OrderedItem item) {
-		
+		if (mCallback == null)
+			return;
+
+		mCallback.onOrderedItemEditInList(item);
 	}
 
 	protected void onOrderItemRemove(CBOrder.OrderedItem item) {
-		if (mOrderHandler == null || item == null)
+		if (mCallback == null)
 			return;
-		mOrderHandler.removeItemFromOrder(item.item);
-		refresh();
-	}
-
-	public CBIFOrderHandler getOrderHandler() {
-		return mOrderHandler;
-	}
-
-	public void setOrderHandler(CBIFOrderHandler orderHandler) {
-		this.mOrderHandler = orderHandler;
+		mCallback.onOrderedItemRemoveInList(item);
 	}
 
 	public void refresh() {
+		if (mCallback == null)
+			return;
 
+		mCallback.onOrderedItemListUpdate();
+	}
+
+	public Callback getCallback() {
+		return mCallback;
+	}
+
+	public void setCallback(Callback callback) {
+		this.mCallback = callback;
 	}
 
 	protected class ListItemView {

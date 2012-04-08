@@ -46,6 +46,7 @@
 
 			<com.android.cb.view.CBOrderedListView
 			    android:id="@+id/cblistview_orderItemsList"
+			    android:background="#60000000"
 			    android:layout_height="fill_parent"
 				android:layout_width="fill_parent"/>
 

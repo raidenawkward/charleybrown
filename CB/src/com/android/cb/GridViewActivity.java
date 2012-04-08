@@ -303,8 +303,8 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 	public void showOrderedDialog() {
 		OrderedDialog dialog = new OrderedDialog(this);
 		dialog.setOrder(mMenuEngine.getOrder());
+		dialog.setOrderHandler(this);
 		dialog.show();
-//		this.saveOrderRecord();
 	}
 
 }

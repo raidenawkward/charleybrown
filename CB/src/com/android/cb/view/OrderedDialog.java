@@ -7,6 +7,7 @@
 package com.android.cb.view;
 
 import com.android.cb.R;
+import com.android.cb.support.CBIFOrderHandler;
 import com.android.cb.support.CBOrder;
 
 import android.content.Context;
@@ -22,12 +23,14 @@ import android.widget.TextView;
  *
  * @Description dialog in which ordered result shows
  */
-public class OrderedDialog extends CBBaseDialog {
+public class OrderedDialog extends CBBaseDialog
+								implements CBOrderedListView.Callback, OrderingDialog.Callback {
 
-	private final float DIALOG_SIZE_SCALE_RATE_WIDTH = 0.50f;
-	private final float DIALOG_SIZE_SCALE_RATE_HEIGHT = 0.85f;
+	private final float DIALOG_SIZE_SCALE_RATE_WIDTH = 0.55f;
+	private final float DIALOG_SIZE_SCALE_RATE_HEIGHT = 0.90f;
 
 	private CBOrder mOrder = null;
+	private CBIFOrderHandler mOrderHandler = null;
 
 	private CBOrderedListView mListView;
 	private TextView mViewHeader;
@@ -67,6 +70,7 @@ public class OrderedDialog extends CBBaseDialog {
 		window.setAttributes(params);
 
 		mListView = (CBOrderedListView) this.findViewById(R.id.cblistview_orderItemsList);
+		mListView.setCallback(this);
 
 		mViewHeader = (TextView) this.findViewById(R.id.view_header);
 		mViewTitle = (TextView) this.findViewById(R.id.view_title);
@@ -103,11 +107,56 @@ public class OrderedDialog extends CBBaseDialog {
 	}
 
 	public void submit() {
-
+		mOrderHandler.saveOrderRecord();
 	}
 
 	public CBOrder getOrder() {
 		return mOrder;
+	}
+
+	private void showOrderingDialog(CBOrder.OrderedItem item) {
+		OrderingDialog dialog = new OrderingDialog(this.getContext());
+		dialog.setOrderHandler(mOrderHandler);
+		dialog.setMenuItem(item.item);
+		dialog.setCallback(this);
+		dialog.show();
+	}
+
+	public void onOrderedItemEditInList(CBOrder.OrderedItem item) {
+		if (item == null || mOrderHandler == null)
+			return;
+
+		showOrderingDialog(item);
+	}
+
+	public void onOrderedItemRemoveInList(CBOrder.OrderedItem item) {
+		if (item == null || mOrderHandler == null)
+			return;
+
+		mOrderHandler.removeItemFromOrder(item.item);
+		onOrderedItemListUpdate();
+	}
+
+	public void onOrderedItemListUpdate() {
+		setOrder(mOrder);
+	}
+
+	public CBIFOrderHandler getOrderHandler() {
+		return mOrderHandler;
+	}
+
+	public void setOrderHandler(CBIFOrderHandler orderHandler) {
+		this.mOrderHandler = orderHandler;
+	}
+
+	public void onItemAddingToOrder(boolean succeed) {
+		if (succeed == true)
+			onOrderedItemListUpdate();
+	}
+
+	public void onItemDeletingFromOrder(boolean succeed) {
+		if (succeed == true)
+			onOrderedItemListUpdate();
 	}
 
 }
