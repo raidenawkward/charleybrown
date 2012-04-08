@@ -66,6 +66,8 @@ public class CBActivity extends Activity {
 
 		Intent intent = new Intent();
 		intent.setClass(CBActivity.this, GridViewActivity.class);
+		intent.putExtra(GridViewActivity.INTENT_ORDER_RECORD_PATH, orderRecordPath);
+
 		CBActivity.this.startActivity(intent);
     }
 

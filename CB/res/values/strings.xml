@@ -2,6 +2,8 @@
 <resources>
     <string name="app_name">CB</string>
 
+    <string name="gridview_activity_load_order_failed">无法加载该记录!</string>
+
     <string name="launching_text">正在加载</string>
     <string name="launching_done">点击屏幕开始点菜</string>
 
