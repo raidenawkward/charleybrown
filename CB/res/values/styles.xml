@@ -17,6 +17,9 @@
 		<item name="android:backgroundDimEnabled">false</item>
 		<item name="android:backgroundDimAmount">0.6</item>
     </style>
+    <style parent="CBTranslucentDialog" name="CBConfirmDialog">
+        <item name="android:windowBackground">@drawable/shape_confirm_dialog</item>
+    </style>
 
     <style name="CBFullScreenView">
         <item name="android:windowNoTitle">true</item>

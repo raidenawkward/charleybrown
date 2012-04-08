@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * @author raiden
@@ -107,7 +108,33 @@ public class OrderedDialog extends CBBaseDialog
 	}
 
 	public void submit() {
-		mOrderHandler.saveOrderRecord();
+		if (mOrder.getTotalItemCheckedCount() <= 0) {
+			String message = OrderedDialog.this.getContext().getResources().getString(R.string.ordered_dialog_submit_warning_empty);;
+			Toast.makeText(OrderedDialog.this.getContext(), message, 0).show();
+			return;
+		}
+
+		ConfirmDialog dialog = new ConfirmDialog(this.getContext());
+		dialog.setCallback(new ConfirmDialog.Callback() {
+			public void onConfirm() {
+
+				String message = null;
+				if (mOrderHandler.saveOrderRecord() == true) {
+					message = OrderedDialog.this.getContext().getResources().getString(R.string.ordered_dialog_submit_succeed);
+				} else {
+					message = OrderedDialog.this.getContext().getResources().getString(R.string.ordered_dialog_submit_failed);
+				}
+
+				Toast.makeText(OrderedDialog.this.getContext(), message, 0).show();
+				OrderedDialog.this.dismiss();
+			}
+
+			public void onCancel() {
+
+			}
+		});
+		dialog.setMessage(getContext().getResources().getString(R.string.ordered_dialog_submit_message));
+		dialog.show();
 	}
 
 	public CBOrder getOrder() {
@@ -133,8 +160,22 @@ public class OrderedDialog extends CBBaseDialog
 		if (item == null || mOrderHandler == null)
 			return;
 
-		mOrderHandler.removeItemFromOrder(item.item);
-		onOrderedItemListUpdate();
+		final CBOrder.OrderedItem itemToRemove = item;
+
+		ConfirmDialog dialog = new ConfirmDialog(this.getContext());
+		dialog.setCallback(new ConfirmDialog.Callback() {
+			public void onConfirm() {
+				mOrderHandler.removeItemFromOrder(itemToRemove.item);
+				onOrderedItemListUpdate();
+			}
+
+			public void onCancel() {
+			}
+		});
+		dialog.setMessage(getContext().getResources().getString(R.string.ordered_dialog_remove_message)
+					+ item.item.getDish().getName()
+					+ "?");
+		dialog.show();
 	}
 
 	public void onOrderedItemListUpdate() {

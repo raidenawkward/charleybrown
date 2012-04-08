@@ -29,4 +29,12 @@
     <string name="ordering_dialog_label_count">总数: </string>
     <string name="ordering_dialog_label_price">总价: </string>
     <string name="ordering_dialog_price_tail"> 元</string>
+    <string name="ordered_dialog_remove_message">确认删除</string>
+    <string name="ordered_dialog_submit_message">您确定要提交?</string>
+    <string name="ordered_dialog_submit_warning_empty">您的菜单是空的!</string>
+    <string name="ordered_dialog_submit_succeed">提交成功!</string>
+    <string name="ordered_dialog_submit_failed">提交失败!</string>
+    <string name="confirm_dialog_title">请确认</string>
+    <string name="confirm_dialog_ok">确认</string>
+    <string name="confirm_dialog_cancel">取消</string>
 </resources>

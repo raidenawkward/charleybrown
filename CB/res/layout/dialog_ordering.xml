@@ -14,12 +14,12 @@
 	<LinearLayout
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent"
+		android:paddingLeft="20px"
 		android:orientation="horizontal"
 		android:layout_weight="10"
 		android:gravity="left">
 		<TextView android:id="@+id/view_name"
 			android:textStyle="bold"
-			android:text=""
 			android:textSize="24px"
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent"/>
@@ -47,7 +47,7 @@
 				android:layout_centerInParent="true"
 				android:layout_marginRight="15px"
 				android:layout_marginLeft="15px"
-				android:layout_width="75px"
+				android:layout_width="100px"
 				android:layout_height="wrap_content" />
 
 			<com.android.cb.view.CBDialogButton android:id="@+id/button_decrease"
