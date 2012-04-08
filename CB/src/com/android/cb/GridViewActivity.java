@@ -46,6 +46,7 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 	GridMenuView.Callback {
 
 	public static final String DISHES_DIR = "/sdcard/dishes";
+	public static final int DEFAULT_BUTTON_TEXT_SIZE = 20;
 
 	private GridMenuView mGridView;
 	private CBButtonsGroup mButtonsGruop;
@@ -122,10 +123,12 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 		for (int i = 0; i < mContainedTags.count(); ++i) {
 			CBButton button = new CBButton(mButtonsGruop.getContext(), R.drawable.button_orange, R.drawable.button_gray);
 			button.setText(mContainedTags.get(i));
+			button.setTextSize(DEFAULT_BUTTON_TEXT_SIZE);
 			mButtonsGruop.addButton(button);
 		}
 
 		mButtonOrdered = (CBDialogButton) this.findViewById(R.id.botton_OrderList);
+		mButtonOrdered.setTextSize(DEFAULT_BUTTON_TEXT_SIZE);
 		mButtonOrdered.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View arg0) {
 				showOrderedDialog();

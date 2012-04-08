@@ -21,7 +21,7 @@
     <string name="ordering_adding_failed">添加失败</string>
     <string name="ordering_deleting_succeed">删除成功</string>
     <string name="ordering_deleting_falied">删除失败</string>
-    <string name="ordering_count_cannot_be_zero">数量为不能为0!</string>
+    <string name="ordering_count_cannot_be_zero">数量为不能为0! 或者您可以选择\'删除\'</string>
 
     <string name="ordered_myOrder_button_text">我的菜单</string>
     <string name="ordered_submit">提交菜单</string>

@@ -30,21 +30,23 @@ public class CBButton extends Button {
 
 	public CBButton(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-
+		initButton();
 	}
 
 	public CBButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
-
+		initButton();
 	}
 
 	public CBButton(Context context) {
 		super(context);
+		initButton();
 	}
 
 	public CBButton(Context context, Drawable drawableOn, Drawable drawableOff) {
 		super(context);
 
+		initButton();
 		setDrawableOn(drawableOn);
 		setDrawableOff(drawableOff);
 		turnOff();
@@ -53,9 +55,14 @@ public class CBButton extends Button {
 	public CBButton(Context context, int drawableResourceOn, int drawableResourceOff) {
 		super(context);
 
+		initButton();
 		setDrawableOn(drawableResourceOn);
 		setDrawableOff(drawableResourceOff);
 		turnOff();
+	}
+
+	private void initButton() {
+
 	}
 
 	public void turnOn() {
