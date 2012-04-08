@@ -6,6 +6,8 @@
  */
 package com.android.cb.view;
 
+import java.text.SimpleDateFormat;
+
 import com.android.cb.R;
 import com.android.cb.support.CBIFOrderHandler;
 import com.android.cb.support.CBMenuItem;
@@ -96,7 +98,9 @@ public class OrderedDialog extends CBBaseDialog
 
 	public void setOrder(CBOrder order) {
 		mViewHeader.setText(order.getId().toString());
-		mViewTitle.setText(order.getCreateTime().toString());
+
+		SimpleDateFormat formatDate = new SimpleDateFormat(this.getContext().getResources().getString(R.string.ordered_time_format));
+		mViewTitle.setText(formatDate.format(order.getCreateTime()));
 
 		mViewCount.setText(getContext().getResources().getString(R.string.ordered_dialog_label_count)
 						+ String.valueOf(order.getTotalItemCheckedCount()));

@@ -21,18 +21,20 @@
     <string name="ordering_adding_failed">添加失败</string>
     <string name="ordering_deleting_succeed">删除成功</string>
     <string name="ordering_deleting_falied">删除失败</string>
-    <string name="ordering_count_cannot_be_zero">数量为不能为0! 或者您可以选择\'删除\'</string>
+    <string name="ordering_count_cannot_be_zero">数量不能为0!\u0020\u0020或者您可以选择\'删除\'</string>
 
     <string name="ordered_myOrder_button_text">我的菜单</string>
     <string name="ordered_submit">提交菜单</string>
     <string name="ordered_goBack">返回</string>
     <string name="ordered_edit">编辑</string>
     <string name="ordered_remove">删除</string>
-    <string name="ordered_listitem_label_price">单价: </string>
-    <string name="ordered_listitem_label_count">数量: x</string>
-    <string name="ordered_dialog_label_count">总数: </string>
-    <string name="ordered_dialog_label_price">总价: </string>
-    <string name="ordered_dialog_price_tail"> 元</string>
+    <string name="ordered_time_format">点餐时间: yyyy年MM月dd日 E kk点mm分</string>
+    <string name="ordered_listitem_label_id">菜单编号:\u0020</string>
+    <string name="ordered_listitem_label_price">单价:\u0020</string>
+    <string name="ordered_listitem_label_count">数量:\u0020x</string>
+    <string name="ordered_dialog_label_count">总数:\u0020</string>
+    <string name="ordered_dialog_label_price">总价:\u0020</string>
+    <string name="ordered_dialog_price_tail">\u0020元</string>
     <string name="ordered_dialog_remove_message">确认删除</string>
     <string name="ordered_dialog_submit_message">您确定要提交?</string>
     <string name="ordered_dialog_submit_warning_empty">您的菜单是空的!</string>
