@@ -169,16 +169,20 @@ public class PreviewDialog extends CBBaseDialog implements OrderingDialog.Callba
 		dialog.show();
 	}
 
-	public void onItemAddingToOrder(boolean succeed) {
+	public void onItemAddedToOrder(boolean succeed) {
 		int stringId = (succeed ? R.string.ordering_adding_succeed : R.string.ordering_adding_failed);
 		String str = this.getContext().getResources().getString(stringId);
 		Toast.makeText(this.getContext(), str, 0).show();
 	}
 
-	public void onItemDeletingFromOrder(boolean succeed) {
+	public void onItemDeletedFromOrder(boolean succeed) {
 		int stringId = (succeed ? R.string.ordering_deleting_succeed : R.string.ordering_deleting_falied);
 		String str = this.getContext().getResources().getString(stringId);
 		Toast.makeText(this.getContext(), str, 0).show();
+	}
+
+	public boolean onItemDeletingFromOrder(CBMenuItem item) {
+		return true;
 	}
 
 }

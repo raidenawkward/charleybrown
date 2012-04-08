@@ -27,8 +27,9 @@ public class OrderingDialog extends CBBaseDialog {
 	public static final int MAX_ITEM_COUNT = 50;
 
 	public interface Callback {
-		public void onItemAddingToOrder(boolean succeed);
-		public void onItemDeletingFromOrder(boolean succeed);
+		public void onItemAddedToOrder(boolean succeed);
+		public void onItemDeletedFromOrder(boolean succeed);
+		public boolean onItemDeletingFromOrder(CBMenuItem item);
 	}
 
 	Callback mCallback = null;
@@ -173,12 +174,16 @@ public class OrderingDialog extends CBBaseDialog {
 		if (count > 0) {
 			boolean res = mOrderHandler.addItemToOrder(mMenuItem, count);
 			if (mCallback != null) {
-				mCallback.onItemAddingToOrder(res);
+				mCallback.onItemAddedToOrder(res);
 			}
 		} else if (count == 0) {
+			if (mCallback != null)
+				if (mCallback.onItemDeletingFromOrder(mMenuItem) == false)
+					return;
+
 			boolean res = mOrderHandler.removeItemFromOrder(mMenuItem);
 			if (mCallback != null) {
-				mCallback.onItemDeletingFromOrder(res);
+				mCallback.onItemDeletedFromOrder(res);
 			}
 		} else {
 

@@ -8,6 +8,7 @@ package com.android.cb.view;
 
 import com.android.cb.R;
 import com.android.cb.support.CBIFOrderHandler;
+import com.android.cb.support.CBMenuItem;
 import com.android.cb.support.CBOrder;
 
 import android.content.Context;
@@ -190,14 +191,19 @@ public class OrderedDialog extends CBBaseDialog
 		this.mOrderHandler = orderHandler;
 	}
 
-	public void onItemAddingToOrder(boolean succeed) {
+	public void onItemAddedToOrder(boolean succeed) {
 		if (succeed == true)
 			onOrderedItemListUpdate();
 	}
 
-	public void onItemDeletingFromOrder(boolean succeed) {
+	public void onItemDeletedFromOrder(boolean succeed) {
 		if (succeed == true)
 			onOrderedItemListUpdate();
+	}
+
+	public boolean onItemDeletingFromOrder(CBMenuItem item) {
+		Toast.makeText(this.getContext(), R.string.ordering_count_cannot_be_zero, 0).show();
+		return false;
 	}
 
 }
