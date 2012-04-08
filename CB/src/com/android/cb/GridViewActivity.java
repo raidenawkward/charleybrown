@@ -166,12 +166,15 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 		return !mIsInitDone;
 	}
 
-	private static String sLaunchingText = "Launching";
+	private static String sLaunchingText = "";
 	public String getCurrentLaunchingText() {
+		String text = this.getResources().getString(R.string.launching_text);
+
 		sLaunchingText += ".";
-		if (sLaunchingText.length() > 12)
-			sLaunchingText = "Launching";
-		return sLaunchingText;
+		if (sLaunchingText.length() > 3)
+			sLaunchingText = ".";
+
+		return text + sLaunchingText;
 	}
 
 	public void onItemClicked(CBMenuItem item) {
@@ -211,8 +214,7 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 			initGridMenuView();
 
 			mIsInitDone = true;
-			if (mLaunchingDialog != null)
-				mLaunchingDialog.hide();
+			mLaunchingDialog.launchingDone();
 
 			super.onPostExecute(result);
 		}

@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.widget.TextView;
 
 /**
@@ -31,7 +32,8 @@ public class LaunchingDialog extends CBBaseDialog {
 	}
 
 	private final int ACTION_TICKING = 0;
-	private final int ACTION_DISMISS = 1;
+	private final int ACTION_SUSPEND = 1;
+	private final int ACTION_DISMISS = 2;
 
 	private String mText = "Launching";
 	private Callback mCallback = null;
@@ -51,7 +53,7 @@ public class LaunchingDialog extends CBBaseDialog {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.setContentView(R.layout.dialog_launching);
-		mTextView = (TextView) this.findViewById(R.id.textView1);
+		mTextView = (TextView) this.findViewById(R.id.view_text);
 
 		mThread = new ProgressThread();
 
@@ -73,6 +75,8 @@ public class LaunchingDialog extends CBBaseDialog {
 			if (mText != null)
 				mTextView.setText(mText);
 			break;
+		case ACTION_SUSPEND:
+			break;
 		case ACTION_DISMISS:
 			this.dismiss();
 			break;
@@ -88,6 +92,14 @@ public class LaunchingDialog extends CBBaseDialog {
 			return false;
 		}
 		return super.onKeyDown(keyCode, event);
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		if (isLaunching() == false)
+			this.dismiss();
+
+		return super.onTouchEvent(event);
 	}
 
 	public void start() {
@@ -109,21 +121,44 @@ public class LaunchingDialog extends CBBaseDialog {
 
 	public void setText(String text) {
 		this.mText = text;
+		mTextView.setText(text);
+	}
+
+	public boolean isLaunching() {
+		if (mThread != null)
+			return mThread.running;
+
+		return false;
+	}
+
+	public void launchingDone() {
+		try {
+			mThread.running = false;
+			mThread.join();
+			mThread = null;
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		setText(this.getContext().getResources().getString(R.string.launching_done));
 	}
 
 	private class ProgressThread extends Thread {
+		public boolean running = true;
 		@Override
 		public void run() {
 			try {
-				while(mCallback.onLaunchingTick()) {
+				while(mCallback.onLaunchingTick() || running) {
 					Thread.sleep(500);
+					if (running == false) {
+						break;
+					}
 					Message message = new Message();
 					message.what = ACTION_TICKING;
 					mHandler.sendMessage(message);
 				}
 
 				Message message = new Message();
-				message.what = ACTION_DISMISS;
+				message.what = ACTION_SUSPEND;
 				mHandler.sendMessage(message);
 			} catch (InterruptedException e) {
 				e.printStackTrace();

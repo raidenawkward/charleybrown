@@ -1,21 +1,21 @@
 package com.android.cb;
 
-import com.android.cb.view.CBValidityChecker;
-
 import android.app.Activity;
 import android.content.Intent;
 
 import android.os.Bundle;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 
 public class CBActivity extends Activity {
 //	LinearLayout mLayoutMain;
 //	CBMenuEngine mMenuEngine;
 //	SingleMenuView mSingleView;
 //	GridMenuView mGridView;
+
+	public CBActivity() {
+		super();
+	}
 
     /** Called when the activity is first created. */
     @Override
@@ -26,18 +26,7 @@ public class CBActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
-		Button buttonStart = (Button) this.findViewById(R.id.button_start);
-		buttonStart.setOnClickListener(new Button.OnClickListener() {
-
-			public void onClick(View arg0) {
-				openGridViewActivity();
-			}
-
-		});
-
-		if (CBValidityChecker.isValid(this) == false) {
-			buttonStart.setText("Invalid!");
-		}
+		openGridViewActivity();
 
 //		mLayoutMain = (LinearLayout) findViewById(R.id.mainview);
 
@@ -50,7 +39,7 @@ public class CBActivity extends Activity {
 //		mLayoutMain.addView(mSingleView);
     }
 
-    private void openGridViewActivity() {
+	private void openGridViewActivity() {
 		Intent intent = new Intent();
 		intent.setClass(CBActivity.this, GridViewActivity.class);
 		CBActivity.this.startActivity(intent);

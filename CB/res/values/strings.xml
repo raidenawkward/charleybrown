@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CB</string>
+    <string name="launching_text">正在加载</string>
+    <string name="launching_done">点击屏幕开始点菜</string>
     <string name="preview_detail">详细内容</string>
     <string name="preview_quit">返回</string>
     <string name="preview_order">加入菜单</string>
