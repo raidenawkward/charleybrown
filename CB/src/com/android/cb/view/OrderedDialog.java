@@ -42,7 +42,8 @@ public class OrderedDialog extends CBBaseDialog
 	private CBIFOrderHandler mOrderHandler = null;
 
 	private CBOrderedListView mListView;
-	private TextView mViewHeader;
+	private TextView mViewId;
+	private TextView mViewLocation;
 	private TextView mViewTitle;
 	private TextView mViewCount;
 	private TextView mViewPrice;
@@ -81,7 +82,8 @@ public class OrderedDialog extends CBBaseDialog
 		mListView = (CBOrderedListView) this.findViewById(R.id.cblistview_orderItemsList);
 		mListView.setCallback(this);
 
-		mViewHeader = (TextView) this.findViewById(R.id.view_header);
+		mViewId = (TextView) this.findViewById(R.id.view_id);
+		mViewLocation = (TextView) this.findViewById(R.id.view_location);
 		mViewTitle = (TextView) this.findViewById(R.id.view_title);
 		mViewCount = (TextView) this.findViewById(R.id.view_count);
 		mViewPrice = (TextView) this.findViewById(R.id.view_price);
@@ -102,7 +104,8 @@ public class OrderedDialog extends CBBaseDialog
 	}
 
 	public void setOrder(CBOrder order) {
-		mViewHeader.setText(order.getId().toString());
+		mViewId.setText(order.getId().toString());
+		mViewLocation.setText(order.getLocation().toString());
 
 		SimpleDateFormat formatDate = new SimpleDateFormat(this.getContext().getResources().getString(R.string.ordered_time_format));
 		mViewTitle.setText(formatDate.format(order.getCreateTime()));

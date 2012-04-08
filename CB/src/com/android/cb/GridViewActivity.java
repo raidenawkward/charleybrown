@@ -26,7 +26,6 @@ import com.android.cb.view.OrderingDialog;
 import com.android.cb.view.PreviewDialog;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -48,6 +47,7 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 	GridMenuView.Callback {
 
 	public static final String INTENT_ORDER_RECORD_PATH = "intent.order.record.path";
+	public static final String INTENT_ORDER_LOCATION = "intent.order.location";
 
 	public static final String DISHES_DIR = "/sdcard/dishes";
 	public static final int DEFAULT_BUTTON_TEXT_SIZE = 20;
