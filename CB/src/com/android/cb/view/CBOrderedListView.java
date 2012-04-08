@@ -206,9 +206,9 @@ public class CBOrderedListView extends ListView {
 			}
 
 			listItemView.getViewName().setText(orderedItem.item.getDish().getName());
-			listItemView.getViewPrice().setText(mOrderedListView.getContext().getResources().getString(R.string.ordering_listitem_label_price)
+			listItemView.getViewPrice().setText(mOrderedListView.getContext().getResources().getString(R.string.ordered_listitem_label_price)
 							+ String.valueOf(orderedItem.item.getDish().getPrice()));
-			listItemView.getViewCount().setText(mOrderedListView.getContext().getResources().getString(R.string.ordering_listitem_label_count)
+			listItemView.getViewCount().setText(mOrderedListView.getContext().getResources().getString(R.string.ordered_listitem_label_count)
 							+ orderedItem.count);
 
 			return convertView;

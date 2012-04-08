@@ -47,12 +47,12 @@
 		android:layout_height="fill_parent"
 		android:layout_width="wrap_content">
 			<com.android.cb.view.CBDialogButton android:id="@+id/button_edit"
-				android:text="@string/ordering_edit"
+				android:text="@string/ordered_edit"
 				android:layout_marginRight="15px"
 				android:layout_height="wrap_content"
 				android:layout_width="60px"/>
 			<com.android.cb.view.CBDialogButton android:id="@+id/button_remove"
-				android:text="@string/ordering_remove"
+				android:text="@string/ordered_remove"
 				android:layout_height="wrap_content"
 				android:layout_width="60px"/>
 	</LinearLayout>

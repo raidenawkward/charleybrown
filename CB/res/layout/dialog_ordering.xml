@@ -14,7 +14,7 @@
 	<LinearLayout
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent"
-		android:paddingLeft="20px"
+		android:paddingLeft="10px"
 		android:orientation="horizontal"
 		android:layout_weight="10"
 		android:gravity="left">
@@ -31,12 +31,20 @@
 		android:layout_width="fill_parent"
 		android:layout_weight="250"
 		android:orientation="horizontal">
+			<TextView android:text="@string/ordering_count"
+				android:textStyle="bold"
+				android:textSize="24px"
+				android:gravity="left"
+				android:layout_marginRight="15px"
+				android:layout_height="wrap_content"
+				android:layout_width="wrap_content"/>
+
 			<com.android.cb.view.CBDialogButton android:id="@+id/button_increase"
 				android:text="@string/ordering_increase"
 				android:textSize="24px"
 				android:textStyle="bold"
 				android:layout_height="wrap_content"
-				android:layout_width="75px"/>
+				android:layout_width="60px"/>
 
 			<EditText android:id="@+id/edit_count"
 			    android:focusable="false"
@@ -45,8 +53,8 @@
 				android:textStyle="bold"
 				android:gravity="center"
 				android:layout_centerInParent="true"
-				android:layout_marginRight="15px"
-				android:layout_marginLeft="15px"
+				android:layout_marginRight="5px"
+				android:layout_marginLeft="5px"
 				android:layout_width="100px"
 				android:layout_height="wrap_content" />
 
@@ -55,7 +63,7 @@
 				android:textSize="24px"
 				android:textStyle="bold"
 				android:layout_height="wrap_content"
-				android:layout_width="75px"/>
+				android:layout_width="60px"/>
 	</LinearLayout>
 	<LinearLayout
 		android:layout_height="wrap_content"

@@ -128,14 +128,19 @@ public class OrderingDialog extends CBBaseDialog {
 		if (mEditCount == null)
 			return 0;
 
-		return Integer.valueOf(mEditCount.getText().toString().trim());
+		String countStr = mEditCount.getText().toString().trim();
+		if (countStr.startsWith(this.getContext().getString(R.string.ordering_multiply_char)))
+			countStr = countStr.substring(1);
+
+		return Integer.valueOf(countStr);
 	}
 
 	private void setCount(int count) {
 		if (count < 0 || count >= MAX_ITEM_COUNT)
 			return;
 
-		mEditCount.setText(String.valueOf(count));
+		String countStr = this.getContext().getString(R.string.ordering_multiply_char) + String.valueOf(count);
+		mEditCount.setText(countStr);
 		mEditCount.selectAll();
 	}
 

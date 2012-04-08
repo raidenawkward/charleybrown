@@ -292,7 +292,7 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 	}
 
 	public void updateOrderingButtonStatus() {
-		String buttonText = this.getResources().getString(R.string.ordering_myOrder_button_text);
+		String buttonText = this.getResources().getString(R.string.ordered_myOrder_button_text);
 		int orderingCount = mMenuEngine.getTotalItemCheckedCount();
 		if (orderingCount > 0)
 			buttonText += " (" + orderingCount + ")";

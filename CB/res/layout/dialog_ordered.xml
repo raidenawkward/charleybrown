@@ -86,12 +86,12 @@
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent">
 				<com.android.cb.view.CBDialogButton android:id="@+id/button_submit"
-					android:text="@string/ordering_submit"
+					android:text="@string/ordered_submit"
 					android:layout_marginRight="15px"
 					android:layout_height="wrap_content"
 					android:layout_width="100px"/>
 				<com.android.cb.view.CBDialogButton android:id="@+id/button_quit"
-					android:text="@string/ordering_goBack"
+					android:text="@string/ordered_goBack"
 					android:layout_height="wrap_content"
 					android:layout_width="100px"/>
 		</LinearLayout>

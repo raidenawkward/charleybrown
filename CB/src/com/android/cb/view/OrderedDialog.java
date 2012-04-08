@@ -97,11 +97,11 @@ public class OrderedDialog extends CBBaseDialog
 		mViewHeader.setText(order.getId().toString());
 		mViewTitle.setText(order.getCreateTime().toString());
 
-		mViewCount.setText(getContext().getResources().getString(R.string.ordering_dialog_label_count)
+		mViewCount.setText(getContext().getResources().getString(R.string.ordered_dialog_label_count)
 						+ String.valueOf(order.getTotalItemCheckedCount()));
-		mViewPrice.setText(getContext().getResources().getString(R.string.ordering_dialog_label_price)
+		mViewPrice.setText(getContext().getResources().getString(R.string.ordered_dialog_label_price)
 						+ String.valueOf(order.getRealSummation())
-						+ getContext().getResources().getString(R.string.ordering_dialog_price_tail));
+						+ getContext().getResources().getString(R.string.ordered_dialog_price_tail));
 
 		mListView.setOrder(order);
 		mOrder = order;
