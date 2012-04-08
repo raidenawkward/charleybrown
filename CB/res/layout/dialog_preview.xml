@@ -23,6 +23,7 @@
 				android:scaleType="centerCrop"></ImageView>
 		</LinearLayout>
 		<LinearLayout android:id="@+id/layout_infomation"
+		android:paddingTop="10px"
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent"
 		android:orientation="vertical">
@@ -37,8 +38,8 @@
 				android:orientation="horizontal"
 				android:gravity="left">
 					<TextView android:id="@+id/textView_name"
-						android:text="name"
-						android:textSize="18px"
+						android:textSize="24px"
+						android:textStyle="bold"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"></TextView>
 				</LinearLayout>
@@ -49,24 +50,27 @@
 				android:orientation="horizontal"
 				android:gravity="right">
 					<TextView android:id="@+id/textView_price"
-						android:text="name"
-						android:textSize="18px"
+						android:textSize="24px"
+						android:textStyle="bold"
+						android:textColor="#BB4444"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"></TextView>
 				</LinearLayout>
 			</RelativeLayout>
 		<LinearLayout
+		android:paddingTop="10px"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
 		android:orientation="horizontal"
 		android:gravity="left">
 			<TextView android:id="@+id/textView_summary"
 				android:text="name"
-				android:textSize="18px"
+				android:textSize="20px"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"></TextView>
 		</LinearLayout>
 		<LinearLayout
+		android:paddingTop="10px"
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent"
 		android:orientation="horizontal"
