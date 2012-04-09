@@ -6,12 +6,15 @@
  */
 package com.android.cb.source;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
 import org.xmlpull.v1.XmlPullParser;
+
+import com.android.cb.support.CBTagsSet;
 
 /**
  * @author raiden
@@ -24,10 +27,13 @@ public class CBSettings {
 
 	public static final String CB_SETTINGS_SOURCE_DIR = "cb.settings.source.dir";
 	public static final String CB_SETTINGS_SOURCE_DIR_DISHES = "cb.settings.source.dir.dishes";
+	public static final String CB_SETTINGS_SOURCE_DIR_ORDERS = "cb.settings.source.dir.orders";
 	public static final String CB_SETTINGS_SOURCE_DIR_SETTINGS = "cb.settings.source.dir.settings";
 	public static final String CB_SETTINGS_DEVICE_ID = "cb.settings.device.id";
 	public static final String CB_SETTINGS_LEFT_BUTTONS_TAGS_FILE = "cb.settings.left.buttons.tags.file";
 	public static final String CB_SETTINGS_ORDER_LOCATIONS_FILE = "cb.settings.left.locations.file";
+
+	public static final String CB_SETTINGS_LEFT_BUTTON_TEXT_SIZE = "cb.settings.left.button.text.size";
 
 
 	/**
@@ -39,9 +45,12 @@ public class CBSettings {
 		SETTINGS_MAP.put(CB_SETTINGS_DEVICE_ID, "unknown");
 		SETTINGS_MAP.put(CB_SETTINGS_SOURCE_DIR, "/sdcard/cb");
 		SETTINGS_MAP.put(CB_SETTINGS_SOURCE_DIR_DISHES, "/sdcard/cb/dishes");
+		SETTINGS_MAP.put(CB_SETTINGS_SOURCE_DIR_ORDERS, "/sdcard/cb/orders");
 		SETTINGS_MAP.put(CB_SETTINGS_SOURCE_DIR_SETTINGS, "/sdcard/cb/settings");
-		SETTINGS_MAP.put(CB_SETTINGS_LEFT_BUTTONS_TAGS_FILE, "left_buttons.xml");
-		SETTINGS_MAP.put(CB_SETTINGS_ORDER_LOCATIONS_FILE, "order_locations.xml");
+		SETTINGS_MAP.put(CB_SETTINGS_LEFT_BUTTONS_TAGS_FILE, "/sdcard/cb/settings/left_buttons.xml");
+		SETTINGS_MAP.put(CB_SETTINGS_ORDER_LOCATIONS_FILE, "/sdcard/cb/settings/order_locations.xml");
+
+		SETTINGS_MAP.put(CB_SETTINGS_LEFT_BUTTON_TEXT_SIZE, "20");
 	}
 
 
@@ -61,6 +70,13 @@ public class CBSettings {
 	public static boolean save(String xmlPath) {
 		if (xmlPath == null)
 			return false;
+
+		String settingsDir = getStringValue(CB_SETTINGS_SOURCE_DIR_SETTINGS);
+		if (settingsDir.length() > 0) {
+			File fileSettingDir = new File(settingsDir);
+			if (fileSettingDir.exists() == false)
+				fileSettingDir.mkdirs();
+		}
 
 		// saving main settings
 		CBXmlWriter writer = new CBXmlWriter(xmlPath);
@@ -112,8 +128,8 @@ public class CBSettings {
 			return false;
 
 		// loading left buttons
-		LEFT_BUTTONS_TAG_LIST = null;
-		if (getLeftButtonsTagList() == null)
+		LEFT_BUTTONS_TAGS_SET = null;
+		if (getLeftButtonTagsSet() == null)
 			return false;
 
 		// loading order location list
@@ -129,24 +145,24 @@ public class CBSettings {
 	 * members and methods for LEFT_BUTTONS_TAG_LIST
 	 */
 
-	protected static ArrayList<String> LEFT_BUTTONS_TAG_LIST = null;
+	protected static CBTagsSet LEFT_BUTTONS_TAGS_SET = null;
 
 	protected static final String XML_TAG_LEFT_BUTTON_LIST = "LeftButtonList";
 	protected static final String XML_TAG_LEFT_BUTTON = "LeftButton";
 
-	public static ArrayList<String> getLeftButtonsTagList() {
-		if (LEFT_BUTTONS_TAG_LIST == null) {
+	public static CBTagsSet getLeftButtonTagsSet() {
+		if (LEFT_BUTTONS_TAGS_SET == null) {
 			String xmlPath = CBSettings.getStringValue(CB_SETTINGS_SOURCE_DIR_SETTINGS)
 			+ "/"
 			+ CBSettings.getStringValue(CB_SETTINGS_LEFT_BUTTONS_TAGS_FILE);
 
-			return loadLeftButtonsTagList(xmlPath);
+			return loadLeftButtonTagsSet(xmlPath);
 		}
 
-		return LEFT_BUTTONS_TAG_LIST;
+		return LEFT_BUTTONS_TAGS_SET;
 	}
 
-	public static ArrayList<String> loadLeftButtonsTagList(String xmlPath) {
+	public static CBTagsSet loadLeftButtonTagsSet(String xmlPath) {
 		if (xmlPath == null)
 			return null;
 
@@ -156,14 +172,14 @@ public class CBSettings {
 			public void onTagWithValueDetected(String tag, String value,
 					XmlPullParser parser) {
 				if (tag.equalsIgnoreCase(XML_TAG_LEFT_BUTTON)) {
-					if (LEFT_BUTTONS_TAG_LIST != null) {
-						LEFT_BUTTONS_TAG_LIST.add(value);
+					if (LEFT_BUTTONS_TAGS_SET != null) {
+						LEFT_BUTTONS_TAGS_SET.add(value);
 					}
 				}
 			}
 
 			public void onStartDocument(XmlPullParser parser) {
-				LEFT_BUTTONS_TAG_LIST = new ArrayList<String>();
+				LEFT_BUTTONS_TAGS_SET = new CBTagsSet();
 			}
 
 			public void onEndDocument(XmlPullParser parser) {
@@ -173,10 +189,10 @@ public class CBSettings {
 
 		parser.parse();
 
-		return LEFT_BUTTONS_TAG_LIST;
+		return LEFT_BUTTONS_TAGS_SET;
 	}
 
-	public static boolean saveLeftButtonsTagList(String xmlPath) {
+	public static boolean saveLeftButtonTagsSet(String xmlPath) {
 		if (xmlPath == null)
 			return false;
 
@@ -189,8 +205,8 @@ public class CBSettings {
 
 		writer.writeStartTag(XML_TAG_LEFT_BUTTON_LIST, 0);
 
-		for (int i = 0; i < LEFT_BUTTONS_TAG_LIST.size(); ++i) {
-			String tag = LEFT_BUTTONS_TAG_LIST.get(i);
+		for (int i = 0; i < LEFT_BUTTONS_TAGS_SET.count(); ++i) {
+			String tag = LEFT_BUTTONS_TAGS_SET.get(i);
 			writer.writeOneLineTags(XML_TAG_LEFT_BUTTON, null, tag, 1);
 		}
 

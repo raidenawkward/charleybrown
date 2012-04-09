@@ -1,5 +1,6 @@
 package com.android.cb;
 
+import com.android.cb.source.CBSettings;
 import com.android.cb.view.CBDialogButton;
 
 import android.app.Activity;
@@ -19,6 +20,8 @@ public class CBActivity extends Activity {
 
 	public CBActivity() {
 		super();
+
+		CBSettings.load();
 	}
 
     /** Called when the activity is first created. */
@@ -47,6 +50,7 @@ public class CBActivity extends Activity {
 		mButtonQuit = (CBDialogButton) this.findViewById(R.id.button_quit);
 		mButtonQuit.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
+				CBSettings.save();
 				finish();
 			}
 		});

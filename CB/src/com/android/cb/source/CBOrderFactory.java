@@ -21,7 +21,6 @@ import com.android.cb.support.CBOrder;
  */
 public class CBOrderFactory {
 
-	public static final String CB_ORDER_RECORD_DIR = "/sdcard/orders";
 	public static final String CB_ORDER_PATH_SPLITOR = "/";
 	public static final String CB_ORDER_RECORD_EXT = ".xml";
 	public static final String CB_ORDER_RECORD_FILE_FORMAT = "hhmmss";
@@ -96,7 +95,7 @@ public class CBOrderFactory {
 	}
 
 	public static String generateOrderDir() {
-		String res = CB_ORDER_RECORD_DIR + CB_ORDER_PATH_SPLITOR;
+		String res = CBSettings.getStringValue(CBSettings.CB_SETTINGS_SOURCE_DIR_ORDERS) + CB_ORDER_PATH_SPLITOR;
 		SimpleDateFormat format = new SimpleDateFormat(CB_ORDER_RECORD_DIR_FORMAT);
 		res += format.format(sCurrentTime);
 

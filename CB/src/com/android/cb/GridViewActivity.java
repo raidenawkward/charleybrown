@@ -8,6 +8,7 @@ package com.android.cb;
 
 import com.android.cb.source.CBDishesScanner;
 import com.android.cb.source.CBOrderFactory;
+import com.android.cb.source.CBSettings;
 import com.android.cb.support.CBDish;
 import com.android.cb.support.CBIFOrderHandler;
 import com.android.cb.support.CBId;
@@ -49,15 +50,12 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 	public static final String INTENT_ORDER_RECORD_PATH = "intent.order.record.path";
 	public static final String INTENT_ORDER_LOCATION = "intent.order.location";
 
-	public static final String DISHES_DIR = "/sdcard/dishes";
-	public static final int DEFAULT_BUTTON_TEXT_SIZE = 20;
-
 	private GridMenuView mGridView;
 	private CBButtonsGroup mButtonsGruop;
 	private CBDialogButton mButtonOrdered;
 
 	private CBMenuEngine mMenuEngine;
-	private CBTagsSet mContainedTags;
+	private CBTagsSet mTagButtonTags = null;
 	private LaunchingDialog mLaunchingDialog = null;
 	private boolean mIsInitDone = false;
 
@@ -78,7 +76,7 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 	}
 
 	private void initMenuEngine() {
-		CBDishesScanner scanner = new CBDishesScanner(DISHES_DIR);
+		CBDishesScanner scanner = new CBDishesScanner(CBSettings.getStringValue(CBSettings.CB_SETTINGS_SOURCE_DIR_DISHES));
 		CBMenuItemsSet set = scanner.scan();
 
 		mMenuEngine = new CBMenuEngine();
@@ -132,16 +130,19 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 		mButtonsGruop.setCallback(this);
 		mButtonsGruop.setButtonsMargins(5);
 
-		mContainedTags = mMenuEngine.getContainedTags();
-		for (int i = 0; i < mContainedTags.count(); ++i) {
+		mTagButtonTags = CBSettings.getLeftButtonTagsSet();
+		if (mTagButtonTags == null)
+			mTagButtonTags = mMenuEngine.getContainedTags();
+
+		for (int i = 0; i < mTagButtonTags.count(); ++i) {
 			CBButton button = new CBButton(mButtonsGruop.getContext(), R.drawable.button_orange, R.drawable.button_gray);
-			button.setText(mContainedTags.get(i));
-			button.setTextSize(DEFAULT_BUTTON_TEXT_SIZE);
+			button.setText(mTagButtonTags.get(i));
+			button.setTextSize(CBSettings.getIntValue(CBSettings.CB_SETTINGS_LEFT_BUTTON_TEXT_SIZE));
 			mButtonsGruop.addButton(button);
 		}
 
 		mButtonOrdered = (CBDialogButton) this.findViewById(R.id.botton_OrderList);
-		mButtonOrdered.setTextSize(DEFAULT_BUTTON_TEXT_SIZE);
+		mButtonOrdered.setTextSize(CBSettings.getIntValue(CBSettings.CB_SETTINGS_LEFT_BUTTON_TEXT_SIZE));
 		mButtonOrdered.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View arg0) {
 				showOrderedDialog();
@@ -154,15 +155,15 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 		mGridView = (GridMenuView) this.findViewById(R.id.gridMenuView);
 		mGridView.setCallback(this);
 
-		if (mContainedTags.count() > 0) {
-			mGridView.setMenuItemSet(mMenuEngine.getMenuItemsSetWithTag(mContainedTags.get(0)));
+		if (mTagButtonTags.count() > 0) {
+			mGridView.setMenuItemSet(mMenuEngine.getMenuItemsSetWithTag(mTagButtonTags.get(0)));
 		} else {
 			mGridView.setMenuItemSet(mMenuEngine.getMenuSet());
 		}
 	}
 
 	public void onButtonInGroupClicked(int index) {
-		String tagSelected = mContainedTags.get(index);
+		String tagSelected = mTagButtonTags.get(index);
 		mGridView.setMenuItemSet(mMenuEngine.getMenuItemsSetWithTag(tagSelected));
 	}
 

@@ -6,6 +6,7 @@
  */
 package com.android.cb.source;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
@@ -50,6 +51,10 @@ public class CBXmlParser {
 	 * @return boolean
 	 */
 	public boolean parse() {
+		File file = new File(getFile());
+		if (file.exists() == false)
+			return false;
+
 		XmlPullParser parser = Xml.newPullParser();
 		CBXmlParser.Callback callback = getCallback();
 
