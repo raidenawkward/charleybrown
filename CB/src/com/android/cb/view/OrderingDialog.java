@@ -7,6 +7,7 @@
 package com.android.cb.view;
 
 import com.android.cb.R;
+import com.android.cb.source.CBSettings;
 import com.android.cb.support.CBDish;
 import com.android.cb.support.CBIFOrderHandler;
 import com.android.cb.support.CBMenuItem;
@@ -23,8 +24,6 @@ import android.widget.TextView;
  * @Description ordering dish with count in this dialog
  */
 public class OrderingDialog extends CBBaseDialog {
-
-	public static final int MAX_ITEM_COUNT = 50;
 
 	public interface Callback {
 		public void onItemAddedToOrder(boolean succeed);
@@ -137,7 +136,7 @@ public class OrderingDialog extends CBBaseDialog {
 	}
 
 	private void setCount(int count) {
-		if (count < 0 || count >= MAX_ITEM_COUNT)
+		if (count < 0 || count >= CBSettings.getIntValue(CBSettings.CB_SETTINGS_ORDERING_DIALOG_MAX_ITEM_COUNT))
 			return;
 
 		String countStr = this.getContext().getString(R.string.ordering_multiply_char) + String.valueOf(count);

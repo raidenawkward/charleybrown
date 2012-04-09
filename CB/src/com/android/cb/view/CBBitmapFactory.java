@@ -24,6 +24,7 @@ import android.graphics.drawable.Drawable;
  * @Description bitmap methods class
  */
 public class CBBitmapFactory {
+
 	public static Bitmap scaleBitmapToFixView(Bitmap bitmap, float fixWidth, float fixHeight) {
 		if (bitmap == null)
 			return null;

@@ -34,6 +34,8 @@ public class CBSettings {
 	public static final String CB_SETTINGS_ORDER_LOCATIONS_FILE = "cb.settings.left.locations.file";
 
 	public static final String CB_SETTINGS_LEFT_BUTTON_TEXT_SIZE = "cb.settings.left.button.text.size";
+	public static final String CB_SETTINGS_GRIDVIEW_COLUMN_COUNT = "cb.settings.grid.gridview.column.count";
+	public static final String CB_SETTINGS_ORDERING_DIALOG_MAX_ITEM_COUNT = "cb.settings.ordering.dialog.max.item.count";
 
 
 	/**
@@ -51,6 +53,8 @@ public class CBSettings {
 		SETTINGS_MAP.put(CB_SETTINGS_ORDER_LOCATIONS_FILE, "/sdcard/cb/settings/order_locations.xml");
 
 		SETTINGS_MAP.put(CB_SETTINGS_LEFT_BUTTON_TEXT_SIZE, "20");
+		SETTINGS_MAP.put(CB_SETTINGS_GRIDVIEW_COLUMN_COUNT, "3");
+		SETTINGS_MAP.put(CB_SETTINGS_ORDERING_DIALOG_MAX_ITEM_COUNT, "50");
 	}
 
 

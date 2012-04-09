@@ -6,6 +6,7 @@
  */
 package com.android.cb.view;
 
+import com.android.cb.source.CBSettings;
 import com.android.cb.support.CBMenuItem;
 import com.android.cb.support.CBMenuItemsSet;
 
@@ -31,8 +32,6 @@ public class GridMenuView extends GridView
 		public boolean onItemLongPressed(CBMenuItem item);
 	}
 
-	public final int COLUMN_COUNT = 3;
-
 	private Callback mCallback = null;
 	private GridMenuViewAdapter mAdapter = null;
 
@@ -52,7 +51,7 @@ public class GridMenuView extends GridView
 	}
 
 	private void initMenuView() {
-		setNumColumns(COLUMN_COUNT);
+		setNumColumns(CBSettings.getIntValue(CBSettings.CB_SETTINGS_GRIDVIEW_COLUMN_COUNT));
 
 		this.setHorizontalSpacing(65);
 		this.setVerticalSpacing(45);
