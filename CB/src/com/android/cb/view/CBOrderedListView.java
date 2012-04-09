@@ -98,7 +98,7 @@ public class CBOrderedListView extends ListView {
 		this.mCallback = callback;
 	}
 
-	protected class ListItemView {
+	public class ListItemView {
 		private TextView mViewName = null;
 		private TextView mViewPrice = null;
 		private TextView mViewCount = null;
