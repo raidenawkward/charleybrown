@@ -136,7 +136,7 @@ public class OrderingDialog extends CBBaseDialog {
 	}
 
 	private void setCount(int count) {
-		if (count < 0 || count >= CBSettings.getIntValue(CBSettings.CB_SETTINGS_ORDERING_DIALOG_MAX_ITEM_COUNT))
+		if (count < 0 || count > CBSettings.getIntValue(CBSettings.CB_SETTINGS_ORDERING_DIALOG_MAX_ITEM_COUNT))
 			return;
 
 		String countStr = this.getContext().getString(R.string.ordering_multiply_char) + String.valueOf(count);

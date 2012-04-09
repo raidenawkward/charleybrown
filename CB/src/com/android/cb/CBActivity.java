@@ -50,6 +50,7 @@ public class CBActivity extends Activity {
 		mButtonQuit = (CBDialogButton) this.findViewById(R.id.button_quit);
 		mButtonQuit.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
+				CBSettings.save();
 				finish();
 			}
 		});
@@ -76,8 +77,6 @@ public class CBActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
-		CBSettings.save();
-
 		super.onDestroy();
 	}
 
