@@ -156,10 +156,7 @@ public class CBSettings {
 
 	public static CBTagsSet getLeftButtonTagsSet() {
 		if (LEFT_BUTTONS_TAGS_SET == null) {
-			String xmlPath = CBSettings.getStringValue(CB_SETTINGS_SOURCE_DIR_SETTINGS)
-			+ "/"
-			+ CBSettings.getStringValue(CB_SETTINGS_LEFT_BUTTONS_TAGS_FILE);
-
+			String xmlPath = CBSettings.getStringValue(CB_SETTINGS_LEFT_BUTTONS_TAGS_FILE);
 			return loadLeftButtonTagsSet(xmlPath);
 		}
 
@@ -232,10 +229,7 @@ public class CBSettings {
 
 	public static ArrayList<String> getOrderLocationList() {
 		if (ORDER_LOCATION_LIST == null) {
-			String xmlPath = CBSettings.getStringValue(CB_SETTINGS_SOURCE_DIR_SETTINGS)
-						+ "/"
-						+ CBSettings.getStringValue(CB_SETTINGS_ORDER_LOCATIONS_FILE);
-
+			String xmlPath = CBSettings.getStringValue(CB_SETTINGS_ORDER_LOCATIONS_FILE);
 			return loadOrderLocationList(xmlPath);
 		}
 
