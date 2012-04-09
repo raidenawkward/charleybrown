@@ -25,6 +25,7 @@ public class CBSettings {
 
 	public static final String CB_SETTINGS_FILE_PATH = "/sdcard/cb/settings/app_settings.xml";
 
+	public static final String CB_SETTINGS_XML_ENCODING = "cb.settings.xml.encoding";
 	public static final String CB_SETTINGS_SOURCE_DIR = "cb.settings.source.dir";
 	public static final String CB_SETTINGS_SOURCE_DIR_DISHES = "cb.settings.source.dir.dishes";
 	public static final String CB_SETTINGS_SOURCE_DIR_ORDERS = "cb.settings.source.dir.orders";
@@ -45,6 +46,7 @@ public class CBSettings {
 
 	static {
 		SETTINGS_MAP.put(CB_SETTINGS_DEVICE_ID, "unknown");
+		SETTINGS_MAP.put(CB_SETTINGS_XML_ENCODING, "GB2312");
 		SETTINGS_MAP.put(CB_SETTINGS_SOURCE_DIR, "/sdcard/cb");
 		SETTINGS_MAP.put(CB_SETTINGS_SOURCE_DIR_DISHES, "/sdcard/cb/dishes");
 		SETTINGS_MAP.put(CB_SETTINGS_SOURCE_DIR_ORDERS, "/sdcard/cb/orders");

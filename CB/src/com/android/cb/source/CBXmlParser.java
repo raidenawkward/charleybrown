@@ -55,12 +55,16 @@ public class CBXmlParser {
 		if (file.exists() == false)
 			return false;
 
+		String charset = CBSettings.getStringValue(CBSettings.CB_SETTINGS_XML_ENCODING);
+		if (charset.length() == 0)
+			charset = "utf-8";
+
 		XmlPullParser parser = Xml.newPullParser();
 		CBXmlParser.Callback callback = getCallback();
 
 		try {
 			InputStream inStream = new FileInputStream(getFile());
-			parser.setInput(inStream, "UTF-8");
+			parser.setInput(inStream, charset);
 			int eventType = parser.getEventType();
 			while (eventType != XmlPullParser.END_DOCUMENT) {
 				switch (eventType) {
