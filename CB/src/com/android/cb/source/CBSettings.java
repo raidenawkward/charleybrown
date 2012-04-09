@@ -8,6 +8,10 @@ package com.android.cb.source;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
+
+import org.xmlpull.v1.XmlPullParser;
 
 /**
  * @author raiden
@@ -16,7 +20,7 @@ import java.util.HashMap;
  */
 public class CBSettings {
 
-	public static final String CB_SETTINGS_FILE_PATH = "";
+	public static final String CB_SETTINGS_FILE_PATH = "/sdcard/cb/settings/app_settings.xml";
 
 	public static final String CB_SETTINGS_SOURCE_DIR = "cb.settings.source.dir";
 	public static final String CB_SETTINGS_SOURCE_DIR_DISHES = "cb.settings.source.dir.dishes";
@@ -40,31 +44,236 @@ public class CBSettings {
 		SETTINGS_MAP.put(CB_SETTINGS_ORDER_LOCATIONS_FILE, "order_locations.xml");
 	}
 
+
 	/**
-	 * list for tags on left buttons
+	 * methods for settings saving and loading
 	 */
+	public static boolean save() {
+		return save(CB_SETTINGS_FILE_PATH);
+	}
+
+	public static boolean load() {
+		return load(CB_SETTINGS_FILE_PATH);
+	}
+
+	protected static final String XML_TAG_SETTINGS = "Settings";
+
+	public static boolean save(String xmlPath) {
+		if (xmlPath == null)
+			return false;
+
+		// saving main settings
+		CBXmlWriter writer = new CBXmlWriter(xmlPath);
+		if (writer.open() == false)
+			return false;
+
+		if (writer.writeXmlHeader() == false)
+			return false;
+
+		writer.writeStartTag(XML_TAG_SETTINGS, 0);
+
+		Iterator<Entry<String,String>> iter = SETTINGS_MAP.entrySet().iterator();
+		while (iter.hasNext()) {
+			Entry<String,String> entry = (Entry<String,String>) iter.next();
+			String name = entry.getKey().toString();
+			String value = entry.getValue().toString();
+			writer.writeOneLineTags(name, null, value, 1);
+		}
+
+		writer.writeEndTag(XML_TAG_SETTINGS, 0);
+		writer.close();
+
+		return true;
+	}
+
+	public static boolean load(String xmlPath) {
+		if (xmlPath == null)
+			return false;
+
+		// loading main settings
+		CBXmlParser parser = new CBXmlParser(xmlPath);
+		parser.setCallback(new CBXmlParser.Callback() {
+
+			public void onTagWithValueDetected(String tag, String value,
+					XmlPullParser parser) {
+				SETTINGS_MAP.put(tag, value);
+			}
+
+			public void onStartDocument(XmlPullParser parser) {
+
+			}
+
+			public void onEndDocument(XmlPullParser parser) {
+
+			}
+		});
+
+		if (parser.parse() == false)
+			return false;
+
+		// loading left buttons
+		LEFT_BUTTONS_TAG_LIST = null;
+		if (getLeftButtonsTagList() == null)
+			return false;
+
+		// loading order location list
+		ORDER_LOCATION_LIST = null;
+		if (getOrderLocationList() == null)
+			return false;
+
+		return true;
+	}
+
+
+	/**
+	 * members and methods for LEFT_BUTTONS_TAG_LIST
+	 */
+
 	protected static ArrayList<String> LEFT_BUTTONS_TAG_LIST = null;
 
-	/**
-	 * list for orders locations
-	 */
-	protected static ArrayList<String> ORDER_LOCATION_LIST = null;
+	protected static final String XML_TAG_LEFT_BUTTON_LIST = "LeftButtonList";
+	protected static final String XML_TAG_LEFT_BUTTON = "LeftButton";
 
-
-	public static ArrayList<String> getLeftButtonsTagList(String xmlPath) {
+	public static ArrayList<String> getLeftButtonsTagList() {
 		if (LEFT_BUTTONS_TAG_LIST == null) {
-			LEFT_BUTTONS_TAG_LIST = new ArrayList<String>();
+			String xmlPath = CBSettings.getStringValue(CB_SETTINGS_SOURCE_DIR_SETTINGS)
+			+ "/"
+			+ CBSettings.getStringValue(CB_SETTINGS_LEFT_BUTTONS_TAGS_FILE);
+
+			return loadLeftButtonsTagList(xmlPath);
 		}
 
 		return LEFT_BUTTONS_TAG_LIST;
 	}
 
-	public static ArrayList<String> getOrderLocationList(String xmlPath) {
-		if (LEFT_BUTTONS_TAG_LIST == null) {
-			LEFT_BUTTONS_TAG_LIST = new ArrayList<String>();
+	public static ArrayList<String> loadLeftButtonsTagList(String xmlPath) {
+		if (xmlPath == null)
+			return null;
+
+		CBXmlParser parser = new CBXmlParser(xmlPath);
+		parser.setCallback(new CBXmlParser.Callback() {
+
+			public void onTagWithValueDetected(String tag, String value,
+					XmlPullParser parser) {
+				if (tag.equalsIgnoreCase(XML_TAG_LEFT_BUTTON)) {
+					if (LEFT_BUTTONS_TAG_LIST != null) {
+						LEFT_BUTTONS_TAG_LIST.add(value);
+					}
+				}
+			}
+
+			public void onStartDocument(XmlPullParser parser) {
+				LEFT_BUTTONS_TAG_LIST = new ArrayList<String>();
+			}
+
+			public void onEndDocument(XmlPullParser parser) {
+
+			}
+		});
+
+		parser.parse();
+
+		return LEFT_BUTTONS_TAG_LIST;
+	}
+
+	public static boolean saveLeftButtonsTagList(String xmlPath) {
+		if (xmlPath == null)
+			return false;
+
+		CBXmlWriter writer = new CBXmlWriter(xmlPath);
+		if (writer.open() == false)
+			return false;
+
+		if (writer.writeXmlHeader() == false)
+			return false;
+
+		writer.writeStartTag(XML_TAG_LEFT_BUTTON_LIST, 0);
+
+		for (int i = 0; i < LEFT_BUTTONS_TAG_LIST.size(); ++i) {
+			String tag = LEFT_BUTTONS_TAG_LIST.get(i);
+			writer.writeOneLineTags(XML_TAG_LEFT_BUTTON, null, tag, 1);
+		}
+
+		writer.writeEndTag(XML_TAG_LEFT_BUTTON_LIST, 0);
+
+		writer.close();
+		return true;
+	}
+
+
+
+	/**
+	 * members and methods for ORDER_LOCATION_LIST
+	 */
+	protected static ArrayList<String> ORDER_LOCATION_LIST = null;
+
+	protected static final String XML_TAG_ORDER_LOCATION_LIST = "OrderLocationList";
+	protected static final String XML_TAG_ORDER_LOCATION = "OrderLocation";
+
+	public static ArrayList<String> getOrderLocationList() {
+		if (ORDER_LOCATION_LIST == null) {
+			String xmlPath = CBSettings.getStringValue(CB_SETTINGS_SOURCE_DIR_SETTINGS)
+						+ "/"
+						+ CBSettings.getStringValue(CB_SETTINGS_ORDER_LOCATIONS_FILE);
+
+			return loadOrderLocationList(xmlPath);
 		}
 
 		return ORDER_LOCATION_LIST;
+	}
+
+	public static ArrayList<String> loadOrderLocationList(String xmlPath) {
+		if (xmlPath == null)
+			return null;
+
+		CBXmlParser parser = new CBXmlParser(xmlPath);
+		parser.setCallback(new CBXmlParser.Callback() {
+
+			public void onTagWithValueDetected(String tag, String value,
+					XmlPullParser parser) {
+				if (tag.equalsIgnoreCase(XML_TAG_ORDER_LOCATION)) {
+					if (ORDER_LOCATION_LIST != null) {
+						ORDER_LOCATION_LIST.add(value);
+					}
+				}
+			}
+
+			public void onStartDocument(XmlPullParser parser) {
+				ORDER_LOCATION_LIST = new ArrayList<String>();
+			}
+
+			public void onEndDocument(XmlPullParser parser) {
+
+			}
+		});
+
+		parser.parse();
+
+		return ORDER_LOCATION_LIST;
+	}
+
+	public static boolean saveOrderLocationList(String xmlPath) {
+		if (xmlPath == null)
+			return false;
+
+		CBXmlWriter writer = new CBXmlWriter(xmlPath);
+		if (writer.open() == false)
+			return false;
+
+		if (writer.writeXmlHeader() == false)
+			return false;
+
+		writer.writeStartTag(XML_TAG_ORDER_LOCATION_LIST, 0);
+
+		for (int i = 0; i < ORDER_LOCATION_LIST.size(); ++i) {
+			String tag = ORDER_LOCATION_LIST.get(i);
+			writer.writeOneLineTags(XML_TAG_ORDER_LOCATION, null, tag, 1);
+		}
+
+		writer.writeEndTag(XML_TAG_ORDER_LOCATION_LIST, 0);
+
+		writer.close();
+		return true;
 	}
 
 	public static void setStringValue(final String name, String value) {

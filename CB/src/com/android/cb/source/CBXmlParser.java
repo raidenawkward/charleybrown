@@ -18,7 +18,7 @@ import android.util.Xml;
  *
  * @Description base class of xml parser
  */
-public abstract class CBXmlParser {
+public class CBXmlParser {
 
 	public interface Callback {
 		public void onStartDocument(final XmlPullParser parser);
