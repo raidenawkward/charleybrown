@@ -110,7 +110,7 @@ public class CBButtonsGroup extends LinearLayout {
 		return mButtonList.size();
 	}
 
-	private void turnButtonOn(int index) {
+	public void turnButtonOn(int index) {
 		if (index < 0 || index >= mButtonList.size())
 			return;
 

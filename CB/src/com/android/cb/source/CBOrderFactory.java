@@ -48,6 +48,7 @@ public class CBOrderFactory {
 		refreshCurrentTime();
 		order.setSubmitedTime(sCurrentTime);
 		order.getRealSummation();
+		order.setStatus(CBOrder.CBORDER_STATUS_CONFIRMED);
 
 		return CBOrderXmlWriter.writeOrderRecord(order, order.getRecordSavedPath());
 	}
