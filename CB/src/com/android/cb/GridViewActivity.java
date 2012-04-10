@@ -91,6 +91,8 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 			}
 		} else {
 			this.createOrder();
+			String orderLocation = (bundle == null ? null : bundle.getString(INTENT_ORDER_LOCATION));
+			mMenuEngine.getOrder().setLocation(orderLocation);
 		}
 	}
 

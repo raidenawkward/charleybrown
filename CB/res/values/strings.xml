@@ -12,6 +12,9 @@
     <string name="managing_warning_validate_failed">此设备未经授权!</string>
     <string name="managing_button_quit">退出</string>
 
+	<string name="order_prepare_title">菜单设置</string>
+	<string name="order_prepare_label_location">位置:\u0020</string>
+
     <string name="preview_detail">详细内容</string>
     <string name="preview_quit">返回</string>
     <string name="preview_order">加入菜单</string>
