@@ -19,7 +19,7 @@
 		android:layout_weight="10"
 		android:gravity="left">
 		<TextView android:id="@+id/view_title"
-			android:text="@string/confirm_dialog_title"
+			android:text="@string/confirm_dialog_title_confirming"
 			android:textStyle="bold"
 			android:textSize="22px"
 			android:layout_height="wrap_content"

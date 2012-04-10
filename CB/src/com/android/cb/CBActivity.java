@@ -1,7 +1,9 @@
 package com.android.cb;
 
 import com.android.cb.source.CBSettings;
+import com.android.cb.source.CBValidityChecker;
 import com.android.cb.view.CBDialogButton;
+import com.android.cb.view.ConfirmDialog;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,6 +20,8 @@ public class CBActivity extends Activity {
 	private CBDialogButton mButtonOrdersList;
 	private CBDialogButton mButtonQuit;
 
+	private boolean mIsValidDevice = false;
+
 	public CBActivity() {
 		super();
 
@@ -28,6 +32,8 @@ public class CBActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
+		mIsValidDevice = CBValidityChecker.isValid(CBActivity.this);
+
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		super.onCreate(savedInstanceState);
@@ -36,6 +42,10 @@ public class CBActivity extends Activity {
 		mButtonNewOrder = (CBDialogButton) this.findViewById(R.id.button_newOrder);
 		mButtonNewOrder.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
+				if (mIsValidDevice == false) {
+					showValidateCheckingFailedDialog();
+					return;
+				}
 				openGridViewActivity();
 			}
 		});
@@ -43,6 +53,10 @@ public class CBActivity extends Activity {
 		mButtonOrdersList = (CBDialogButton) this.findViewById(R.id.button_ordersList);
 		mButtonOrdersList.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
+				if (mIsValidDevice == false) {
+					showValidateCheckingFailedDialog();
+					return;
+				}
 				openGridViewActivity(null);
 			}
 		});
@@ -75,9 +89,22 @@ public class CBActivity extends Activity {
 		CBActivity.this.startActivity(intent);
     }
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
+	private void showValidateCheckingFailedDialog() {
+		ConfirmDialog dialog = new ConfirmDialog(this);
+		dialog.setTitle(R.string.confirm_dialog_title_warning);
+		dialog.setMessage(this.getResources().getString(R.string.managing_warning_validate_failed));
+		dialog.setCancelButtonText(this.getResources().getString(R.string.confirm_dialog_exit));
+		dialog.setCallback(new ConfirmDialog.Callback() {
+			public void onConfirm() {
+
+			}
+
+			public void onCancel() {
+				CBActivity.this.finish();
+			}
+		});
+
+		dialog.show();
 	}
 
 //	private void testDB() {

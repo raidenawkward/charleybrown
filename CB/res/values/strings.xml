@@ -9,6 +9,7 @@
 
     <string name="managing_button_to_order_menu">开始点菜</string>
     <string name="managing_button_to_ordesr_list">进入当日订单列表</string>
+    <string name="managing_warning_validate_failed">此设备未经授权!</string>
     <string name="managing_button_quit">退出</string>
 
     <string name="preview_detail">详细内容</string>
@@ -54,7 +55,9 @@
     <string name="ordered_dialog_submit_succeed">提交成功!</string>
     <string name="ordered_dialog_submit_failed">提交失败!</string>
 
-    <string name="confirm_dialog_title">请确认</string>
+    <string name="confirm_dialog_title_confirming">请确认</string>
+    <string name="confirm_dialog_title_warning">请注意</string>
     <string name="confirm_dialog_ok">确认</string>
     <string name="confirm_dialog_cancel">取消</string>
+    <string name="confirm_dialog_exit">退出</string>
 </resources>
