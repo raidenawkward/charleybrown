@@ -18,13 +18,14 @@
 	        android:gravity="left"
 	        android:orientation="vertical"
 	        android:paddingTop="15px"
-	        android:paddingBottom="50px"
-	        android:layout_width="wrap_content"
+	        android:paddingBottom="0px"
+	        android:layout_width="300px"
 	        android:layout_height="fill_parent" >
 
 			<ScrollView
 				android:id="@+id/scrollView_leftTop"
 				android:layout_alignParentTop="true"
+				android:paddingBottom="170px"
 				android:fillViewport="true"
 				android:layout_height="wrap_content"
 				android:layout_width="wrap_content">
@@ -32,7 +33,7 @@
 					android:id="@+id/buttonsGroup"
 					android:orientation="vertical"
 					android:layout_gravity="top"
-					android:layout_width="300px"
+					android:layout_width="280px"
 					android:layout_height="wrap_content" />
 			</ScrollView>
 
@@ -40,17 +41,25 @@
 				android:id="@+id/linearLayout_leftBottom"
 				android:layout_alignParentBottom="true"
 				android:orientation="vertical"
+				android:gravity="bottom"
+				android:paddingBottom="40px"
 				android:paddingLeft="5px"
 				android:paddingRight="10px"
 				android:layout_width="wrap_content"
-				android:layout_height="wrap_content" >
+				android:layout_height="120px" >
 					<com.android.cb.view.CBDialogButton
 						android:id="@+id/botton_OrderList"
 						android:text="@string/ordered_myOrder_button_text"
 						android:gravity="center"
 						android:layout_height="wrap_content"
-						android:layout_width="300px" />
+						android:layout_width="270px" />
 			</LinearLayout>
+
+			<LinearLayout
+			    android:layout_above="@id/linearLayout_leftBottom"
+			    android:background="@drawable/spliter"
+			    android:layout_height="10px"
+			    android:layout_width="fill_parent" />
 
 	    </RelativeLayout> <!-- left layout -->
 

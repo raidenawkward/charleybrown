@@ -19,6 +19,7 @@ public final class R {
         public static final int shape_confirm_title_background=0x7f020005;
         public static final int shape_shadow=0x7f020006;
         public static final int shape_translucent_dialog=0x7f020007;
+        public static final int spliter=0x7f020008;
     }
     public static final class id {
         public static final int botton_OrderList=0x7f060023;
