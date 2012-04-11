@@ -105,4 +105,8 @@ public class CBOrderFactory {
 		return res;
 	}
 
+	public static boolean exportOrderToZip(String zipPath) {
+		return CBZipFactory.zipDir(generateOrderDir(), zipPath);
+	}
+
 }

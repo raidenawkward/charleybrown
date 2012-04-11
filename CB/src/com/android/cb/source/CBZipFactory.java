@@ -33,6 +33,29 @@ public class CBZipFactory {
 
 	private static final int ZIP_BUFFER_SIZE = 1024 * 1024;
 
+	public static boolean zipDir(String sourceDir, String zip) {
+		File fileSource = new File(sourceDir);
+		File fileZip = new File(zip);
+
+		ArrayList<File> fileList = new ArrayList<File>();
+		if (fileSource.isDirectory()) {
+			File[] files = fileSource.listFiles();
+			for (int i = 0; i < files.length; ++i)
+				fileList.add(files[i]);
+		} else {
+			fileList.add(fileSource);
+		}
+
+		try {
+			CBZipFactory.zipFiles(fileList, fileZip);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+
+		return true;
+	}
+
 	public static void zipFiles(List<File> resFileList, File zipFile) throws IOException {
 		ZipOutputStream zipout = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(
         zipFile), ZIP_BUFFER_SIZE));
