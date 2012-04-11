@@ -4,7 +4,7 @@
  * @Author: Raiden Awkward<raiden.ht@gmail.com>
  * @Date: 2012-4-1
  */
-package com.android.cb.view;
+package com.android.cb.source;
 
 import com.android.cb.source.CBSystemInfo;
 

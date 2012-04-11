@@ -5,13 +5,13 @@
   android:orientation="vertical"
   android:gravity="center"
   android:background="#80000000"
-  android:paddingTop="0px"
+  android:paddingTop="10px"
   android:paddingBottom="10px"
-  android:paddingLeft="0px"
-  android:paddingRight="0px"
+  android:paddingLeft="10px"
+  android:paddingRight="10px"
   android:layout_width="400px"
-  android:layout_height="200px">
-	<LinearLayout
+  android:layout_height="wrap_content">
+  <LinearLayout
 		android:background="@drawable/shape_confirm_title_background"
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent"
@@ -19,7 +19,7 @@
 		android:layout_weight="10"
 		android:gravity="left">
 		<TextView android:id="@+id/view_title"
-			android:text="@string/confirm_dialog_title_confirming"
+			android:text="@string/order_prepare_title"
 			android:textStyle="bold"
 			android:textSize="22px"
 			android:layout_height="wrap_content"
@@ -27,40 +27,47 @@
 	</LinearLayout>
 
 	<LinearLayout
-		android:padding="10px"
+		android:paddingTop="40px"
+		android:paddingLeft="20px"
+		android:paddingRight="20px"
 		android:gravity="center"
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent"
 		android:layout_weight="250"
 		android:orientation="horizontal">
-		<TextView android:id="@+id/view_text"
-			android:text=""
-			android:textSize="28px"
+		<TextView
+			android:text="@string/order_prepare_label_location"
 			android:textStyle="bold"
-			android:gravity="center"
-			android:layout_centerInParent="true"
-			android:layout_marginRight="15px"
-			android:layout_marginLeft="15px"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content" />
+			android:textSize="22px"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"/>
+
+		<Spinner
+	        android:id="@+id/spinner_location"
+	        android:textSize="22px"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content" />
+
 	</LinearLayout>
 
 	<LinearLayout
 		android:layout_height="wrap_content"
 		android:layout_width="fill_parent"
+		android:paddingTop="40px"
 		android:orientation="horizontal"
 		android:layout_weight="10"
 		android:gravity="center">
 			<com.android.cb.view.CBDialogButton android:id="@+id/button_ok"
 				android:text="@string/confirm_dialog_ok"
 				android:layout_height="wrap_content"
-				android:layout_marginRight="40px"
+				android:layout_marginRight="30px"
 				android:layout_width="100px"/>
 
 			<com.android.cb.view.CBDialogButton android:id="@+id/button_cancel"
 				android:text="@string/confirm_dialog_cancel"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="40px"
+				android:layout_marginLeft="30px"
 				android:layout_width="100px"/>
 	</LinearLayout>
+
 </LinearLayout>

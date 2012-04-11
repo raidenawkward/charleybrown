@@ -98,7 +98,7 @@ public class CBOrderedListView extends ListView {
 		this.mCallback = callback;
 	}
 
-	protected class ListItemView {
+	public class ListItemView {
 		private TextView mViewName = null;
 		private TextView mViewPrice = null;
 		private TextView mViewCount = null;
@@ -190,20 +190,20 @@ public class CBOrderedListView extends ListView {
 				listItemView.setViewName(R.id.view_name);
 				listItemView.setViewPrice(R.id.view_price);
 
-				listItemView.getButtonEdit().setOnClickListener(new Button.OnClickListener() {
-					public void onClick(View arg0) {
-						mOrderedListView.onOrderItemEdit(orderedItem);
-					}
-				});
-
-				listItemView.getButtonRemove().setOnClickListener(new Button.OnClickListener() {
-					public void onClick(View arg0) {
-						mOrderedListView.onOrderItemRemove(orderedItem);
-					}
-				});
-
 				convertView.setTag(listItemView);
 			}
+
+			listItemView.getButtonEdit().setOnClickListener(new Button.OnClickListener() {
+				public void onClick(View arg0) {
+					mOrderedListView.onOrderItemEdit(orderedItem);
+				}
+			});
+
+			listItemView.getButtonRemove().setOnClickListener(new Button.OnClickListener() {
+				public void onClick(View arg0) {
+					mOrderedListView.onOrderItemRemove(orderedItem);
+				}
+			});
 
 			listItemView.getViewName().setText(orderedItem.item.getDish().getName());
 			listItemView.getViewPrice().setText(mOrderedListView.getContext().getResources().getString(R.string.ordered_listitem_label_price)

@@ -131,6 +131,9 @@ public class CBButton extends Button {
 		case MotionEvent.ACTION_UP:
 			this.setBackgroundDrawable(mDrawableCurrent);
 			break;
+		default:
+			this.setBackgroundDrawable(mDrawableCurrent);
+			break;
 		}
 		return super.onTouchEvent(event);
 	}

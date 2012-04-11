@@ -91,6 +91,8 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 			}
 		} else {
 			this.createOrder();
+			String orderLocation = (bundle == null ? null : bundle.getString(INTENT_ORDER_LOCATION));
+			mMenuEngine.getOrder().setLocation(orderLocation);
 		}
 	}
 
@@ -157,6 +159,7 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 
 		if (mTagButtonTags.count() > 0) {
 			mGridView.setMenuItemSet(mMenuEngine.getMenuItemsSetWithTag(mTagButtonTags.get(0)));
+			mButtonsGruop.turnButtonOn(0);
 		} else {
 			mGridView.setMenuItemSet(mMenuEngine.getMenuSet());
 		}

@@ -77,8 +77,24 @@ public class ConfirmDialog extends CBBaseDialog {
 		mViewTitle.setText(str);
 	}
 
+	public void setTitle(int strId) {
+		String str = this.getContext().getResources().getString(strId);
+		if (str != null)
+			setTitle(str);
+	}
+
 	public void setMessage(String str) {
 		mViewMessage.setText(str);
+	}
+
+	public void setConfirmButtonText(String text) {
+		if (text != null)
+			mButtonConfirm.setText(text);
+	}
+
+	public void setCancelButtonText(String text) {
+		if (text != null)
+			mButtonCancel.setText(text);
 	}
 
 	public Callback getCallback() {
