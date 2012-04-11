@@ -13,6 +13,7 @@ package com.android.cb.support;
  */
 public class CBMenuItem {
 	private CBDish mDish;
+	private int mIconId = -1;
 
 	public CBMenuItem() {
 		mDish = new CBDish();
@@ -49,5 +50,13 @@ public class CBMenuItem {
 		}
 
 		return mDish.equals(item.getDish());
+	}
+
+	public void setIcon(int iconId) {
+		this.mIconId = iconId;
+	}
+
+	public int getIcon() {
+		return mIconId;
 	}
 }
