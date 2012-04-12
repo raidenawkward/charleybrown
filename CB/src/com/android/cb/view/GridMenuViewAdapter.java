@@ -40,7 +40,7 @@ public class GridMenuViewAdapter extends CBImageViewAdapterBase {
 		setAsyncImageLoader(loader);
 
 		setListView(gridMenuView);
-		setListItemSource(R.layout.menuitem_grid_base);
+		setListItemSource(R.layout.main_grid_menu_view_list_item);
 
 		mInflater = LayoutInflater.from(mMenuView.getContext());
 	}
@@ -52,11 +52,12 @@ public class GridMenuViewAdapter extends CBImageViewAdapterBase {
 			convertView = mInflater.inflate(getListItemSource(), null, false);
 		}
 
-		ViewHolder viewHolder = (ViewHolder) convertView.getTag();
+		GridItemView viewHolder = (GridItemView) convertView.getTag();
 		if (viewHolder == null) {
-			viewHolder = new ViewHolder(convertView,
-					R.id.listitem_base_text,
-					R.id.listitem_base_image);
+			viewHolder = new GridItemView(convertView);
+			viewHolder.setTextView(R.id.listitem_base_text);
+			viewHolder.setImageView(R.id.listitem_base_image);
+			viewHolder.setIconView(R.id.listitem_imageView_icon);
 			convertView.setTag(viewHolder);
 		}
 
@@ -75,28 +76,53 @@ public class GridMenuViewAdapter extends CBImageViewAdapterBase {
 
 		TextView textView = viewHolder.getTextView();
 		textView.setText(menuItem.getDish().getName());
+		viewHolder.setIcon(menuItem.getIcon());
 
 		return convertView;
 	}
 
-	private class ViewHolder {
+	private class GridItemView {
 		private TextView mTextView = null;
 		private ImageView mImageView = null;
+		private ImageView mIconView = null;
 
-		public ViewHolder(View baseView, int textViewId, int imageViewId) {
+		private View mBaseView;
+
+		public GridItemView(View baseView) {
 			if (baseView == null)
 				return;
-			mTextView = (TextView) baseView.findViewById(textViewId);
-			mImageView = (ImageView) baseView.findViewById(imageViewId);
+			mBaseView = baseView;
+		}
+
+		public void setTextView(int id) {
+			mTextView = (TextView) mBaseView.findViewById(id);
 		}
 
 		public TextView getTextView() {
 			return mTextView;
 		}
 
+		public void setImageView(int id) {
+			mImageView = (ImageView) mBaseView.findViewById(id);
+		}
+
 		public ImageView getImageView() {
 			return mImageView;
 		}
+
+		public void setIconView(int id) {
+			mIconView = (ImageView) mBaseView.findViewById(id);
+		}
+
+		public void setIcon(int id) {
+			if (id <= 0) {
+				mIconView.setBackgroundDrawable(null);
+				return;
+			}
+
+			mIconView.setBackgroundResource(id);
+		}
+
 	} // class ItemView
 
 }

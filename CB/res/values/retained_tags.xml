@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="retained_tag_new">新</string>
+    <string name="retained_tag_hot">热</string>
+    <string name="retained_tag_recommend">推荐</string>
+</resources>

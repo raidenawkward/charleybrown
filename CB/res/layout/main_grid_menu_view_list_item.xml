@@ -15,13 +15,23 @@
 		android:paddingTop="10px"
 		android:layout_centerHorizontal="true"
 		android:scaleType="centerCrop" />
-	<TextView
-		android:id="@+id/listitem_base_text"
+	<LinearLayout
 		android:layout_below="@+id/listitem_base_image"
-		android:layout_height="45px"
-		android:layout_width="240px"
-		android:textSize="20px"
-		android:textStyle="bold"
 		android:gravity="center"
-		android:layout_centerHorizontal="true" />
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content">
+		<ImageView  android:id="@+id/listitem_imageView_icon"
+			android:src="@drawable/ic_launcher"
+			android:layout_height="fill_parent"
+			android:layout_width="wrap_content" />
+		<TextView
+			android:id="@+id/listitem_base_text"
+			android:text="text"
+			android:layout_height="45px"
+			android:layout_width="wrap_content"
+			android:textSize="20px"
+			android:textStyle="bold"
+			android:gravity="center"
+			android:layout_centerHorizontal="true" />
+	</LinearLayout>
 </RelativeLayout>
