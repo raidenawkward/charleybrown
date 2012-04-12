@@ -2,27 +2,38 @@ package com.android.cb;
 
 import java.util.ArrayList;
 
+import com.android.cb.source.CBDishesScanner;
+import com.android.cb.source.CBOrderFactory;
+import com.android.cb.source.CBResource;
 import com.android.cb.source.CBSettings;
 import com.android.cb.source.CBValidityChecker;
+import com.android.cb.support.CBMenuEngine;
+import com.android.cb.support.CBMenuItemsSet;
+import com.android.cb.support.CBOrder;
 import com.android.cb.view.CBDialogButton;
 import com.android.cb.view.ConfirmDialog;
+import com.android.cb.view.LaunchingDialog;
 import com.android.cb.view.OrderPrepareDialog;
 
 import android.app.Activity;
 import android.content.Intent;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
-public class CBActivity extends Activity {
+public class CBActivity extends Activity implements LaunchingDialog.Callback {
 
 	private CBDialogButton mButtonNewOrder;
 	private CBDialogButton mButtonOrdersList;
 	private CBDialogButton mButtonQuit;
 
+	private LaunchingDialog mLaunchingDialog = null;
+
+	private boolean mIsInitDone = false;
 	private boolean mIsValidDevice = false;
 	private Intent mGridViewActivityIntent = null;
 
@@ -45,6 +56,9 @@ public class CBActivity extends Activity {
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_manage);
+
+		InitAsyncTask initTask = new InitAsyncTask();
+		initTask.execute((Object)null);
 
 		mButtonNewOrder = (CBDialogButton) this.findViewById(R.id.button_newOrder);
 		mButtonNewOrder.setOnClickListener(new Button.OnClickListener() {
@@ -79,6 +93,9 @@ public class CBActivity extends Activity {
     }
 
 	private void openGridViewActivity() {
+		CBOrder order = CBOrderFactory.newOrder();
+		CBResource.menuEngine.setOrder(order);
+
 		if (mGridViewActivityIntent != null)
 			CBActivity.this.startActivity(mGridViewActivityIntent);
     }
@@ -89,7 +106,7 @@ public class CBActivity extends Activity {
 			return;
 		}
 
-		mGridViewActivityIntent.putExtra(GridViewActivity.INTENT_ORDER_RECORD_PATH, orderRecordPath);
+//		CBOrder order = CBOrderFactory.loadOrder(path, menuEngine);
 
 		CBActivity.this.startActivity(mGridViewActivityIntent);
     }
@@ -140,6 +157,66 @@ public class CBActivity extends Activity {
 		});
 
 		dialog.show();
+	}
+
+	private void showLaunchingDialog() {
+		if (mLaunchingDialog == null)
+			mLaunchingDialog = new LaunchingDialog(this);
+		mLaunchingDialog.setCallback(this);
+		mLaunchingDialog.show();
+		mLaunchingDialog.start();
+	}
+
+	private class InitAsyncTask extends AsyncTask<Object, Integer, Boolean> {
+
+		@Override
+		protected Boolean doInBackground(Object... params) {
+			initMenuEngine();
+			return Boolean.TRUE;
+		}
+
+		@Override
+		protected void onPostExecute(Boolean result) {
+
+			mIsInitDone = true;
+			mLaunchingDialog.launchingDone();
+
+			super.onPostExecute(result);
+		}
+
+		@Override
+		protected void onPreExecute() {
+			showLaunchingDialog();
+			super.onPreExecute();
+		}
+
+	} // InitAsyncTask
+
+	public boolean onLaunchingTick() {
+		return !mIsInitDone;
+	}
+
+	private static String sLaunchingText = "";
+	public String getCurrentLaunchingText() {
+		String text = this.getResources().getString(R.string.launching_text);
+
+		sLaunchingText += ".";
+		if (sLaunchingText.length() > 3)
+			sLaunchingText = ".";
+
+		return text + sLaunchingText;
+	}
+
+	private CBMenuEngine initMenuEngine() {
+
+		CBDishesScanner scanner = new CBDishesScanner(CBSettings.getStringValue(CBSettings.CB_SETTINGS_SOURCE_DIR_DISHES));
+		CBMenuItemsSet set = scanner.scan();
+
+		CBMenuEngine menuENgine = new CBMenuEngine();
+		menuENgine.setMenuSet(set);
+
+		CBResource.menuEngine = menuENgine;
+		return menuENgine;
 	}
 
 //	private void testDB() {

@@ -18,5 +18,5 @@ public class CBResource {
 	/**
 	 * golbal menu engine resource
 	 */
-	public static CBMenuEngine sMenuEngine = null;
+	public static CBMenuEngine menuEngine = null;
 }

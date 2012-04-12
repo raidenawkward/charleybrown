@@ -6,8 +6,8 @@
  */
 package com.android.cb;
 
-import com.android.cb.source.CBDishesScanner;
 import com.android.cb.source.CBOrderFactory;
+import com.android.cb.source.CBResource;
 import com.android.cb.source.CBSettings;
 import com.android.cb.support.CBDish;
 import com.android.cb.support.CBIFOrderHandler;
@@ -21,13 +21,11 @@ import com.android.cb.view.CBButton;
 import com.android.cb.view.CBButtonsGroup;
 import com.android.cb.view.CBDialogButton;
 import com.android.cb.view.GridMenuView;
-import com.android.cb.view.LaunchingDialog;
 import com.android.cb.view.OrderedDialog;
 import com.android.cb.view.OrderingDialog;
 import com.android.cb.view.PreviewDialog;
 
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -41,7 +39,6 @@ import android.widget.Toast;
  * @Description grid style activity
  */
 public class GridViewActivity extends Activity implements CBButtonsGroup.Callback,
-	LaunchingDialog.Callback,
 	OrderingDialog.Callback,
 	OrderedDialog.Callback,
 	CBIFOrderHandler,
@@ -56,8 +53,6 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 
 	private CBMenuEngine mMenuEngine;
 	private CBTagsSet mTagButtonTags = null;
-	private LaunchingDialog mLaunchingDialog = null;
-	private boolean mIsInitDone = false;
 
 
 	public GridViewActivity() {
@@ -71,29 +66,13 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 		setContentView(R.layout.main_grid_menu_view);
 		super.onCreate(savedInstanceState);
 
-		InitAsyncTask initTask = new InitAsyncTask();
-		initTask.execute((Object)null);
+		initMenuEngine();
+		initButtons();
+		initGridMenuView();
 	}
 
 	private void initMenuEngine() {
-		CBDishesScanner scanner = new CBDishesScanner(CBSettings.getStringValue(CBSettings.CB_SETTINGS_SOURCE_DIR_DISHES));
-		CBMenuItemsSet set = scanner.scan();
-
-		mMenuEngine = new CBMenuEngine();
-		mMenuEngine.setMenuSet(set);
-
-		Bundle bundle = this.getIntent().getExtras();
-		String orderRecordPath = (bundle == null ? null : bundle.getString(INTENT_ORDER_RECORD_PATH));
-		if (orderRecordPath != null) {
-			if (this.loadOrderRecord(orderRecordPath) == false) {
-				Toast.makeText(this, R.string.gridview_activity_load_order_failed, 0).show();
-				finish();
-			}
-		} else {
-			this.createOrder();
-			String orderLocation = (bundle == null ? null : bundle.getString(INTENT_ORDER_LOCATION));
-			mMenuEngine.getOrder().setLocation(orderLocation);
-		}
+		mMenuEngine = CBResource.menuEngine;
 	}
 
 	@SuppressWarnings("unused")
@@ -170,29 +149,6 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 		mGridView.setMenuItemSet(mMenuEngine.getMenuItemsSetWithTag(tagSelected));
 	}
 
-	private void showLaunchingDialog() {
-		if (mLaunchingDialog == null)
-			mLaunchingDialog = new LaunchingDialog(this);
-		mLaunchingDialog.setCallback(this);
-		mLaunchingDialog.show();
-		mLaunchingDialog.start();
-	}
-
-	public boolean onLaunchingTick() {
-		return !mIsInitDone;
-	}
-
-	private static String sLaunchingText = "";
-	public String getCurrentLaunchingText() {
-		String text = this.getResources().getString(R.string.launching_text);
-
-		sLaunchingText += ".";
-		if (sLaunchingText.length() > 3)
-			sLaunchingText = ".";
-
-		return text + sLaunchingText;
-	}
-
 	public void onItemClicked(CBMenuItem item) {
 		PreviewDialog dialog = new PreviewDialog(this);
 		dialog.setMenuItem(item);
@@ -208,40 +164,6 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 		dialog.show();
 		return false;
 	}
-
-	private class InitAsyncTask extends AsyncTask<Object, Integer, Boolean> {
-
-		@Override
-		protected Boolean doInBackground(Object... params) {
-			// fake delay for engine initializing
-//			try {
-//				Thread.sleep(5000);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-
-			initMenuEngine();
-			return Boolean.TRUE;
-		}
-
-		@Override
-		protected void onPostExecute(Boolean result) {
-			initButtons();
-			initGridMenuView();
-
-			mIsInitDone = true;
-			mLaunchingDialog.launchingDone();
-
-			super.onPostExecute(result);
-		}
-
-		@Override
-		protected void onPreExecute() {
-			showLaunchingDialog();
-			super.onPreExecute();
-		}
-
-	} // InitAsyncTask
 
 	public boolean createOrder() {
 		CBOrder order = CBOrderFactory.newOrder();

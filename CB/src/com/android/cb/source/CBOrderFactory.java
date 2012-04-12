@@ -70,8 +70,7 @@ public class CBOrderFactory {
 	public static CBOrdersSet loadOrdersByDate(Date date, CBMenuItemsSet set) {
 		CBOrdersSet res = new CBOrdersSet();
 
-		String homeDir = generateOrderDir(date);
-
+//		String homeDir = generateOrderDir(date);
 
 		return res;
 	}
