@@ -13,6 +13,7 @@ import com.android.cb.support.CBMenuEngine;
 import com.android.cb.support.CBMenuItemsSet;
 import com.android.cb.support.CBOrder;
 import com.android.cb.support.CBOrdersSet;
+import com.android.cb.view.CBBitmapFactory;
 import com.android.cb.view.CBDialogButton;
 import com.android.cb.view.ConfirmDialog;
 import com.android.cb.view.LaunchingDialog;
@@ -290,6 +291,7 @@ public class CBActivity extends Activity implements LaunchingDialog.Callback {
 		CBDishesScanner scanner = new CBDishesScanner(CBSettings.getStringValue(CBSettings.CB_SETTINGS_SOURCE_DIR_DISHES));
 		CBMenuItemsSet set = scanner.scan();
 
+		CBBitmapFactory.setMenuItemsSetIcons(set, this);
 		CBMenuEngine menuENgine = new CBMenuEngine();
 		menuENgine.setMenuSet(set);
 

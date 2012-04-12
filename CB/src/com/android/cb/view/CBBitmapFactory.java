@@ -11,6 +11,11 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import com.android.cb.support.CBMenuItem;
+import com.android.cb.support.CBMenuItemsSet;
+import com.android.cb.support.CBTagsSet;
+
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -78,6 +83,45 @@ public class CBBitmapFactory {
 		}
 		Drawable drawable = Drawable.createFromStream(iStream, "src");
 		return drawable;
+	}
+
+	public static void setMenuItemsSetIcons(CBMenuItemsSet set, Context context) {
+		if (set == null || context == null)
+			return;
+
+		for (int i = 0; i < set.count(); ++i) {
+			setMenuItemIcon(set.get(i), context);
+		}
+	}
+
+	public static void setMenuItemIcon(CBMenuItem item, Context context) {
+		if (item == null || context == null)
+			return;
+
+		CBTagsSet tagsSet = item.getDish().getTagsSet();
+		item.setIcon(getIconByTags(tagsSet, context));
+	}
+
+	public static int getIconByTags(CBTagsSet set, Context context) {
+		if (set == null || context == null)
+			return -1;
+
+		int res = -1;
+		for (int i = 0; i < set.count(); ++i) {
+//			String tag = set.get(i);
+//			if (context.getResources().getString(R.string.retained_tag_new).equalsIgnoreCase(tag)) {
+//				res = R.drawable.icon_new;
+//				break;
+//			} else if (context.getResources().getString(R.string.retained_tag_hot).equalsIgnoreCase(tag)) {
+//				res = R.drawable.icon_hot;
+//				break;
+//			} else if (context.getResources().getString(R.string.retained_tag_recommend).equalsIgnoreCase(tag)) {
+//				res = R.drawable.icon_recommend;
+//				break;
+//			}
+		}
+
+		return res;
 	}
 
 }
