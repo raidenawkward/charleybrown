@@ -14,7 +14,10 @@ import com.android.cb.support.CBOrder;
 import com.android.cb.support.CBOrdersSet;
 
 import android.content.Context;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
@@ -38,6 +41,9 @@ public class OrdersListDialog extends CBBaseDialog {
 	}
 	private Callback mCallback = null;
 	private CBOrdersSet mOrdersSet = null;
+
+	private final float DIALOG_SIZE_SCALE_RATE_WIDTH = 0.55f;
+	private final float DIALOG_SIZE_SCALE_RATE_HEIGHT = 0.90f;
 
 	private TextView mViewTitle;
 	private TextView mViewCount;
@@ -71,6 +77,15 @@ public class OrdersListDialog extends CBBaseDialog {
 	private void initDialog() {
 		this.setContentView(R.layout.dialog_ordered_list);
 		setCanceledOnTouchOutside(true);
+
+		Window window = this.getWindow();
+		window.setGravity(Gravity.CENTER);
+
+		android.view.WindowManager.LayoutParams params = window.getAttributes();
+		Display display = window.getWindowManager().getDefaultDisplay();
+		params.width= (int) (display.getWidth() * DIALOG_SIZE_SCALE_RATE_WIDTH);
+		params.height = (int) (display.getHeight() * DIALOG_SIZE_SCALE_RATE_HEIGHT);
+		window.setAttributes(params);
 
 		SimpleDateFormat formatDate = new SimpleDateFormat(this.getContext().getResources().getString(R.string.ordered_list_date_format));
 
