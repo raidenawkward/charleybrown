@@ -108,6 +108,8 @@ public class CBOrderParser extends CBXmlParser implements CBXmlParser.Callback {
 					mOrder.addItem(item, count);
 				}
 			}
+		} else {
+
 		}
 	}
 
