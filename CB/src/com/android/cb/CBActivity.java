@@ -168,10 +168,22 @@ public class CBActivity extends Activity implements LaunchingDialog.Callback {
 	private void showOrderedListDialog() {
 		loadOrders(new Date());
 
-		OrdersListDialog dialog = new OrdersListDialog(this);
+		final OrdersListDialog dialog = new OrdersListDialog(this);
 		dialog.setOrdersSet(mOrdersSet);
+
+		dialog.setCallback(new OrdersListDialog.Callback() {
+			public void onOrdersListRefresh() {
+				loadOrders(new Date());
+				dialog.setOrdersSet(mOrdersSet);
+			}
+
+			public boolean onOrderClickedInList(CBOrder order) {
+				openGridViewActivity(order);
+				return true;
+			}
+		});
+
 		dialog.show();
-//		openGridViewActivity(new String());
 	}
 
 	private void showValidateCheckingFailedDialog() {
