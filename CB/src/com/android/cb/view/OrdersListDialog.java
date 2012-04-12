@@ -20,24 +20,24 @@ import android.widget.TextView;
  *
  * @Description dialog for presenting of ordered list
  */
-public class OrderedListDialog extends CBBaseDialog {
+public class OrdersListDialog extends CBBaseDialog {
 
 	private TextView mViewTitle;
 	private TextView mViewCount;
 	private CBOrderedItemsSummaryListView mListView;
 
-	public OrderedListDialog(Context context, boolean cancelable,
+	public OrdersListDialog(Context context, boolean cancelable,
 			OnCancelListener cancelListener) {
 		super(context, cancelable, cancelListener);
 		initDialog();
 	}
 
-	public OrderedListDialog(Context context, int theme) {
+	public OrdersListDialog(Context context, int theme) {
 		super(context, theme);
 		initDialog();
 	}
 
-	public OrderedListDialog(Context context) {
+	public OrdersListDialog(Context context) {
 		super(context);
 		initDialog();
 	}

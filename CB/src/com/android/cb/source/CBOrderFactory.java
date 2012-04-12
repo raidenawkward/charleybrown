@@ -12,6 +12,7 @@ import java.util.Date;
 
 import com.android.cb.support.CBId;
 import com.android.cb.support.CBMenuEngine;
+import com.android.cb.support.CBMenuItemsSet;
 import com.android.cb.support.CBOrder;
 import com.android.cb.support.CBOrdersSet;
 
@@ -36,7 +37,7 @@ public class CBOrderFactory {
 		order.setId(generateOrderId());
 		order.setCreateTime(sCurrentTime);
 		order.setSubmitedTime(sCurrentTime);
-		order.setRecordSavedPath(getOrderRecordPath());
+		order.setRecordSavedPath(getOrderRecordPath(sCurrentTime));
 		order.setStatus(CBOrder.CBORDER_STATUS_ADDING);
 
 		return order;
@@ -66,22 +67,26 @@ public class CBOrderFactory {
 		return parser.getOrder();
 	}
 
-	public static CBOrdersSet loadOrdersByDate(Date date) {
-		return null;
+	public static CBOrdersSet loadOrdersByDate(Date date, CBMenuItemsSet set) {
+		CBOrdersSet res = new CBOrdersSet();
 
+		String homeDir = generateOrderDir(date);
+
+
+		return res;
 	}
 
 	public static void refreshCurrentTime() {
 		sCurrentTime = new Date();
 	}
 
-	public static String getOrderRecordPath() {
-		String res = generateOrderDir();
+	public static String getOrderRecordPath(Date date) {
+		String res = generateOrderDir(date);
 		if (res == null)
 			return null;
 
 		res += CB_ORDER_PATH_SPLITOR;
-		res += generateOrderFileName();
+		res += generateOrderFileName(date);
 
 		return res;
 	}
@@ -92,19 +97,19 @@ public class CBOrderFactory {
 		return new CBId(id);
 	}
 
-	public static String generateOrderFileName() {
+	public static String generateOrderFileName(Date date) {
 		SimpleDateFormat format = new SimpleDateFormat(CB_ORDER_RECORD_FILE_FORMAT);
-		String res = format.format(sCurrentTime);
+		String res = format.format(date);
 
 		res += CB_ORDER_RECORD_EXT;
 
 		return res;
 	}
 
-	public static String generateOrderDir() {
+	public static String generateOrderDir(Date date) {
 		String res = CBSettings.getStringValue(CBSettings.CB_SETTINGS_SOURCE_DIR_ORDERS) + CB_ORDER_PATH_SPLITOR;
 		SimpleDateFormat format = new SimpleDateFormat(CB_ORDER_RECORD_DIR_FORMAT);
-		res += format.format(sCurrentTime);
+		res += format.format(date);
 
 		File dir = new File(res);
 		dir.mkdirs();
@@ -113,7 +118,8 @@ public class CBOrderFactory {
 	}
 
 	public static boolean exportOrderToZip(String zipPath) {
-		return CBZipFactory.zipDir(generateOrderDir(), zipPath);
+		refreshCurrentTime();
+		return CBZipFactory.zipDir(generateOrderDir(sCurrentTime), zipPath);
 	}
 
 }
