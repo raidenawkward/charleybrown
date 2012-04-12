@@ -14,14 +14,14 @@
 		<TextView android:id="@+id/view_location"
 			android:gravity="left"
 			android:text="locaton"
-			android:textSize="22px"
+			android:textSize="20px"
 			android:textStyle="bold"
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent"/>
 		<TextView android:id="@+id/view_date"
 			android:gravity="left"
 			android:text="date"
-			android:textSize="16px"
+			android:textSize="12px"
 			android:textStyle="bold"
 			android:layout_height="wrap_content"
 			android:layout_width="fill_parent"/>

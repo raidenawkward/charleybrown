@@ -1,6 +1,7 @@
 package com.android.cb;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.android.cb.source.CBDishesScanner;
 import com.android.cb.source.CBOrderFactory;
@@ -10,10 +11,12 @@ import com.android.cb.source.CBValidityChecker;
 import com.android.cb.support.CBMenuEngine;
 import com.android.cb.support.CBMenuItemsSet;
 import com.android.cb.support.CBOrder;
+import com.android.cb.support.CBOrdersSet;
 import com.android.cb.view.CBDialogButton;
 import com.android.cb.view.ConfirmDialog;
 import com.android.cb.view.LaunchingDialog;
 import com.android.cb.view.OrderPrepareDialog;
+import com.android.cb.view.OrdersListDialog;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -36,6 +39,8 @@ public class CBActivity extends Activity implements LaunchingDialog.Callback {
 	private boolean mIsInitDone = false;
 	private boolean mIsValidDevice = false;
 	private Intent mGridViewActivityIntent = null;
+
+	CBOrdersSet mOrdersSet = null;
 
 	public CBActivity() {
 		super();
@@ -79,7 +84,8 @@ public class CBActivity extends Activity implements LaunchingDialog.Callback {
 					showValidateCheckingFailedDialog();
 					return;
 				}
-				openGridViewActivity(null);
+
+				showOrderedListDialog();
 			}
 		});
 
@@ -100,6 +106,7 @@ public class CBActivity extends Activity implements LaunchingDialog.Callback {
 			CBActivity.this.startActivity(mGridViewActivityIntent);
     }
 
+	@SuppressWarnings("unused")
 	private void openGridViewActivity(String orderRecordPath) {
 		if (orderRecordPath == null) {
 			openGridViewActivity();
@@ -107,8 +114,17 @@ public class CBActivity extends Activity implements LaunchingDialog.Callback {
 		}
 
 		CBOrder order = CBOrderFactory.loadOrder(orderRecordPath, CBResource.menuEngine.getMenuSet());
-		if (order != null)
-			CBResource.menuEngine.setOrder(order);
+
+		openGridViewActivity(order);
+    }
+
+	private void openGridViewActivity(CBOrder order) {
+		if (order == null) {
+			openGridViewActivity();
+			return;
+		}
+
+		CBResource.menuEngine.setOrder(order);
 
 		CBActivity.this.startActivity(mGridViewActivityIntent);
     }
@@ -143,6 +159,19 @@ public class CBActivity extends Activity implements LaunchingDialog.Callback {
 		dialog.setContentList(locationList);
 		dialog.setSelectedItem(0);
 		dialog.show();
+	}
+
+	public void loadOrders(Date date) {
+		mOrdersSet = CBOrderFactory.loadOrdersByDate(date, CBResource.menuEngine.getMenuSet());
+	}
+
+	private void showOrderedListDialog() {
+		loadOrders(new Date());
+
+		OrdersListDialog dialog = new OrdersListDialog(this);
+		dialog.setOrdersSet(mOrdersSet);
+		dialog.show();
+//		openGridViewActivity(new String());
 	}
 
 	private void showValidateCheckingFailedDialog() {

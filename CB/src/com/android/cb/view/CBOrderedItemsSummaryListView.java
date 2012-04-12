@@ -109,7 +109,7 @@ public class CBOrderedItemsSummaryListView extends ListView {
 	public class ListAdapter extends ArrayAdapter<CBOrder> {
 
 		private LayoutInflater mInflater;
-		private static final int sListItemSource = R.layout.ordered_list_item;
+		private static final int sListItemSource = R.layout.total_ordered_list_view_item;
 
 		public ListAdapter(Context context, List<CBOrder> objects, CBOrderedItemsSummaryListView listView) {
 			super(context, 0, objects);
@@ -141,7 +141,7 @@ public class CBOrderedItemsSummaryListView extends ListView {
 			listItemView.getViewDate().setText(formatDate.format(orderedItem.getSubmitedTime()));
 
 			listItemView.getViewPrice().setText(String.valueOf(orderedItem.getRealSummation()));
-			listItemView.getViewCount().setText(orderedItem.getTotalItemCheckedCount());
+			listItemView.getViewCount().setText(String.valueOf(orderedItem.getTotalItemCheckedCount()));
 
 			return convertView;
 		}
