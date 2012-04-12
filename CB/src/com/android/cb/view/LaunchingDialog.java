@@ -129,13 +129,6 @@ public class LaunchingDialog extends CBBaseDialog {
 	}
 
 	public void launchingDone() {
-		try {
-			mThread.running = false;
-			mThread.join();
-			mThread = null;
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		dismiss();
 	}
 

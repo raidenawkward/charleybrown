@@ -106,7 +106,9 @@ public class CBActivity extends Activity implements LaunchingDialog.Callback {
 			return;
 		}
 
-//		CBOrder order = CBOrderFactory.loadOrder(path, menuEngine);
+		CBOrder order = CBOrderFactory.loadOrder(orderRecordPath, CBResource.menuEngine.getMenuSet());
+		if (order != null)
+			CBResource.menuEngine.setOrder(order);
 
 		CBActivity.this.startActivity(mGridViewActivityIntent);
     }

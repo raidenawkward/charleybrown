@@ -20,7 +20,7 @@ public class CBDishesScanner implements CBPathWalker.Callback {
 	private final static String STRING_XML_EXT = "xml";
 	private final static String STRING_BACKLASH = "/";
 
-	private CBPathWalker mPathWalker = new CBPathWalker(this);;
+	private CBPathWalker mPathWalker = new CBPathWalker(this);
 	private String mPath = null;
 	private CBMenuItemsSet mMenuItemsSet = new CBMenuItemsSet();
 

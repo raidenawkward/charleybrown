@@ -44,9 +44,6 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 	CBIFOrderHandler,
 	GridMenuView.Callback {
 
-	public static final String INTENT_ORDER_RECORD_PATH = "intent.order.record.path";
-	public static final String INTENT_ORDER_LOCATION = "intent.order.location";
-
 	private GridMenuView mGridView;
 	private CBButtonsGroup mButtonsGruop;
 	private CBDialogButton mButtonOrdered;
@@ -75,6 +72,10 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 		mMenuEngine = CBResource.menuEngine;
 	}
 
+	/**
+	 * @Description example progress for initializing menu item
+	 * @return void
+	 */
 	@SuppressWarnings("unused")
 	private void initTestingMenuEngine() {
 		CBMenuItemsSet set = new CBMenuItemsSet();

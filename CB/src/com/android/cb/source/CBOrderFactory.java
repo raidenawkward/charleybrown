@@ -54,7 +54,7 @@ public class CBOrderFactory {
 		return CBOrderXmlWriter.writeOrderRecord(order, order.getRecordSavedPath());
 	}
 
-	public static CBOrder loadOrder(String path, CBMenuItemsSet set) {
+	public static CBOrder loadOrder(String path, final CBMenuItemsSet set) {
 		if (path == null)
 			return null;
 
@@ -66,10 +66,25 @@ public class CBOrderFactory {
 		return parser.getOrder();
 	}
 
-	public static CBOrdersSet loadOrdersByDate(Date date, CBMenuItemsSet set) {
-		CBOrdersSet res = new CBOrdersSet();
+	public static CBOrdersSet loadOrdersByDate(Date date, final CBMenuItemsSet set) {
+		final CBOrdersSet res = new CBOrdersSet();
 
-//		String homeDir = generateOrderDir(date);
+		CBPathWalker walker = new CBPathWalker(new CBPathWalker.Callback() {
+
+			public boolean onFileDetected(String file, int depth) {
+				CBOrder order = loadOrder(file, set);
+				if (order != null)
+					return res.add(order);
+				return false;
+			}
+
+			public boolean onDirDetected(String dir, int depth) {
+				return true;
+			}
+		});
+
+		walker.setRoot(generateOrderDir(date));
+		walker.go();
 
 		return res;
 	}
