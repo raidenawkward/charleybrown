@@ -18,6 +18,8 @@
 	<string name="ordered_list_refresh">刷新</string>
 	<string name="ordered_list_export">导出</string>
 	<string name="ordered_list_count">今日共计:\u0020</string>
+	<string name="ordered_list_item_count">数量:\u0020</string>
+	<string name="ordered_list_item_price">共计:\u0020</string>
 
     <string name="preview_detail">详细内容</string>
     <string name="preview_quit">返回</string>

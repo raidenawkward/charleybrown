@@ -13,6 +13,7 @@ import java.util.Date;
 import com.android.cb.support.CBId;
 import com.android.cb.support.CBMenuEngine;
 import com.android.cb.support.CBOrder;
+import com.android.cb.support.CBOrdersSet;
 
 /**
  * @author raiden
@@ -63,6 +64,11 @@ public class CBOrderFactory {
 			return null;
 
 		return parser.getOrder();
+	}
+
+	public static CBOrdersSet loadOrdersByDate(Date date) {
+		return null;
+
 	}
 
 	public static void refreshCurrentTime() {

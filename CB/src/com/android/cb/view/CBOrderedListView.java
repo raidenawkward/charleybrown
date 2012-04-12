@@ -158,6 +158,7 @@ public class CBOrderedListView extends ListView {
 		public void setBaseView(View baseView) {
 			this.mBaseView = baseView;
 		}
+
 	} // class ListItemView
 
 	public class ListAdapter extends ArrayAdapter<CBOrder.OrderedItem> {
