@@ -101,9 +101,6 @@ public class CBActivity extends Activity implements LaunchingDialog.Callback {
     }
 
 	private void openGridViewActivity() {
-		CBOrder order = CBOrderFactory.newOrder();
-		CBResource.menuEngine.setOrder(order);
-
 		if (mGridViewActivityIntent != null)
 			CBActivity.this.startActivity(mGridViewActivityIntent);
     }
@@ -149,8 +146,9 @@ public class CBActivity extends Activity implements LaunchingDialog.Callback {
 
 			public void onSelectedItemChanged(String item) {
 				CBOrder order = CBResource.menuEngine.getOrder();
-				if (order != null)
+				if (order != null) {
 					order.setLocation(item);
+				}
 			}
 
 			public void onCancel() {
@@ -159,6 +157,12 @@ public class CBActivity extends Activity implements LaunchingDialog.Callback {
 		});
 
 		dialog.setContentList(locationList);
+
+		CBOrder order = CBOrderFactory.newOrder();
+		CBResource.menuEngine.setOrder(order);
+
+		order.setLocation(locationList.get(0));
+
 		dialog.setSelectedItem(0);
 		dialog.show();
 	}
@@ -292,11 +296,10 @@ public class CBActivity extends Activity implements LaunchingDialog.Callback {
 		CBMenuItemsSet set = scanner.scan();
 
 		CBBitmapFactory.setMenuItemsSetIcons(set, this);
-		CBMenuEngine menuENgine = new CBMenuEngine();
-		menuENgine.setMenuSet(set);
+		CBResource.menuEngine = new CBMenuEngine();
+		CBResource.menuEngine.setMenuSet(set);
 
-		CBResource.menuEngine = menuENgine;
-		return menuENgine;
+		return CBResource.menuEngine;
 	}
 
 //	private void testDB() {

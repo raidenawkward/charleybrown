@@ -106,7 +106,8 @@ public class CBOrderFactory {
 
 	protected static CBId generateOrderId() {
 		SimpleDateFormat format = new SimpleDateFormat(CB_ORDER_RECORD_DIR_FORMAT + CB_ORDER_RECORD_FILE_FORMAT);
-		String id = format.format(sCurrentTime);
+		String id = CBSettings.getStringValue(CBSettings.CB_SETTINGS_DEVICE_ID);
+		id += format.format(sCurrentTime);
 		return new CBId(id);
 	}
 
