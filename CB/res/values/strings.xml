@@ -15,6 +15,10 @@
 	<string name="order_prepare_title">菜单设置</string>
 	<string name="order_prepare_label_location">位置:\u0020</string>
 
+	<string name="ordered_list_refresh">刷新</string>
+	<string name="ordered_list_export">导出</string>
+	<string name="ordered_list_count">今日共计:\u0020</string>
+
     <string name="preview_detail">详细内容</string>
     <string name="preview_quit">返回</string>
     <string name="preview_order">加入菜单</string>
