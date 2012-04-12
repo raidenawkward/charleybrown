@@ -12,8 +12,8 @@ import org.xmlpull.v1.XmlPullParser;
 
 import com.android.cb.support.CBCustomer;
 import com.android.cb.support.CBId;
-import com.android.cb.support.CBMenuEngine;
 import com.android.cb.support.CBMenuItem;
+import com.android.cb.support.CBMenuItemsSet;
 import com.android.cb.support.CBOrder;
 
 /**
@@ -24,7 +24,7 @@ import com.android.cb.support.CBOrder;
 public class CBOrderParser extends CBXmlParser implements CBXmlParser.Callback {
 
 	private CBOrder mOrder = null;
-	private CBMenuEngine mMenuEngine = null;
+	private CBMenuItemsSet mMenuItemsSet = null;
 
 	public CBOrderParser() {
 		super();
@@ -92,7 +92,7 @@ public class CBOrderParser extends CBXmlParser implements CBXmlParser.Callback {
 			mOrder.setStatus(Integer.valueOf(value));
 
 		} else if (tag.equalsIgnoreCase(CBOrderXmlWriter.TAG_DISH)) {
-			if (mMenuEngine != null) {
+			if (mMenuItemsSet != null) {
 				String id = null;
 				int count = 0;
 				for (int i = 0; i < parser.getAttributeCount(); ++i) {
@@ -102,7 +102,8 @@ public class CBOrderParser extends CBXmlParser implements CBXmlParser.Callback {
 						count = Integer.valueOf(parser.getAttributeValue(i));
 					}
 				}
-				CBMenuItem item = mMenuEngine.getItemById(new CBId(id));
+
+				CBMenuItem item = mMenuItemsSet.getItemById(new CBId(id));
 				if (item != null) {
 					mOrder.addItem(item, count);
 				}
@@ -118,12 +119,12 @@ public class CBOrderParser extends CBXmlParser implements CBXmlParser.Callback {
 
 	}
 
-	public CBMenuEngine getMenuEngine() {
-		return mMenuEngine;
+	public CBMenuItemsSet getMenuItemSet() {
+		return mMenuItemsSet;
 	}
 
-	public void setMenuEngine(CBMenuEngine menuEngine) {
-		this.mMenuEngine = menuEngine;
+	public void setMenuItemsSet(CBMenuItemsSet set) {
+		this.mMenuItemsSet = set;
 	}
 
 }

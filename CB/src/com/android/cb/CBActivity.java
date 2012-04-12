@@ -128,7 +128,9 @@ public class CBActivity extends Activity implements LaunchingDialog.Callback {
 			}
 
 			public void onSelectedItemChanged(String item) {
-				mGridViewActivityIntent.putExtra(GridViewActivity.INTENT_ORDER_LOCATION, item);
+				CBOrder order = CBResource.menuEngine.getOrder();
+				if (order != null)
+					order.setLocation(item);
 			}
 
 			public void onCancel() {

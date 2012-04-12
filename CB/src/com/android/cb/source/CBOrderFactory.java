@@ -11,7 +11,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.android.cb.support.CBId;
-import com.android.cb.support.CBMenuEngine;
 import com.android.cb.support.CBMenuItemsSet;
 import com.android.cb.support.CBOrder;
 import com.android.cb.support.CBOrdersSet;
@@ -55,12 +54,12 @@ public class CBOrderFactory {
 		return CBOrderXmlWriter.writeOrderRecord(order, order.getRecordSavedPath());
 	}
 
-	public static CBOrder loadOrder(String path, CBMenuEngine menuEngine) {
+	public static CBOrder loadOrder(String path, CBMenuItemsSet set) {
 		if (path == null)
 			return null;
 
 		CBOrderParser parser = new CBOrderParser(path);
-		parser.setMenuEngine(menuEngine);
+		parser.setMenuItemsSet(set);
 		if (parser.parse() == false)
 			return null;
 

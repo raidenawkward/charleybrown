@@ -48,6 +48,16 @@ public class CBMenuItemsSet implements CBIFSetHandler<CBMenuItem> {
 		return null;
 	}
 
+	public CBMenuItem getItemById(CBId id) {
+		for (int i = 0; i < count(); ++i) {
+			CBMenuItem item = get(i);
+			if (item.getDish().getId().equals(id))
+				return item;
+		}
+
+		return null;
+	}
+
 	/**
 	 * @Description adding item to set if item is not already in set
 	 * @param @param item

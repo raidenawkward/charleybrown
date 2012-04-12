@@ -180,7 +180,7 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 	}
 
 	public boolean loadOrderRecord(String recordPath) {
-		CBOrder order = CBOrderFactory.loadOrder(recordPath, mMenuEngine);
+		CBOrder order = CBOrderFactory.loadOrder(recordPath, mMenuEngine.getMenuSet());
 		return loadOrderRecord(order);
 	}
 
