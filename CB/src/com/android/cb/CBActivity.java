@@ -1,5 +1,6 @@
 package com.android.cb;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -178,12 +179,44 @@ public class CBActivity extends Activity implements LaunchingDialog.Callback {
 			}
 
 			public boolean onOrderClickedInList(CBOrder order) {
-				openGridViewActivity(order);
-				return true;
+				showOpenOrderFromListConfirmDialog(order, dialog);
+				return false;
 			}
 		});
 
 		dialog.show();
+	}
+
+	private void showOpenOrderFromListConfirmDialog(final CBOrder order, final OrdersListDialog dialog) {
+		if (order == null)
+			return;
+
+		String confirmMessage = this.getResources().getString(R.string.managing_warning_open_order_confirm_message1);
+		SimpleDateFormat formatDate = new SimpleDateFormat(this.getResources().getString(R.string.managing_warning_open_order_confirm_time_form));
+		confirmMessage += formatDate.format(order.getSubmitedTime());
+		confirmMessage += this.getResources().getString(R.string.managing_warning_open_order_confirm_message2);
+		confirmMessage += order.getLocation();
+		confirmMessage += this.getResources().getString(R.string.managing_warning_open_order_confirm_message3);
+
+		ConfirmDialog confirmDialog = new ConfirmDialog(this);
+		confirmDialog.setTitle(R.string.confirm_dialog_title_warning);
+		confirmDialog.setMessage(confirmMessage);
+		confirmDialog.setCancelButtonText(this.getResources().getString(R.string.confirm_dialog_cancel));
+
+		confirmDialog.setCallback(new ConfirmDialog.Callback() {
+			public void onConfirm() {
+				if (dialog != null)
+					dialog.dismiss();
+
+				openGridViewActivity(order);
+			}
+
+			public void onCancel() {
+
+			}
+		});
+
+		confirmDialog.show();
 	}
 
 	private void showValidateCheckingFailedDialog() {

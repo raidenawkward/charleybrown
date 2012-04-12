@@ -137,7 +137,7 @@ public class CBOrderedItemsSummaryListView extends ListView {
 
 			listItemView.getViewLocation().setText(orderedItem.getLocation());
 
-			SimpleDateFormat formatDate = new SimpleDateFormat(this.getContext().getResources().getString(R.string.ordered_time_format));
+			SimpleDateFormat formatDate = new SimpleDateFormat(this.getContext().getResources().getString(R.string.ordered_list_item_date_format));
 			listItemView.getViewDate().setText(formatDate.format(orderedItem.getSubmitedTime()));
 
 			listItemView.getViewPrice().setText(String.valueOf(orderedItem.getRealSummation()));

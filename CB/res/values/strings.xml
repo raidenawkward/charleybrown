@@ -10,6 +10,10 @@
     <string name="managing_button_to_order_menu">开始点菜</string>
     <string name="managing_button_to_ordesr_list">进入当日订单列表</string>
     <string name="managing_warning_validate_failed">此设备未经授权!</string>
+    <string name="managing_warning_open_order_confirm_message1">是否要载入</string>
+    <string name="managing_warning_open_order_confirm_message2">位于</string>
+    <string name="managing_warning_open_order_confirm_message3">的订单?</string>
+    <string name="managing_warning_open_order_confirm_time_form">kk点mm分</string>
     <string name="managing_button_quit">退出</string>
 
 	<string name="order_prepare_title">菜单设置</string>
@@ -20,6 +24,7 @@
 	<string name="ordered_list_count">今日共计:\u0020</string>
 	<string name="ordered_list_item_count">数量:\u0020</string>
 	<string name="ordered_list_item_price">共计:\u0020</string>
+	<string name="ordered_list_item_date_format">yyyy年MM月dd日 kk点mm分</string>
 	<string name="ordered_list_date_format">日期: yyyy年MM月dd日 E</string>
 
     <string name="preview_detail">详细内容</string>
