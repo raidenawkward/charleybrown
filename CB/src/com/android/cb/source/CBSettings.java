@@ -46,7 +46,7 @@ public class CBSettings {
 
 	static {
 		SETTINGS_MAP.put(CB_SETTINGS_DEVICE_ID, "unknown");
-		SETTINGS_MAP.put(CB_SETTINGS_XML_ENCODING, "GB2312");
+		SETTINGS_MAP.put(CB_SETTINGS_XML_ENCODING, "gb2312");
 		SETTINGS_MAP.put(CB_SETTINGS_SOURCE_DIR, "/sdcard/cb");
 		SETTINGS_MAP.put(CB_SETTINGS_SOURCE_DIR_DISHES, "/sdcard/cb/dishes");
 		SETTINGS_MAP.put(CB_SETTINGS_SOURCE_DIR_ORDERS, "/sdcard/cb/orders");
@@ -85,7 +85,7 @@ public class CBSettings {
 		}
 
 		// saving main settings
-		CBXmlWriter writer = new CBXmlWriter(xmlPath);
+		CBXmlWriter writer = new CBXmlWriter(xmlPath, CBSettings.getStringValue(CB_SETTINGS_XML_ENCODING));
 		if (writer.open() == false)
 			return false;
 
@@ -199,7 +199,7 @@ public class CBSettings {
 		if (xmlPath == null)
 			return false;
 
-		CBXmlWriter writer = new CBXmlWriter(xmlPath);
+		CBXmlWriter writer = new CBXmlWriter(xmlPath, CBSettings.getStringValue(CB_SETTINGS_XML_ENCODING));
 		if (writer.open() == false)
 			return false;
 
@@ -272,7 +272,7 @@ public class CBSettings {
 		if (xmlPath == null)
 			return false;
 
-		CBXmlWriter writer = new CBXmlWriter(xmlPath);
+		CBXmlWriter writer = new CBXmlWriter(xmlPath, CBSettings.getStringValue(CB_SETTINGS_XML_ENCODING));
 		if (writer.open() == false)
 			return false;
 

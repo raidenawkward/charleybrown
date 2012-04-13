@@ -42,7 +42,7 @@ public class CBOrderXmlWriter {
 		if (order == null || path == null)
 			return false;
 
-		CBXmlWriter writter = new CBXmlWriter(path);
+		CBXmlWriter writter = new CBXmlWriter(path, CBSettings.getStringValue(CBSettings.CB_SETTINGS_XML_ENCODING));
 		if (writter.open() == false)
 			return false;
 

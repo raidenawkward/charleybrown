@@ -10,6 +10,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 
 
 /**
@@ -19,7 +21,6 @@ import java.io.IOException;
  */
 public class CBXmlWriter {
 
-	public static final String XML_HEADER = "<?xml version=\"1.0\" encoding=\"utf-8\"?>";
 	public static final String XML_START_TAG_START = "<";
 	public static final String XML_END_TAG_START = "</";
 	public static final String XML_TAG_END = ">";
@@ -29,11 +30,13 @@ public class CBXmlWriter {
 
 	private File mFile = null;
 	private FileOutputStream mOutStream = null;
+	private OutputStreamWriter mStreamWriter = null;
+	private String mEncoding;
 
 	public CBXmlWriter() {
 	}
 
-	public CBXmlWriter(String path) {
+	public CBXmlWriter(String path, String encoding) {
 		mFile = new File(path);
 		if (mFile.exists() == false) {
 			try {
@@ -45,6 +48,15 @@ public class CBXmlWriter {
 				e.printStackTrace();
 			}
 		}
+		mEncoding = encoding;
+	}
+
+	public void setEncoding(String encoding) {
+		mEncoding = encoding;
+	}
+
+	public String getEncoding() {
+		return mEncoding;
 	}
 
 	public boolean open() {
@@ -68,15 +80,25 @@ public class CBXmlWriter {
 
 		try {
 			mOutStream = new FileOutputStream(file, false);
+			mStreamWriter = new OutputStreamWriter(mOutStream, mEncoding);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			return false;
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
 		}
 
 		return true;
 	}
 
 	public void close() {
+		if (mStreamWriter != null) {
+			try {
+				mStreamWriter.flush();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 		if (mOutStream != null) {
 			try {
 				mOutStream.close();
@@ -96,7 +118,7 @@ public class CBXmlWriter {
 			header += XML_SPACE;
 
 		try {
-			mOutStream.write(new String(header + str).getBytes());
+			mStreamWriter.write(new String(header + str));
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
@@ -106,7 +128,8 @@ public class CBXmlWriter {
 	}
 
 	public boolean writeXmlHeader() {
-		return writeStringToFile(XML_HEADER, 0, false);
+		String header = "<?xml version=\"1.0\" encoding=\"" + mEncoding + "\"?>";
+		return writeStringToFile(header, 0, false);
 	}
 
 	public boolean writeStartTag(String tag, int level) {
