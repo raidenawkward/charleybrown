@@ -25,7 +25,7 @@
 	<string name="ordered_list_item_count">数量:\u0020</string>
 	<string name="ordered_list_item_price">共计:\u0020</string>
 	<string name="ordered_list_item_date_format">yyyy年MM月dd日 kk点mm分</string>
-	<string name="ordered_list_date_format">日期: yyyy年MM月dd日 E</string>
+	<string name="ordered_list_date_format">今天是 yyyy年MM月dd日 E</string>
 
     <string name="preview_detail">详细内容</string>
     <string name="preview_quit">返回</string>

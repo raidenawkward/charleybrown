@@ -9,7 +9,7 @@
 	android:paddingRight="20px"
 	android:background="#FFFFFFFF"
 	android:layout_width="wrap_content"
-	android:layout_height="wrap_content" >
+	android:layout_height="fill_parent" >
 
 		<!-- title line -->
 		<LinearLayout
@@ -30,8 +30,8 @@
 			android:paddingTop="10px"
 			android:layout_marginTop="10px"
 			android:layout_weight="250"
-			android:layout_height="wrap_content"
-			android:layout_width="wrap_content">
+			android:layout_height="fill_parent"
+			android:layout_width="fill_parent">
 
 			<com.android.cb.view.CBOrderedItemsSummaryListView
 			    android:id="@+id/cblistview_orderItemsList"
