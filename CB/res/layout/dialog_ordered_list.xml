@@ -34,9 +34,10 @@
 			android:layout_width="fill_parent">
 
 			<com.android.cb.view.CBOrderedItemsSummaryListView
-			    android:id="@+id/cblistview_orderItemsList"
-			    android:background="#60000000"
-			    android:layout_height="fill_parent"
+				android:id="@+id/cblistview_orderItemsList"
+				android:background="#60000000"
+				android:scrollbarAlwaysDrawVerticalTrack="true"
+				android:layout_height="fill_parent"
 				android:layout_width="fill_parent"/>
 
 		</LinearLayout>

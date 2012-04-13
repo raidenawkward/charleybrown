@@ -81,7 +81,7 @@ public class CBOrderParser extends CBXmlParser implements CBXmlParser.Callback {
 
 		} else if (tag.equalsIgnoreCase(CBOrderXmlWriter.TAG_SUBMIT_TIME)) {
 			Date date = new Date(Long.valueOf(value));
-			mOrder.setCreateTime(date);
+			mOrder.setSubmitedTime(date);
 
 		} else if (tag.equalsIgnoreCase(CBOrderXmlWriter.TAG_SUMMATION)) {
 			mOrder.setSummation(Float.valueOf(value));
