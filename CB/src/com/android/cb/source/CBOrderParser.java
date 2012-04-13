@@ -7,6 +7,7 @@
 package com.android.cb.source;
 
 import java.util.Date;
+import java.util.HashMap;
 
 import org.xmlpull.v1.XmlPullParser;
 
@@ -54,7 +55,7 @@ public class CBOrderParser extends CBXmlParser implements CBXmlParser.Callback {
 		return mOrder;
 	}
 
-	public void onTagWithValueDetected(String tag, String value, final XmlPullParser parser) {
+	public void onTagWithValueDetected(String tag, String value, final HashMap<String, String> attrs) {
 		if (mOrder == null)
 			return;
 		if (tag.equalsIgnoreCase(CBOrderXmlWriter.TAG_ID)) {
@@ -75,11 +76,11 @@ public class CBOrderParser extends CBXmlParser implements CBXmlParser.Callback {
 			mOrder.setDiscount(Float.valueOf(value));
 
 		} else if (tag.equalsIgnoreCase(CBOrderXmlWriter.TAG_CREATED_TIME)) {
-			Date date = new Date(value);
+			Date date = new Date(Long.valueOf(value));
 			mOrder.setCreateTime(date);
 
 		} else if (tag.equalsIgnoreCase(CBOrderXmlWriter.TAG_SUBMIT_TIME)) {
-			Date date = new Date(value);
+			Date date = new Date(Long.valueOf(value));
 			mOrder.setCreateTime(date);
 
 		} else if (tag.equalsIgnoreCase(CBOrderXmlWriter.TAG_SUMMATION)) {
@@ -93,15 +94,9 @@ public class CBOrderParser extends CBXmlParser implements CBXmlParser.Callback {
 
 		} else if (tag.equalsIgnoreCase(CBOrderXmlWriter.TAG_DISH)) {
 			if (mMenuItemsSet != null) {
-				String id = null;
-				int count = 0;
-				for (int i = 0; i < parser.getAttributeCount(); ++i) {
-					if (parser.getAttributeName(i).equalsIgnoreCase(CBOrderXmlWriter.TAG_ATTR_ID)) {
-						id = parser.getAttributeValue(i);
-					} else if (parser.getAttributeName(i).equalsIgnoreCase(CBOrderXmlWriter.TAG_ATTR_COUNT)) {
-						count = Integer.valueOf(parser.getAttributeValue(i));
-					}
-				}
+				String id = attrs.get(CBOrderXmlWriter.TAG_ATTR_ID);
+				String strCount = attrs.get(CBOrderXmlWriter.TAG_ATTR_COUNT);
+				int count = (strCount == null ? 0 : Integer.valueOf(strCount));
 
 				CBMenuItem item = mMenuItemsSet.getItemById(new CBId(id));
 				if (item != null) {

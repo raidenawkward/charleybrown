@@ -67,8 +67,8 @@ public class CBOrderXmlWriter {
 		writter.writeEndTag(TAG_DISABLED_TAGS, 1);
 
 		writter.writeOneLineTags(TAG_DISCOUNT, null, String.valueOf(order.getDiscount()), 1);
-		writter.writeOneLineTags(TAG_CREATED_TIME, null, order.getCreateTime().toString(), 1);
-		writter.writeOneLineTags(TAG_SUBMIT_TIME, null, order.getSubmitedTime().toString(), 1);
+		writter.writeOneLineTags(TAG_CREATED_TIME, null, String.valueOf(order.getCreateTime().getTime()), 1);
+		writter.writeOneLineTags(TAG_SUBMIT_TIME, null, String.valueOf(order.getSubmitedTime().getTime()), 1);
 		writter.writeOneLineTags(TAG_SUMMATION, null, String.valueOf(order.getSummation()), 1);
 		writter.writeOneLineTags(TAG_MEMO, null, order.getMemo(), 1);
 		writter.writeOneLineTags(TAG_STATUS, null, String.valueOf(order.getStatus()), 1);

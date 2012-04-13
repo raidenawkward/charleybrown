@@ -9,6 +9,7 @@ package com.android.cb.source;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.HashMap;
 
 import org.xmlpull.v1.XmlPullParser;
 
@@ -23,7 +24,7 @@ public class CBXmlParser {
 
 	public interface Callback {
 		public void onStartDocument(final XmlPullParser parser);
-		public void onTagWithValueDetected(String tag, String value, final XmlPullParser parser);
+		public void onTagWithValueDetected(String tag, String value, final HashMap<String, String> attrs);
 		public void onEndDocument(final XmlPullParser parser);
 	}
 
@@ -75,6 +76,10 @@ public class CBXmlParser {
 					break;
 				case XmlPullParser.START_TAG:
 					String name = parser.getName();
+					HashMap<String, String> attrs = new HashMap<String, String>();
+					for (int i = 0; i < parser.getAttributeCount(); ++i) {
+						attrs.put(parser.getAttributeName(i), parser.getAttributeValue(i));
+					}
 
 					eventType = parser.next();
 					while(eventType == XmlPullParser.IGNORABLE_WHITESPACE) {
@@ -84,7 +89,7 @@ public class CBXmlParser {
 					if (eventType == XmlPullParser.TEXT) {
 						if (callback != null) {
 							String value  = parser.getText();
-							callback.onTagWithValueDetected(name, value, parser);
+							callback.onTagWithValueDetected(name, value, attrs);
 						}
 					} else
 						continue;

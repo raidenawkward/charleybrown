@@ -117,7 +117,7 @@ public class CBSettings {
 		parser.setCallback(new CBXmlParser.Callback() {
 
 			public void onTagWithValueDetected(String tag, String value,
-					XmlPullParser parser) {
+					final HashMap<String, String> attrs) {
 				SETTINGS_MAP.put(tag, value);
 			}
 
@@ -173,7 +173,7 @@ public class CBSettings {
 		parser.setCallback(new CBXmlParser.Callback() {
 
 			public void onTagWithValueDetected(String tag, String value,
-					XmlPullParser parser) {
+					final HashMap<String, String> attrs) {
 				if (tag.equalsIgnoreCase(XML_TAG_LEFT_BUTTON)) {
 					if (LEFT_BUTTONS_TAGS_SET != null) {
 						LEFT_BUTTONS_TAGS_SET.add(value);
@@ -246,7 +246,7 @@ public class CBSettings {
 		parser.setCallback(new CBXmlParser.Callback() {
 
 			public void onTagWithValueDetected(String tag, String value,
-					XmlPullParser parser) {
+					final HashMap<String, String> attrs) {
 				if (tag.equalsIgnoreCase(XML_TAG_ORDER_LOCATION)) {
 					if (ORDER_LOCATION_LIST != null) {
 						ORDER_LOCATION_LIST.add(value);

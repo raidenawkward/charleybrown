@@ -6,6 +6,8 @@
  */
 package com.android.cb.source;
 
+import java.util.HashMap;
+
 import org.xmlpull.v1.XmlPullParser;
 
 import com.android.cb.support.CBDish;
@@ -47,7 +49,7 @@ public class CBDishParser extends CBXmlParser implements CBXmlParser.Callback {
 	 * @Description parse element of dish
 	 * @return void
 	 */
-	public void onTagWithValueDetected(String name, String value, final XmlPullParser parser) {
+	public void onTagWithValueDetected(String name, String value, final HashMap<String, String> attrs) {
 		if ( mDish != null) {
 			if (name.equalsIgnoreCase("id")) {
 				CBId id = new CBId(value);
