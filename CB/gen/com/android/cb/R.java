@@ -159,8 +159,9 @@ public final class R {
         public static final int retained_tag_hot=0x7f040001;
         public static final int retained_tag_new=0x7f040000;
         public static final int retained_tag_recommend=0x7f040002;
-        public static final int warning_trial_message=0x7f040045;
-        public static final int warning_trial_title=0x7f040044;
+        public static final int warning_quiting=0x7f040044;
+        public static final int warning_trial_message=0x7f040046;
+        public static final int warning_trial_title=0x7f040045;
     }
     public static final class style {
         public static final int CBBaseDialog=0x7f050000;

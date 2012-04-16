@@ -27,6 +27,7 @@ import android.content.Intent;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -96,8 +97,7 @@ public class CBActivity extends Activity implements LaunchingDialog.Callback {
 		mButtonQuit = (CBDialogButton) this.findViewById(R.id.button_quit);
 		mButtonQuit.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View v) {
-				CBSettings.save();
-				finish();
+				showQuitingDialog();
 			}
 		});
 
@@ -295,6 +295,39 @@ public class CBActivity extends Activity implements LaunchingDialog.Callback {
 		CBResource.menuEngine.setMenuSet(set);
 
 		return CBResource.menuEngine;
+	}
+
+	public void showQuitingDialog() {
+		ConfirmDialog confirmDialog = new ConfirmDialog(this);
+		confirmDialog.setTitle(R.string.confirm_dialog_title_warning);
+		confirmDialog.setMessage(R.string.warning_quiting);
+
+		confirmDialog.setCallback(new ConfirmDialog.Callback() {
+			public void onConfirm() {
+				finishCBActivity();
+			}
+
+			public void onCancel() {
+
+			}
+		});
+
+		confirmDialog.show();
+	}
+
+	private void finishCBActivity() {
+		CBSettings.save();
+		finish();
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		switch (keyCode) {
+		case KeyEvent.KEYCODE_BACK:
+			showQuitingDialog();
+			return false;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 
 //	private void testDB() {
