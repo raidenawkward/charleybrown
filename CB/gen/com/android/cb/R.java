@@ -13,13 +13,25 @@ public final class R {
     public static final class drawable {
         public static final int button_gray=0x7f020000;
         public static final int button_orange=0x7f020001;
-        public static final int ic_launcher=0x7f020002;
-        public static final int img_background_test=0x7f020003;
-        public static final int shape_confirm_dialog=0x7f020004;
-        public static final int shape_confirm_title_background=0x7f020005;
-        public static final int shape_shadow=0x7f020006;
-        public static final int shape_translucent_dialog=0x7f020007;
-        public static final int spliter=0x7f020008;
+        public static final int demo_chuanbeihuangliangfen=0x7f020002;
+        public static final int demo_dapai=0x7f020003;
+        public static final int demo_donganziji=0x7f020004;
+        public static final int demo_fenzhengrou=0x7f020005;
+        public static final int demo_fuqifeipian=0x7f020006;
+        public static final int demo_laweihezheng=0x7f020007;
+        public static final int demo_laweizhenghe=0x7f020008;
+        public static final int demo_luohanzhai=0x7f020009;
+        public static final int demo_mapodoufu=0x7f02000a;
+        public static final int demo_shuizhuroupian=0x7f02000b;
+        public static final int demo_tangcuyu=0x7f02000c;
+        public static final int demo_zhongshuijiao=0x7f02000d;
+        public static final int ic_launcher=0x7f02000e;
+        public static final int img_background_test=0x7f02000f;
+        public static final int shape_confirm_dialog=0x7f020010;
+        public static final int shape_confirm_title_background=0x7f020011;
+        public static final int shape_shadow=0x7f020012;
+        public static final int shape_translucent_dialog=0x7f020013;
+        public static final int spliter=0x7f020014;
     }
     public static final class id {
         public static final int botton_OrderList=0x7f070024;
