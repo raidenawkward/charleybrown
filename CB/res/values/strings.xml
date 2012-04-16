@@ -78,5 +78,5 @@
 
 	<string name="warning_quiting">是否要退出程序?</string>
 	<string name="warning_trial_title">试用版本提示</string>
-	<string name="warning_trial_message">您当前使用的程序是测试版本\n购买正式版本请联系:\nemail: lacarte@yahoo.cn</string>
+	<string name="warning_trial_message">您当前使用的程序是测试版本\n购买正式版本请联系:\nemail: lacarte@yahoo.cn\n\n感谢您的支持!</string>
 </resources>

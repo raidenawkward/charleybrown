@@ -313,6 +313,10 @@ public class CBActivity extends Activity implements LaunchingDialog.Callback {
 		});
 
 		confirmDialog.show();
+
+		if (CBTrialCtrl.isTrialVersion()) {
+			CBTrialCtrl.showTrialWarningDialog(this);
+		}
 	}
 
 	private void finishCBActivity() {
@@ -327,6 +331,7 @@ public class CBActivity extends Activity implements LaunchingDialog.Callback {
 			showQuitingDialog();
 			return false;
 		}
+
 		return super.onKeyDown(keyCode, event);
 	}
 
