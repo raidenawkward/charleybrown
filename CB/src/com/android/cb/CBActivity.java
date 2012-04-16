@@ -19,6 +19,7 @@ import com.android.cb.view.ConfirmDialog;
 import com.android.cb.view.LaunchingDialog;
 import com.android.cb.view.OrderPrepareDialog;
 import com.android.cb.view.OrdersListDialog;
+import com.android.cb.view.WarningDialog;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -225,18 +226,15 @@ public class CBActivity extends Activity implements LaunchingDialog.Callback {
 	}
 
 	private void showValidateCheckingFailedDialog() {
-		ConfirmDialog dialog = new ConfirmDialog(this);
+		WarningDialog dialog = new WarningDialog(this);
 		dialog.setTitle(R.string.confirm_dialog_title_warning);
 		dialog.setMessage(this.getResources().getString(R.string.managing_warning_validate_failed));
-		dialog.setCancelButtonText(this.getResources().getString(R.string.confirm_dialog_exit));
-		dialog.setCallback(new ConfirmDialog.Callback() {
+
+		dialog.setCallback(new WarningDialog.Callback() {
 			public void onConfirm() {
 
 			}
 
-			public void onCancel() {
-				CBActivity.this.finish();
-			}
 		});
 
 		dialog.show();

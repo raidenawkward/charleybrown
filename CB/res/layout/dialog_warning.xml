@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/layout_main"
+  android:orientation="vertical"
+  android:gravity="center"
+  android:background="#80000000"
+  android:paddingTop="0px"
+  android:paddingBottom="10px"
+  android:paddingLeft="0px"
+  android:paddingRight="0px"
+  android:layout_width="400px"
+  android:layout_height="wrap_content">
+	<LinearLayout
+		android:background="@drawable/shape_confirm_title_background"
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"
+		android:orientation="horizontal"
+		android:layout_weight="10"
+		android:gravity="left">
+		<TextView android:id="@+id/view_title"
+			android:text="@string/confirm_dialog_title_warning"
+			android:textStyle="bold"
+			android:textSize="22px"
+			android:layout_height="wrap_content"
+			android:layout_width="fill_parent"/>
+	</LinearLayout>
+
+	<LinearLayout
+		android:padding="10px"
+		android:gravity="center"
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"
+		android:layout_weight="250"
+		android:orientation="horizontal">
+		<TextView android:id="@+id/view_text"
+			android:text=""
+			android:textSize="28px"
+			android:textStyle="bold"
+			android:gravity="center"
+			android:layout_centerInParent="true"
+			android:layout_marginRight="15px"
+			android:layout_marginLeft="15px"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" />
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent"
+		android:orientation="horizontal"
+		android:paddingTop="20px"
+		android:gravity="center">
+			<com.android.cb.view.CBDialogButton android:id="@+id/button_ok"
+				android:text="@string/confirm_dialog_ok"
+				android:layout_height="wrap_content"
+				android:layout_width="100px"/>
+	</LinearLayout>
+</LinearLayout>

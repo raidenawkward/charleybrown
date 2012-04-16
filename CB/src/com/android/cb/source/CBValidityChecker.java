@@ -17,6 +17,8 @@ import android.content.Context;
  */
 public class CBValidityChecker {
 
+	public static final boolean IS_TRIAL_VERSION = false;
+
 	public static final int CHECK_DEVICE = 0;
 	public static final int CHECK_DEVICE_ID = 1;
 	public static final int CHECK_DEVICE_MAC = 2;
@@ -55,12 +57,26 @@ public class CBValidityChecker {
 	};
 
 	/**
-	 * @Description validate device system info; device id, android id and subscribe id
-	 * will be checked
-	 * @param context from which can get system information
+	 * @Description will skip validate checking if application is trail version
 	 * @return boolean
 	 */
+	public static boolean isTrialVersion() {
+		return IS_TRIAL_VERSION;
+	}
+
+	/**
+	 * @Description validate device system info; device id, android id and subscribe id
+	 * will be checked; and will skip validate checking if application is trail version
+	 * @param context from which can get system information
+	 * @return boolean returns true if checking passed
+	 */
 	public static boolean isValid(Context context) {
+		if (isTrialVersion())
+			return true;
+
+		if (context == null)
+			return false;
+
 		String systemId = CBSystemInfo.getAndroidSystemId(context);
 		String[] info = getDeviceIndexBySystemId(systemId);
 

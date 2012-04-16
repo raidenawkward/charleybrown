@@ -81,13 +81,14 @@ public final class R {
         public static final int dialog_ordering=0x7f030006;
         public static final int dialog_preview=0x7f030007;
         public static final int dialog_singleview=0x7f030008;
-        public static final int main=0x7f030009;
-        public static final int main_grid_menu_view=0x7f03000a;
-        public static final int main_grid_menu_view_list_item=0x7f03000b;
-        public static final int main_manage=0x7f03000c;
-        public static final int main_menu_item=0x7f03000d;
-        public static final int ordered_list_item=0x7f03000e;
-        public static final int total_ordered_list_view_item=0x7f03000f;
+        public static final int dialog_warning=0x7f030009;
+        public static final int main=0x7f03000a;
+        public static final int main_grid_menu_view=0x7f03000b;
+        public static final int main_grid_menu_view_list_item=0x7f03000c;
+        public static final int main_manage=0x7f03000d;
+        public static final int main_menu_item=0x7f03000e;
+        public static final int ordered_list_item=0x7f03000f;
+        public static final int total_ordered_list_view_item=0x7f030010;
     }
     public static final class string {
         public static final int app_name=0x7f040003;
