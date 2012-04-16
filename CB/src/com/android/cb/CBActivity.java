@@ -8,6 +8,7 @@ import com.android.cb.source.CBDishesScanner;
 import com.android.cb.source.CBOrderFactory;
 import com.android.cb.source.CBResource;
 import com.android.cb.source.CBSettings;
+import com.android.cb.source.CBTrialCtrl;
 import com.android.cb.source.CBValidityChecker;
 import com.android.cb.support.CBMenuEngine;
 import com.android.cb.support.CBMenuItemsSet;
@@ -99,6 +100,9 @@ public class CBActivity extends Activity implements LaunchingDialog.Callback {
 				finish();
 			}
 		});
+
+		if (CBTrialCtrl.isTrialVersion())
+			CBTrialCtrl.showTrialWarningDialog(this);
     }
 
 	private void openGridViewActivity() {
@@ -229,13 +233,6 @@ public class CBActivity extends Activity implements LaunchingDialog.Callback {
 		WarningDialog dialog = new WarningDialog(this);
 		dialog.setTitle(R.string.confirm_dialog_title_warning);
 		dialog.setMessage(this.getResources().getString(R.string.managing_warning_validate_failed));
-
-		dialog.setCallback(new WarningDialog.Callback() {
-			public void onConfirm() {
-
-			}
-
-		});
 
 		dialog.show();
 	}

@@ -18,16 +18,7 @@ import android.widget.TextView;
  *
  * @Description confirm dialog with only button 'OK'
  */
-public class WarningDialog extends CBBaseDialog {
-
-	public interface Callback {
-		public void onConfirm();
-	}
-	private Callback mCallback = null;
-
-	private TextView mViewTitle;
-	private TextView mViewMessage;
-	private CBDialogButton mButtonConfirm;
+public class WarningDialog extends ConfirmDialog {
 
 	public WarningDialog(Context context, boolean cancelable,
 			OnCancelListener cancelListener) {
@@ -45,7 +36,7 @@ public class WarningDialog extends CBBaseDialog {
 		initView();
 	}
 
-	private void initView() {
+	protected void initView() {
 		this.setContentView(R.layout.dialog_warning);
 		setCanceledOnTouchOutside(false);
 
@@ -55,33 +46,11 @@ public class WarningDialog extends CBBaseDialog {
 		mButtonConfirm = (CBDialogButton) this.findViewById(R.id.button_ok);
 		mButtonConfirm.setOnClickListener(new Button.OnClickListener() {
 			public void onClick(View arg0) {
-				if (mCallback != null)
-					mCallback.onConfirm();
+				if (getCallback() != null)
+					getCallback().onConfirm();
 				dismiss();
 			}
 		});
-	}
-
-	public void setTitle(String str) {
-		mViewTitle.setText(str);
-	}
-
-	public void setTitle(int strId) {
-		String str = this.getContext().getResources().getString(strId);
-		if (str != null)
-			setTitle(str);
-	}
-
-	public void setMessage(String str) {
-		mViewMessage.setText(str);
-	}
-
-	public Callback getCallback() {
-		return mCallback;
-	}
-
-	public void setCallback(Callback callback) {
-		this.mCallback = callback;
 	}
 
 }

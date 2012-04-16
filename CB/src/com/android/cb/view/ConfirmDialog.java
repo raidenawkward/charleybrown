@@ -24,12 +24,12 @@ public class ConfirmDialog extends CBBaseDialog {
 		public void onConfirm();
 		public void onCancel();
 	}
-	private Callback mCallback = null;
+	protected Callback mCallback = null;
 
-	private TextView mViewTitle;
-	private TextView mViewMessage;
-	private CBDialogButton mButtonConfirm;
-	private CBDialogButton mButtonCancel;
+	protected TextView mViewTitle;
+	protected TextView mViewMessage;
+	protected CBDialogButton mButtonConfirm;
+	protected CBDialogButton mButtonCancel;
 
 	public ConfirmDialog(Context context, boolean cancelable,
 			OnCancelListener cancelListener) {
@@ -47,7 +47,7 @@ public class ConfirmDialog extends CBBaseDialog {
 		initView();
 	}
 
-	private void initView() {
+	protected void initView() {
 		this.setContentView(R.layout.dialog_confirm);
 		setCanceledOnTouchOutside(false);
 
@@ -103,6 +103,24 @@ public class ConfirmDialog extends CBBaseDialog {
 
 	public void setCallback(Callback callback) {
 		this.mCallback = callback;
+	}
+
+	public void setTitleFontSize(float size) {
+		if (mViewTitle == null)
+			return;
+		if (size <= 0)
+			return;
+
+		mViewTitle.setTextSize(size);
+	}
+
+	public void setMessageFontSize(float size) {
+		if (mViewMessage == null)
+			return;
+		if (size <= 0)
+			return;
+
+		mViewMessage.setTextSize(size);
 	}
 
 }
