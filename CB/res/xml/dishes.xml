@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resource>
+	<dish
+		name="test01"
+		price="16.0"
+		score="0.0"
+		tags="test,all"
+		summary="summary of test01"
+		detail="detail information of test 01"
+		thumb="ic_launcher"
+		picture="ic_launcher"
+		id="test01"/>
+	<dish
+		name="test02"
+		price="16.0"
+		score="0.0"
+		tags="test,all"
+		summary="summary of test02"
+		detail="detail information of test 02"
+		thumb="ic_launcher"
+		picture="ic_launcher"
+		id="test02"/>
+</resource>

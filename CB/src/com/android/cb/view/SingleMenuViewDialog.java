@@ -7,6 +7,7 @@
 package com.android.cb.view;
 
 import com.android.cb.R;
+import com.android.cb.source.CBTrialCtrl;
 import com.android.cb.support.CBDish;
 import com.android.cb.support.CBIFOrderHandler;
 import com.android.cb.support.CBMenuItem;
@@ -70,7 +71,14 @@ public class SingleMenuViewDialog extends CBBaseDialog implements DishInfoDialog
 		Display display = this.getWindow().getWindowManager().getDefaultDisplay();
 		float screenWidth = display.getWidth();
 		float screenHeight = display.getHeight();
-		Bitmap bitmap = CBBitmapFactory.loadScaledBitmap(dish.getPicture(), screenWidth , screenHeight);
+		Bitmap bitmap = null;
+		if (CBTrialCtrl.isTrialVersion() == false)
+			bitmap = CBBitmapFactory.loadScaledBitmap(dish.getPicture(), screenWidth , screenHeight);
+		else
+			bitmap = CBBitmapFactory.loadScaledBitmapFromResourceField(dish.getPicture(),
+															this.getContext(),
+															screenWidth,
+															screenHeight);
 		mImageView.setImageBitmap(bitmap);
 	}
 

@@ -287,8 +287,14 @@ public class CBActivity extends Activity implements LaunchingDialog.Callback {
 
 	private CBMenuEngine initMenuEngine() {
 
-		CBDishesScanner scanner = new CBDishesScanner(CBSettings.getStringValue(CBSettings.CB_SETTINGS_SOURCE_DIR_DISHES));
-		CBMenuItemsSet set = scanner.scan();
+		CBMenuItemsSet set = null;
+
+		if (CBTrialCtrl.isTrialVersion() == false) {
+			CBDishesScanner scanner = new CBDishesScanner(CBSettings.getStringValue(CBSettings.CB_SETTINGS_SOURCE_DIR_DISHES));
+			set = scanner.scan();
+		} else {
+			set = CBTrialCtrl.loadTrialDishes(this);
+		}
 
 		CBBitmapFactory.setMenuItemsSetIcons(set, this);
 		CBResource.menuEngine = new CBMenuEngine();
@@ -320,7 +326,8 @@ public class CBActivity extends Activity implements LaunchingDialog.Callback {
 	}
 
 	private void finishCBActivity() {
-		CBSettings.save();
+		if (CBTrialCtrl.isTrialVersion() == false)
+			CBSettings.save();
 		finish();
 	}
 

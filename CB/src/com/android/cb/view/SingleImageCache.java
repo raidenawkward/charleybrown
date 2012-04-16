@@ -13,6 +13,7 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.view.View;
 
+import com.android.cb.source.CBTrialCtrl;
 import com.android.cb.support.CBCache;
 import com.android.cb.support.CBMenuEngine;
 import com.android.cb.support.CBMenuItem;
@@ -252,7 +253,14 @@ public class SingleImageCache extends CBCache<Bitmap> {
 		if (path == null)
 			return null;
 
-		Bitmap bitmap = CBBitmapFactory.loadScaledBitmap(path, mBitmapWidth, mBitmapHeight);
+		Bitmap bitmap = null;
+		if (CBTrialCtrl.isTrialVersion() == false)
+			bitmap = CBBitmapFactory.loadScaledBitmap(path, mBitmapWidth, mBitmapHeight);
+		else
+			bitmap = CBBitmapFactory.loadScaledBitmapFromResourceField(path,
+					mView.getContext(),
+					mBitmapWidth,
+					mBitmapHeight);
 		return bitmap;
 	}
 

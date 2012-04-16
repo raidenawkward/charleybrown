@@ -6,10 +6,18 @@
  */
 package com.android.cb.source;
 
+import java.io.IOException;
+
+import org.xmlpull.v1.XmlPullParserException;
+
 import com.android.cb.R;
+import com.android.cb.support.CBDish;
+import com.android.cb.support.CBMenuItem;
+import com.android.cb.support.CBMenuItemsSet;
 import com.android.cb.view.WarningDialog;
 
 import android.content.Context;
+import android.content.res.XmlResourceParser;
 
 /**
  * @author raiden
@@ -32,6 +40,41 @@ public class CBTrialCtrl {
 		dialog.setMessage(context.getResources().getString(R.string.warning_trial_message));
 
 		dialog.show();
+	}
+
+	public static CBMenuItemsSet loadTrialDishes(Context context) {
+		CBMenuItemsSet res = new CBMenuItemsSet();
+		CBDish newDish = null;
+
+		try {
+			XmlResourceParser parser = context.getResources().getXml(R.xml.dishes);
+			int eventType = parser.getEventType();
+			while (eventType != XmlResourceParser.END_DOCUMENT) {
+				switch (eventType) {
+				case XmlResourceParser.START_TAG:
+					newDish = new CBDish();
+					for (int i = 0; i < parser.getAttributeCount(); ++i) {
+						if (CBDish.setDishAttr(newDish, parser.getAttributeName(i), parser.getAttributeValue(i))
+									== true) {
+							CBMenuItem item = new CBMenuItem(newDish);
+							res.add(item);
+						}
+					}
+					break;
+				case XmlResourceParser.END_TAG:
+					newDish = null;
+					break;
+				}
+
+				eventType = parser.next();
+			}
+		} catch (XmlPullParserException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return res;
 	}
 
 }

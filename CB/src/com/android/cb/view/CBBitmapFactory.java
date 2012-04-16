@@ -16,6 +16,7 @@ import com.android.cb.support.CBMenuItemsSet;
 import com.android.cb.support.CBTagsSet;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -52,8 +53,28 @@ public class CBBitmapFactory {
 		return bitmap;
 	}
 
+	public static Bitmap loadBitmap(Resources resource, int id) {
+		if (id <= 0 || resource == null)
+			return null;
+
+		return BitmapFactory.decodeResource(resource, id);
+	}
+
 	public static Bitmap loadScaledBitmap(String path, float fixWidth, float fixHeight) {
 		Bitmap bitmap = loadBitmap(path);
+		if (bitmap == null)
+			return null;
+
+		return scaleBitmapToFixView(bitmap, fixWidth, fixHeight);
+	}
+
+	public static Bitmap loadScaledBitmapFromResourceField(String field, Context context, float fixWidth, float fixHeight) {
+		Resources res = context.getResources();
+		int id = res.getIdentifier(field, "drawable", context.getPackageName());
+		if (id <= 0)
+			return null;
+
+		Bitmap bitmap = loadBitmap(res, id);
 		if (bitmap == null)
 			return null;
 
