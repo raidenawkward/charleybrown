@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.cb.R;
+import com.android.cb.source.CBResource;
+import com.android.cb.source.CBTrialCtrl;
 import com.android.cb.support.CBMenuItem;
 
 
@@ -66,7 +68,11 @@ public class GridMenuViewAdapter extends CBImageViewAdapterBase {
 		ImageView imageView = viewHolder.getImageView();
 		imageView.setTag(imageUrl);
 
-		Drawable drawableImage = loadDrawable(imageUrl);
+		Drawable drawableImage = null;
+		if (CBTrialCtrl.isTrialVersion() == false)
+			drawableImage = loadDrawable(imageUrl);
+		else
+			drawableImage = loadDrawable(imageUrl, CBResource.contextCBActivity);
 
 		if (drawableImage == null) {
 			imageView.setImageResource(R.drawable.ic_launcher);

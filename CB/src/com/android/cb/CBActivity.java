@@ -56,6 +56,7 @@ public class CBActivity extends Activity implements LaunchingDialog.Callback {
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+		CBResource.contextCBActivity = this;
 
 		mIsValidDevice = CBValidityChecker.isValid(CBActivity.this);
 

@@ -81,6 +81,22 @@ public class CBBitmapFactory {
 		return scaleBitmapToFixView(bitmap, fixWidth, fixHeight);
 	}
 
+	public static Drawable loadDrawableFromResourceField(String field, Context context) {
+		if (field == null || context == null)
+			return null;
+
+		Resources res = context.getResources();
+		int id = res.getIdentifier(field, "drawable", context.getPackageName());
+		if (id <= 0)
+			return null;
+
+		Bitmap bitmap = loadBitmap(res, id);
+		if (bitmap == null)
+			return null;
+
+		return new BitmapDrawable(bitmap);
+	}
+
 	public static Drawable loadDrawableFromLocalUrl(String imageUrl) {
 		Options options=new Options();
 		options.inSampleSize=2;

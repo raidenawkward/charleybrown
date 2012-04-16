@@ -25,7 +25,7 @@ import android.content.res.XmlResourceParser;
  * @Description controls for trial application
  */
 public class CBTrialCtrl {
-	public static final boolean IS_TRIAL_VERSION = false;
+	private static final boolean IS_TRIAL_VERSION = false;
 
 	public static boolean isTrialVersion() {
 		return IS_TRIAL_VERSION;

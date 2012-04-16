@@ -9,6 +9,8 @@ package com.android.cb.view;
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
@@ -92,6 +94,37 @@ public class CBAsyncImageLoader {
                 Drawable drawable = CBBitmapFactory.loadDrawableFromLocalUrl(imageUrl);
                 mImagesMap.put(imageUrl, new SoftReference<Drawable>(drawable));
 //                mImagesMap.put(imageUrl, drawable);
+                Message message = handler.obtainMessage(0, drawable);
+                handler.sendMessage(message);
+            }
+        }.start();
+
+		return null;
+	}
+
+	public Drawable loadDrawable(final String field, final Context context, final Callback callback) {
+		if (mImagesMap.containsKey(field)) {
+            SoftReference<Drawable> softReference = mImagesMap.get(field);
+            Drawable drawable = softReference.get();
+
+            if (drawable != null) {
+                return drawable;
+            }
+        }
+
+		final Handler handler = new Handler() {
+            public void handleMessage(Message message) {
+				if (callback != null)
+					callback.onImageLoaded((Drawable) message.obj, field);
+            }
+        };
+
+        new Thread() {
+            @Override
+            public void run() {
+                Drawable drawable = CBBitmapFactory.loadDrawableFromResourceField(field, context);
+                mImagesMap.put(field, new SoftReference<Drawable>(drawable));
+
                 Message message = handler.obtainMessage(0, drawable);
                 handler.sendMessage(message);
             }

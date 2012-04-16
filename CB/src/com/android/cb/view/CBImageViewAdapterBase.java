@@ -89,6 +89,24 @@ public abstract class CBImageViewAdapterBase extends ArrayAdapter<CBMenuItem> {
 		return res;
 	}
 
+	public Drawable loadDrawable(String field, Context context) {
+		if (field == null || context == null)
+			return null;
+
+		Drawable res = mAsyncImageLoader.loadDrawable(field, context,
+				new CBAsyncImageLoader.Callback() {
+					public void onImageLoaded(Drawable imageDrawable, String imageUrl) {
+						ImageView imageViewByTag = (ImageView) mListView.findViewWithTag(imageUrl);
+						if (imageViewByTag != null) {
+		                    imageViewByTag.setImageDrawable(imageDrawable);
+		                }
+					}
+				}
+		);
+
+		return res;
+	}
+
 	public abstract View getView(int position, View convertView, ViewGroup parent);
 
 }

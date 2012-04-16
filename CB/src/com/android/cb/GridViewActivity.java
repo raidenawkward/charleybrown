@@ -58,6 +58,8 @@ public class GridViewActivity extends Activity implements CBButtonsGroup.Callbac
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		CBResource.contextGridViewActivity = this;
+
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.main_grid_menu_view);
