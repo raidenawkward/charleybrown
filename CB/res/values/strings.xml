@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">CB</string>
+    <string name="app_name">lacarte</string>
 
     <string name="gridview_activity_load_order_failed">无法加载该记录!</string>
 
