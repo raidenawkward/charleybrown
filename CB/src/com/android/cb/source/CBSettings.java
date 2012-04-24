@@ -23,7 +23,7 @@ import com.android.cb.support.CBTagsSet;
  */
 public class CBSettings {
 
-	public static final String CB_SETTINGS_FILE_PATH = "/sdcard/cb/settings/app_settings.xml";
+	public static final String CB_SETTINGS_FILE_PATH = "/sdcard/menu/settings/app_settings.xml";
 
 	public static final String CB_SETTINGS_XML_ENCODING = "cb.settings.xml.encoding";
 	public static final String CB_SETTINGS_SOURCE_DIR = "cb.settings.source.dir";
@@ -45,14 +45,14 @@ public class CBSettings {
 	protected static HashMap<String, String> SETTINGS_MAP = new HashMap<String, String>();
 
 	static {
-		SETTINGS_MAP.put(CB_SETTINGS_DEVICE_ID, "unknown");
+		SETTINGS_MAP.put(CB_SETTINGS_DEVICE_ID, "ASUS_");
 		SETTINGS_MAP.put(CB_SETTINGS_XML_ENCODING, "gb2312");
-		SETTINGS_MAP.put(CB_SETTINGS_SOURCE_DIR, "/sdcard/cb");
-		SETTINGS_MAP.put(CB_SETTINGS_SOURCE_DIR_DISHES, "/sdcard/cb/dishes");
-		SETTINGS_MAP.put(CB_SETTINGS_SOURCE_DIR_ORDERS, "/sdcard/cb/orders");
-		SETTINGS_MAP.put(CB_SETTINGS_SOURCE_DIR_SETTINGS, "/sdcard/cb/settings");
-		SETTINGS_MAP.put(CB_SETTINGS_LEFT_BUTTONS_TAGS_FILE, "/sdcard/cb/settings/left_buttons.xml");
-		SETTINGS_MAP.put(CB_SETTINGS_ORDER_LOCATIONS_FILE, "/sdcard/cb/settings/order_locations.xml");
+		SETTINGS_MAP.put(CB_SETTINGS_SOURCE_DIR, "/sdcard/menu");
+		SETTINGS_MAP.put(CB_SETTINGS_SOURCE_DIR_DISHES, "/sdcard/menu/dishes");
+		SETTINGS_MAP.put(CB_SETTINGS_SOURCE_DIR_ORDERS, "/sdcard/menu/orders");
+		SETTINGS_MAP.put(CB_SETTINGS_SOURCE_DIR_SETTINGS, "/sdcard/menu/settings");
+		SETTINGS_MAP.put(CB_SETTINGS_LEFT_BUTTONS_TAGS_FILE, "/sdcard/menu/settings/left_buttons.xml");
+		SETTINGS_MAP.put(CB_SETTINGS_ORDER_LOCATIONS_FILE, "/sdcard/menu/settings/order_locations.xml");
 
 		SETTINGS_MAP.put(CB_SETTINGS_LEFT_BUTTON_TEXT_SIZE, "20");
 		SETTINGS_MAP.put(CB_SETTINGS_GRIDVIEW_COLUMN_COUNT, "3");
