@@ -75,7 +75,7 @@ public class GridMenuViewAdapter extends CBImageViewAdapterBase {
 			drawableImage = loadDrawable(imageUrl, CBResource.contextCBActivity);
 
 		if (drawableImage == null) {
-			imageView.setImageResource(R.drawable.ic_launcher);
+			imageView.setImageResource(R.drawable.icon_loading);
 		} else {
 			imageView.setImageDrawable(drawableImage);
 		}
