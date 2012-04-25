@@ -11,18 +11,15 @@
 		android:orientation="vertical"
 		android:gravity="center">
 			<com.android.cb.view.CBDialogButton android:id="@+id/button_newOrder"
-			android:text="@string/managing_button_to_order_menu"
 			android:layout_height="wrap_content"
 			android:layout_width="200px"/>
 
 			<com.android.cb.view.CBDialogButton android:id="@+id/button_ordersList"
-			android:text="@string/managing_button_to_ordesr_list"
 			android:layout_marginTop="20px"
 			android:layout_height="wrap_content"
 			android:layout_width="200px"/>
 
 			<com.android.cb.view.CBDialogButton android:id="@+id/button_quit"
-			android:text="@string/managing_button_quit"
 			android:layout_marginTop="20px"
 			android:layout_height="wrap_content"
 			android:layout_width="200px"/>

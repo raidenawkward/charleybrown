@@ -102,6 +102,18 @@ public class CBActivity extends Activity implements LaunchingDialog.Callback {
 			}
 		});
 
+		mButtonNewOrder.setDrawableOff(R.drawable.button_order_start_2);
+		mButtonNewOrder.setDrawableOn(R.drawable.button_order_start_pressed_1);
+		mButtonNewOrder.turnOff();
+
+		mButtonOrdersList.setDrawableOff(R.drawable.button_order_list_2);
+		mButtonOrdersList.setDrawableOn(R.drawable.button_order_list_pressed_1);
+		mButtonOrdersList.turnOff();
+
+		mButtonQuit.setDrawableOff(R.drawable.button_quit_2);
+		mButtonQuit.setDrawableOn(R.drawable.button_quit_pressed_2);
+		mButtonQuit.turnOff();
+
 		if (CBTrialCtrl.isTrialVersion())
 			CBTrialCtrl.showTrialWarningDialog(this);
     }
