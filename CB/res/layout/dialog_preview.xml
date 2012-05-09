@@ -39,6 +39,7 @@
 				android:gravity="left">
 					<TextView android:id="@+id/textView_name"
 						android:textSize="24px"
+						android:textColor="#580000"
 						android:textStyle="bold"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"></TextView>
@@ -65,6 +66,8 @@
 		android:gravity="left">
 			<TextView android:id="@+id/textView_summary"
 				android:text="name"
+				android:textColor="#580000"
+				android:textStyle="bold"
 				android:textSize="20px"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"></TextView>
