@@ -40,7 +40,7 @@ public class CBValidityChecker {
 		"012345678912345",
 	};
 
-	protected static final String[] DEVICE_INFO_ACER_ZZY = {
+	protected static final String[] DEVICE_INFO_ACER_QINGLIAN_1 = {
 		"acer",
 		"",
 		"14:DA:E9:23:E1:68",
@@ -48,10 +48,28 @@ public class CBValidityChecker {
 		"",
 	};
 
+	protected static final String[] DEVICE_INFO_ACER_QINGLIAN_2 = {
+		"acer",
+		"",
+		"10:BF:48:11:1F:A0",
+		"ab3b3ebbf7d2bf8",
+		"",
+	};
+
+	protected static final String[] DEVICE_INFO_ACER_QINGLIAN_3 = {
+		"acer",
+		"",
+		"10:BF:48:11:10:E2",
+		"936c220de48c54da",
+		"",
+	};
+
 	protected static String[][] ALLOWED_DEVICES = {
 		DEVICE_INFO_G1,
 		DEVICE_INFO_F7,
-		DEVICE_INFO_ACER_ZZY,
+		DEVICE_INFO_ACER_QINGLIAN_1,
+		DEVICE_INFO_ACER_QINGLIAN_2,
+		DEVICE_INFO_ACER_QINGLIAN_3,
 	};
 
 	/**
