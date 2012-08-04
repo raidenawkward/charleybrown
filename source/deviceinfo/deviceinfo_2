@@ -1,0 +1,100 @@
+SimCountryIso: 
+AvailbleRamSize: 520552448
+NetworkCountryIso: 
+CPUInfo: 
+Processor	: ARMv7 Processor rev 0 (v7l)
+processor	: 0
+BogoMIPS	: 1987.37
+
+processor	: 1
+BogoMIPS	: 1987.37
+
+Features	: swp half thumb fastmult vfp edsp vfpv3 vfpv3d16 
+CPU implementer	: 0x41
+CPU architecture: 7
+CPU variant	: 0x1
+CPU part	: 0xc09
+CPU revision	: 0
+
+Hardware	: ventana
+Revision	: 0000
+Serial		: 0000000000000000
+PhoneType: 0
+DeviceSoftwareVersion: null
+SubscriberId: null
+HeightPixels: 320
+NetworkType: 0
+SimSerialNumber: null
+KernelInfo: 
+Processor	: ARMv7 Processor rev 0 (v7l)
+processor	: 0
+BogoMIPS	: 1987.37
+
+processor	: 1
+BogoMIPS	: 1987.37
+
+Features	: swp half thumb fastmult vfp edsp vfpv3 vfpv3d16 
+CPU implementer	: 0x41
+CPU architecture: 7
+CPU variant	: 0x1
+CPU part	: 0xc09
+CPU revision	: 0
+
+Hardware	: ventana
+Revision	: 0000
+Serial		: 0000000000000000
+SimOperator: 
+SimOperatorName: 
+DeviceId: null
+ScreenDensity: 1.0
+WidthPixels: 545
+AndroidSystemId: ab3b3ebbf7d2bf8
+RamInfo: 
+MemTotal:         739292 kB
+MemFree:          240896 kB
+Buffers:           19272 kB
+Cached:           263764 kB
+SwapCached:            0 kB
+Active:           190888 kB
+Inactive:         245668 kB
+Active(anon):     153772 kB
+Inactive(anon):      604 kB
+Active(file):      37116 kB
+Inactive(file):   245064 kB
+Unevictable:         200 kB
+Mlocked:               0 kB
+HighTotal:        105472 kB
+HighFree:            268 kB
+LowTotal:         633820 kB
+LowFree:          240628 kB
+SwapTotal:             0 kB
+SwapFree:              0 kB
+Dirty:                 4 kB
+Writeback:             0 kB
+AnonPages:        153776 kB
+Mapped:            54448 kB
+Shmem:               660 kB
+Slab:              10284 kB
+SReclaimable:       4244 kB
+SUnreclaim:         6040 kB
+KernelStack:        3480 kB
+PageTables:         6292 kB
+NFS_Unstable:          0 kB
+Bounce:                0 kB
+WritebackTmp:          0 kB
+CommitLimit:      369644 kB
+Committed_AS:    4716004 kB
+VmallocTotal:     253952 kB
+VmallocUsed:       55332 kB
+VmallocChunk:     180164 kB
+DirectMap4k:       71684 kB
+DirectMap2M:      583680 kB
+SimState: 0
+InternalMemorySize: 13989675008
+SdSize: 13989675008
+VoiceMailNumber: null
+Mac: 10:BF:48:11:1F:A0
+NetworkOperatorName: 
+RomSize: 13719764992
+ScreenDensityDpi: 160
+Line1Number: null
