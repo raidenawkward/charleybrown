@@ -74,6 +74,7 @@ public class CBSystemInfo {
 				info += "\n";
 				info += line;
 			}
+			localBufferedReader.close();
 		} catch (IOException e) {
 		}
 		return info;
