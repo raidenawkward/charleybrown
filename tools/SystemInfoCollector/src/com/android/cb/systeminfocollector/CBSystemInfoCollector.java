@@ -107,7 +107,9 @@ public class CBSystemInfoCollector extends Activity {
 				} else {
 					res = R.string.save_failed;
 				}
-				Toast.makeText(CBSystemInfoCollector.this, CBSystemInfoCollector.this.getResources().getString(res), 0).show();
+				Toast.makeText(CBSystemInfoCollector.this,
+							CBSystemInfoCollector.this.getResources().getString(res),
+							Toast.LENGTH_SHORT).show();
 			}
     	};
 
@@ -165,6 +167,7 @@ public class CBSystemInfoCollector extends Activity {
 
 	        	try {
 					writter.write(content.getBytes());
+					writter.close();
 				} catch (IOException e) {
 					return false;
 				}

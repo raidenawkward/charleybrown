@@ -106,6 +106,7 @@ public class CBSystemInfoCenter {
 				info += "\n";
 				info += line;
 			}
+			localBufferedReader.close();
 		} catch (IOException e) {
 		}
 		return info;
