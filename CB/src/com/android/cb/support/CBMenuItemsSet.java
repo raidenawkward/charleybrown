@@ -75,6 +75,32 @@ public class CBMenuItemsSet implements CBIFSetHandler<CBMenuItem> {
 	}
 
 	/**
+	 * @Description adding item to set and put it in a right place
+	 * @param @param item
+	 * @return boolean will return false if item exists in mMenuItemList
+	 */
+	public boolean add(CBMenuItem item, CBComparator<CBMenuItem> comparator) {
+		if (item == null)
+			return false;
+
+		if (contains(item))
+			return false;
+
+		for (int i = 0; i < mMenuItemList.size(); ++i) {
+			CBMenuItem current = mMenuItemList.get(i);
+			int compareRes = comparator.compare(item, current);
+			if (compareRes < 0) {
+				mMenuItemList.add(i, item);
+				return true;
+			}
+		}
+
+		mMenuItemList.add(item);
+
+		return true;
+	}
+
+	/**
 	 * @Description update item in set
 	 * @param @param item
 	 * @return boolean returns false if item is null or item is not in set

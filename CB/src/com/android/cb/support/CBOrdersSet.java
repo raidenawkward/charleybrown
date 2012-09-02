@@ -165,7 +165,7 @@ public class CBOrdersSet implements CBIFSetHandler<CBOrder> {
 		}
 	}
 
-	protected class IDComparator extends CBComparator implements Comparator<CBOrder> {
+	protected class IDComparator extends CBComparator<CBOrder> implements Comparator<CBOrder> {
 
 		public IDComparator() {
 			super();
@@ -180,7 +180,7 @@ public class CBOrdersSet implements CBIFSetHandler<CBOrder> {
 		}
 	}
 
-	protected class TimeComparator extends CBComparator implements Comparator<CBOrder> {
+	protected class TimeComparator extends CBComparator<CBOrder> implements Comparator<CBOrder> {
 
 		public TimeComparator() {
 			super();
