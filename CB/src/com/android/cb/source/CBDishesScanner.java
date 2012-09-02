@@ -6,6 +6,7 @@
  */
 package com.android.cb.source;
 
+import com.android.cb.support.CBComparator;
 import com.android.cb.support.CBDish;
 import com.android.cb.support.CBMenuItem;
 import com.android.cb.support.CBMenuItemsSet;
@@ -108,6 +109,7 @@ public class CBDishesScanner implements CBPathWalker.Callback {
 
 		if (!fileExists(dish.getThumb()))
 			return false;
+
 		if (!fileExists(dish.getPicture()))
 			return false;
 
@@ -115,9 +117,27 @@ public class CBDishesScanner implements CBPathWalker.Callback {
 		dish.setThumb(getFileDirFromPath(file) + dish.getThumb());
 
 		CBMenuItem item = new CBMenuItem(dish);
-		mMenuItemsSet.add(item);
+
+		// compare and insert
+		mMenuItemsSet.add(item, new CBDishComparator());
 
 		return true;
+	}
+
+	protected class CBDishComparator extends CBComparator<CBMenuItem> {
+
+		@Override
+		public int compare(CBMenuItem arg0, CBMenuItem arg1) {
+			try {
+				long id0 = Long.valueOf(arg0.getDish().getId().toString());
+				long id1 = Long.valueOf(arg1.getDish().getId().toString());
+
+				return (int) (id0 - id1);
+
+			} catch (Exception e) {
+				return 0;
+			}
+		}
 	}
 
 }

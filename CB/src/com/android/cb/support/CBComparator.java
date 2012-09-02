@@ -11,7 +11,7 @@ package com.android.cb.support;
  *
  * @Description base comparator abstract class
  */
-public abstract class CBComparator {
+public abstract class CBComparator<TYPE> {
 
 	public final int CB_SORT_DIRECT_ANY = 0;
 	public final int CB_SORT_DIRECT_ASCENDING = 1;
@@ -34,4 +34,10 @@ public abstract class CBComparator {
 		this.mSortDirect = sortDirect;
 	}
 
+	/**
+	 * @Description compare 2 items
+	 * @param TYPE
+	 * @return int if arg0 is bigger (> 0), equal (= 0) or smaller (< 0) than arg1
+	 */
+	public abstract int compare(TYPE arg0, TYPE arg1);
 }
