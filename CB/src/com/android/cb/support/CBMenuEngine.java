@@ -125,16 +125,28 @@ public class CBMenuEngine {
 		return res;
 	}
 
+	private class CBDishesScoreComparator extends CBComparator<CBMenuItem> {
+
+		@Override
+		public int compare(CBMenuItem arg0, CBMenuItem arg1) {
+			float score0 = arg0.getDish().getScore();
+			float score1 = arg1.getDish().getScore();
+			return (int) (score1 - score0);
+		}
+
+	}
+
 	public CBMenuItemsSet getMenuItemsSetWithTag(String tag) {
 		if (tag == null)
 			return null;
 
 		CBMenuItemsSet res = new CBMenuItemsSet();
+		CBDishesScoreComparator scoreComparator = new CBDishesScoreComparator();
 
 		for (int i = 0; i < mMenuItemsSet.count(); ++i) {
 			CBMenuItem item = mMenuItemsSet.get(i);
 			if (item.isTagContained(tag)) {
-				res.add(item);
+				res.add(item, scoreComparator);
 			}
 		}
 
